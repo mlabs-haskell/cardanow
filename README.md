@@ -17,42 +17,57 @@ As a goal, we want to make these builds as deterministic as possible, so each us
 As a starting point, we need to produce, or obtain, some trustable snapshots of the state of the cardano-node.
 The [Mithril Network][1] has recently been established with this very goal, and currently produces several snapshots of the node db per epoch, across different networks (mainnet, preprod and preview).
 
-We can focus our attention one one single network from now on: and assume that we will be running an instance of this system for each network we need to cover.
+We can focus our attention on one single network from now on: and assume that we will be running an instance of this system for each network we need to cover.
 
-At the end of each epoch, we can fetch the latest snapshot for that epoch from the mithril network. This will be the state of the cardano-node that all of our other snapshots will be based on.
+The following diagram shows the different components involved in producing these snapshots.
 
-We will now provision a cardano-node using the mithril snapshot, but prevent it from receiving new blocks.
-Once the node is ready, we can spin up instances of each indexer we want to build a snapshot for. These components will connect to the same cardano-node. Each build script will need a way to query the indexer and detect if it is done processing all the data from the node [example][2].
+We will have a component called `Builder`, which represents some machine that will periodically be spun up to run this build
 
-> As a note, the snapshots produced by cardano-db-sync are dependent on [the architecture][3]. TODO: So we will either have to pick a single architecture to build or provide a build matrix across all supported architectures.
+![Arch](./docs/cardanow.jpg)
 
-Once this is done will have snapshots of the databases for all the supported indexers, alongside the snapshot of the cardano-node we fetched from the mithril network.
+At the end of each epoch, we can fetch the latest snapshot for that epoch through the Mithril network. This will be the state of the cardano-node that all of our other snapshots will be based on.
 
-All these snapshots (TODO: also the cardano node one? Does it make sense to duplicate these since anyone can fetch them throuh mithril?) will then be packaged and pushed to some centralised storage (TODO: s3?).
+We will now provision a cardano-node using the snapshot, this node and all the indexers will be provisioned on a network with no outbound access, this means components have no connection to the internet, thus the node can not receive any other blocks than the ones in the mithril snapshot.
+
+Once the node is ready, we can spin up instances of each indexer we want to build a snapshot for. These components will all connect to the same cardano-node.
+
+Once this is done will have snapshots of the databases for all the supported indexers, alongside the snapshot of the cardano-node we fetched from the Mithril network.
+
+All the generated snapshots can finally be uploaded back to our cache servers. To be able to fully identify each snapshot, we have to keep around some metadata about how it was generated. In particular, for each indexer snapshot, we will record:
+
+- cardano-node version
+- cardano-node snapshot
+- indexer version
+
+This information will be stored in the filename, for example assuming we produced a snapshot with `kupo v2.8.0` from a `cardano node v2.3.0` with the snapshot from `2023-10-10`, then this will be have a name like: `snapshot-kupo-2.8.0-2023-10-10-2.3.0.tar`.
+
+We also have to account for the fact of periodically having to update versions of the node and indexers. Sometimes this will also mean that snapshots that were produced with an earlier version of the indexer, will not work with a later version of it.
+We will attempt to always use the latest (major) cardano-node version to build the snapshots and - for each indexer - the latest (major) version supporting the node we are running.
+
+### Notes
+
+- The build script for each indexer will need a way to query the indexer and detect if it is done processing all the data from the node [example][2].
+
+- Snapshots produced by cardano-db-sync are dependent on [the architecture][3]. We will initially only support `x86_64`.
+
 
 ## Using the cache
 
-Scripts are provided for:
+We can provide several ways of using the cache for the supported components.
 
 - Cardano-node
 - Kupo
 - cardano-db-sync
 
-These are meant to download snapshots for each service and start the service with the snapshotted data
+We will provide tools to easily download snapshots for each service and start it with the snapshotted data.
+For each component will provide a docker image that can be run to fetch the desired snapshot and then start off the service from there.
+We will also provide a script to achieve the same without docker.
 
-## Cardano node
+### Notes
 
-Script to fetch data from S3, then script to launch docker image mounting that folder as DB in volume.
+- We can use `kupo copy` [4][4] to allow users to reduce their final DB. We will always export a copy of the DB that indexes *. Users can specify what kupo filters they want and we can restrict the DB to only those matches
 
-TODO: Alternative, skip uploading node snapshots to S3. Use something like https://github.com/blinklabs-io/docker-cardano-node to pre-bake mithril parameters and use mithril client to pull snapshot
-
-## Kupo
-
-Script to fetch data from S3. Here we can use `kupo copy` [4][4] to allow users to reduce their final DB. We will always export a copy of the DB that indexes *. Users can specify what kupo filters they want and we can restrict the DB to only those matches
-
-## cardano-db-sync
-
-Script to fetch data from S3. then use  `postgresql-setup.sh --restore-snapshot` to restore snapshot. cardano-db-sync can then be started pointing at the same DB
+- We can use  `postgresql-setup.sh --restore-snapshot` to restore snapshot on cardano-db-sync.
 
 
 [1]: https://mithril.network/doc/
