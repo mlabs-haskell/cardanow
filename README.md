@@ -5,6 +5,8 @@ The goal of this project is to reduce the friction Cardano developers encounter 
 
 The first step in this direction is to provide a caching service for three key components in almost any DApp: the cardano node, cardano-db-sync and kupo.
 
+Check out [this video](https://www.youtube.com/watch?v=xuwEbPUlZ-s) for a high-level explanation of the architecture.
+
 
 ## Architecture
 
