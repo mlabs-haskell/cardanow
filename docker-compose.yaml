@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  cardano-node:
+    image: inputoutput/cardano-node:8.1.2
+    volumes:
+      - cardano-node-data:/data
+      - cardano-node-ipc:/ipc
+      - ./mithril-snapshot:/data/db
+      - ./configurations/cardano-configurations/network/${NETWORK}:/config
+    environment:
+      - CARDANO_NODE_SOCKET_PATH=/ipc/node.socket # used by cardano-cli
+    command:
+      - "run"
+      - "--config"
+      - "/config/cardano-node/config.json"
+      - "--topology"
+      - "/config/cardano-node/topology.json"
+      - "--database-path"
+      - "/data/db"
+
+  kupo:
+    image: cardanosolutions/kupo:v2.7.0
+    depends_on:
+      cardano-node:
+        condition: service_started
+    volumes:
+      - kupo-data:/db
+      - cardano-node-ipc:/ipc
+      - ./configurations/cardano-configurations/network/${NETWORK}:/config
+    command:
+      - "--node-socket"
+      - "/ipc/node.socket"
+      - "--node-config"
+      - "/config/cardano-node/config.json"
+      - "--host"
+      - "0.0.0.0"
+      - "--workdir"
+      - "db"
+      - "--since"
+      - "origin"
+      - "--match"
+      - "*"
+
+volumes:
+  cardano-node-ipc:
+  cardano-node-data:
+  kupo-data:
+
