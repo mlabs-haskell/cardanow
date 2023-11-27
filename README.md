@@ -5,7 +5,9 @@ The goal of this project is to reduce the friction Cardano developers encounter 
 
 The first step in this direction is to provide a caching service for three key components in almost any DApp: the cardano node, cardano-db-sync and kupo.
 
-Check out [this video](https://www.youtube.com/watch?v=xuwEbPUlZ-s) for a high-level explanation of the architecture.
+> Although here we use the term cache for consistency with the original proposal, it is more illuminating to think of this service as a snapshot provider. The goal of this service is to produce and host snapshots that users can fetch to spin up an environment rapidly. In the remaining of this document we will stick with the term snapshot provider.
+
+We also produced [a video](https://www.youtube.com/watch?v=xuwEbPUlZ-s) that contains an introduction and high-level description of this architecture.
 
 
 ## Architecture
@@ -35,7 +37,7 @@ Once the node is ready, we can spin up instances of each indexer we want to buil
 
 Once this is done will have snapshots of the databases for all the supported indexers, alongside the snapshot of the cardano-node we fetched from the Mithril network.
 
-All the generated snapshots can finally be uploaded back to our cache servers. To be able to fully identify each snapshot, we have to keep around some metadata about how it was generated. In particular, for each indexer snapshot, we will record:
+All the generated snapshots can finally be uploaded back to our snapshot storage servers. To be able to fully identify each snapshot, we have to keep around some metadata about how it was generated. In particular, for each indexer snapshot, we will record:
 
 - cardano-node version
 - cardano-node snapshot
@@ -53,9 +55,9 @@ We will attempt to always use the latest (major) cardano-node version to build t
 - Snapshots produced by cardano-db-sync are dependent on [the architecture][3]. We will initially only support `x86_64`.
 
 
-## Using the cache
+## Using the snapshots
 
-We can provide several ways of using the cache for the supported components.
+We can provide several ways of using the snapshots for the supported components.
 
 - Cardano-node
 - Kupo
