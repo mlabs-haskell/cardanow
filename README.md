@@ -65,6 +65,8 @@ Any hosting solution for the snapshots will have to provide at least the followi
 
 ### Notes
 
+- [This Architecture document](./docs/Caching%20Infrastructure%20Architecture%20Design.pdf) adds some details on how this system should be deployed to make it secure and isolate different parts from each other.
+
 - The build script for each indexer will need a way to query the indexer and detect if it is done processing all the data from the node [example][2].
 
 - Snapshots produced by cardano-db-sync are dependent on [the architecture][3]. We will initially only support `x86_64`.
