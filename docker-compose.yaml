@@ -3,6 +3,8 @@ version: "3.9"
 services:
   cardano-node:
     image: inputoutput/cardano-node:8.1.2
+    networks:
+      - internal-network
     volumes:
       - cardano-node-data:/data
       - cardano-node-ipc:/ipc
@@ -18,21 +20,28 @@ services:
       - "/config/cardano-node/topology.json"
       - "--database-path"
       - "/data/db"
+      - "--socket-path"
+      - "/ipc/node.socket"
 
   kupo:
     image: cardanosolutions/kupo:v2.7.0
+    networks:
+      - internal-network
     depends_on:
       cardano-node:
         condition: service_started
     volumes:
-      - kupo-data:/db
+      - ./kupo-data:/db
       - cardano-node-ipc:/ipc
       - ./configurations/cardano-configurations/network/${NETWORK}:/config
+    ports:
+      - "1442:1442"
     command:
       - "--node-socket"
       - "/ipc/node.socket"
       - "--node-config"
       - "/config/cardano-node/config.json"
+      - "--defer-db-indexes"
       - "--host"
       - "0.0.0.0"
       - "--workdir"
@@ -45,5 +54,8 @@ services:
 volumes:
   cardano-node-ipc:
   cardano-node-data:
-  kupo-data:
+  # kupo-data:
 
+networks:
+  internal-network:
+    internal: true
