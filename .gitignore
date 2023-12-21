@@ -3,3 +3,4 @@ kupo-data
 ./*.js
 test.*
 *.tgz
+node_modules/
