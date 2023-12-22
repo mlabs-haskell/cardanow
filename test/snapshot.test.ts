@@ -5,28 +5,28 @@ import fs from 'fs/promises'
 const alwaysSuccessConfig: SnapshotConfig = {
   name: 'test',
   checkSnapshotState: () => Promise.resolve(true),
-  snapshotLocation: './test.txt',
+  snapshotLocation: './test/test.txt',
   snapshotTarName: 'test.tgz'
 }
 
 const alwaysFailureConfig: SnapshotConfig = {
   name: 'test',
   checkSnapshotState: () => Promise.resolve(false),
-  snapshotLocation: './test.txt',
+  snapshotLocation: './test/test.txt',
   snapshotTarName: 'test.tgz'
 }
 
 const throwingConfig: SnapshotConfig = {
   name: 'test',
   checkSnapshotState: () => { throw new Error('A') },
-  snapshotLocation: './test.txt',
+  snapshotLocation: './test/test.txt',
   snapshotTarName: 'test.tgz'
 }
 
 describe('Snapshot', () => {
   test('Should calculate correct hash for test file', async () => {
     const testSnapshot = new SnapshotExporter(alwaysSuccessConfig, 10)
-    expect(await testSnapshot.run()).toEqual('c3615e1d51b9ccc6c9028e99e3ed03eb252704f9fa285002b6f7c1bab966cdee')
+    expect(await testSnapshot.run()).toEqual('cb2736185a1c453622e0a0c64785db6a40835235db480b450cf13f6146f82067')
   })
 
   test('Should give up after 20 attempts', async () => {
