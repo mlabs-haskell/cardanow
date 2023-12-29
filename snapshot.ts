@@ -45,8 +45,8 @@ export class SnapshotExporter {
   
   constructor (config: SnapshotConfig, cadence?: number, maxAttempts?: number) {
     this.config = config
-    this.maxAttempts = maxAttempts || 200
-    this.cadence = cadence || 600000
+    this.maxAttempts = maxAttempts ?? 200
+    this.cadence = cadence ?? 600000
     this.attempt = 0
   }
 
