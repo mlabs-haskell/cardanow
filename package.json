@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "test": "vitest --test-timeout=10000",
+    "run": "ts-node main.ts"
+  },
+  "devDependencies": {
+    "@types/tar": "^6.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "tar": "^6.2.0",
+    "vitest": "^1.1.0"
+  }
+}
