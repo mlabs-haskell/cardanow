@@ -1,5 +1,6 @@
 mithril-snapshot
 kupo-data
+db-sync-data
 ./*.js
 *.tgz
 node_modules/
