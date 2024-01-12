@@ -1,1 +1,5 @@
 mithril-snapshot
+kupo-data
+./*.js
+*.tgz
+node_modules/
