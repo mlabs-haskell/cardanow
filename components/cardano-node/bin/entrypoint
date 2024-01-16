@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -o nounset
+set -o errexit
+set -o pipefail
+
+env
+
+if [[ ! -n ${NETWORK} ]]; then
+  echo "NETWORK env var is not defined"
+  exit 1
+fi
+
+if [[ -n ${SNAPSHOT} ]]; then
+  echo "Restoring latest snapshot for ${NETWORK} from mithril"
+  source /opt/cardano/mithril-configs/${NETWORK}.env
+  echo "Downloading snapshot..."
+  mithril-client snapshot download latest
+  cp -rp /db /data
+  rm -rf /db
+fi
+
+echo "Starting the cardano-node"
+exec /usr/local/bin/cardano-node ${@}
