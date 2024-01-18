@@ -21,3 +21,12 @@ NETWORK=preview docker-compose up -d
 ```
 npm test
 ```
+
+
+## Notes
+
+The following binaries must be available on the host machine:
+
+- mithril-client (v0.5.5)
+- cardano-cli (v1.35.3)
+- cardano-db-tool ??
