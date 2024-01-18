@@ -17,8 +17,8 @@ ROOT_DIR=$(realpath "${COMPONENT_DIR}/..")
 # shellcheck source=/dev/null
 source "${ROOT_DIR}/configurations/mithril-configs/${NETWORK}.env"
 
-rm -rf "${ROOT_DIR}/db"
+rm -rf "${ROOT_DIR}/db" "${ROOT_DIR}/mithril-snapshot/"*
 
 mithril-client snapshot download latest
 
-mv "${ROOT_DIR}/db/*" "${ROOT_DIR}/mithril-snapshot/" 
+mv "${ROOT_DIR}/db/"* "${ROOT_DIR}/mithril-snapshot/" 
