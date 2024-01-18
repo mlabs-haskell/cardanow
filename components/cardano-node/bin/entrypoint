@@ -3,7 +3,7 @@
 set -o errexit
 set -o pipefail
 
-if [[ ! -n ${NETWORK} ]]; then
+if [[ -z ${NETWORK} ]]; then
   echo "NETWORK env var is not defined"
   exit 1
 fi
@@ -21,10 +21,10 @@ fi
 echo "Starting the cardano-node"
 
 exec /usr/local/bin/cardano-node run \
-  --config /opt/cardano/network/${NETWORK}/cardano-node/config.json \
+  --config "/opt/cardano/network/${NETWORK}/cardano-node/config.json" \
   --database-path /data/db \
   --host-addr 0.0.0.0 \
   --port 3001 \
   --socket-path /ipc/node.socket \
-  --topology /opt/cardano/network/${NETWORK}/cardano-node/topology.json \
-  ${@}
+  --topology "/opt/cardano/network/${NETWORK}/cardano-node/topology.json" \
+  "${@}"
