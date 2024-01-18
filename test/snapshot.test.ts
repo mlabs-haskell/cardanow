@@ -18,7 +18,7 @@ const alwaysFailureConfig: SnapshotConfig = {
 
 const throwingConfig: SnapshotConfig = {
   name: 'test',
-  checkSnapshotState: () => { throw new Error('A') },
+  checkSnapshotState: () => { throw new Error('Will never be ready') },
   snapshotLocation: './test/test.txt',
   snapshotTarName: 'test.tgz'
 }
