@@ -10,7 +10,8 @@ fi
 
 if [[ -n ${SNAPSHOT} ]]; then
   echo "Restoring latest snapshot for ${NETWORK} from mithril"
-  source /opt/cardano/mithril-configs/${NETWORK}.env
+  # shellcheck source=/dev/null
+  source "/opt/cardano/mithril-configs/${NETWORK}.env"
   mkdir -p /data
   echo "Downloading snapshot..."
   mithril-client snapshot download latest
