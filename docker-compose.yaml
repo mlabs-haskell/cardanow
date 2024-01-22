@@ -6,8 +6,8 @@ services:
     networks:
       - internal-network
     volumes:
-      - ./cardano-node-data:/data
-      - ./cardano-node-ipc:/ipc
+      - cardano-node-data:/data
+      - cardano-node-ipc:/ipc
       - ./mithril-snapshot:/data/db
       - ./configurations/cardano-configurations/network/${NETWORK}:/config
     environment:
@@ -30,7 +30,7 @@ services:
         condition: service_started
     volumes:
       - ./kupo-data:/db
-      - ./cardano-node-ipc:/ipc/
+      - cardano-node-ipc:/ipc
       - ./configurations/cardano-configurations/network/${NETWORK}:/config
     ports:
       - "1442:1442"
