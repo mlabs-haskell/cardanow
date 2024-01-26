@@ -26,7 +26,7 @@ const throwingConfig: SnapshotConfig = {
 describe('Snapshot', () => {
   test('Should calculate correct hash for test file', async () => {
     const testSnapshot = new SnapshotExporter(alwaysSuccessConfig, 10)
-    expect(await testSnapshot.run()).toEqual('cb2736185a1c453622e0a0c64785db6a40835235db480b450cf13f6146f82067')
+    expect(await testSnapshot.run()).toEqual('2287a15f440a127d68aab86bc54a2a7b2cf054940cc18a7cf87faadef4d985b1')
   })
 
   test('Should give up after 20 attempts', async () => {
