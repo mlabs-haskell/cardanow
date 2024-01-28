@@ -40,7 +40,7 @@ docker compose --env-file $MITHRIL_CONFIG up -d
 
 To verify the cardano node is actually running you can run:
 ```shell
-cardano-cli query tip --testnet-magic 2 --socket-path "$(docker volume inspect cardanow_cardano-node-ipc | jq -r '.[0]["Mountpoint"]')/node.socket"
+docker compose run cardano-node cli "query tip --testnet-magic 2 --socket-path /ipc/node.socket"
 ```
 
 **NOTE**: if you want to try query tip check for other networks (preprod/mainnet), you have to update the argument `(--testnet NATURAL|--mainnet)` flag.
