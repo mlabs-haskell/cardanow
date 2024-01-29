@@ -27,8 +27,12 @@
         '';
       };
       packages = with pkgs; [
+        cargo
+        rustc
+        bats
         docker
         docker-compose
+        gnum4
         inputs'.cardano-node.packages.cardano-cli
         inputs'.mithril.packages.mithril-client-cli
         jq
