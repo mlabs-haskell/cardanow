@@ -3,14 +3,15 @@
 set -o errexit
 set -o pipefail
 
-if [[ ! -n ${NETWORK} ]]; then
+if [[ -z ${NETWORK} ]]; then
   echo "NETWORK env var is not defined"
   exit 1
 fi
 
 if [[ -n ${SNAPSHOT} ]]; then
   echo "Restoring latest snapshot for ${NETWORK} from mithril"
-  source /opt/cardano/mithril-configs/${NETWORK}.env
+  # shellcheck source=/dev/null
+  source "/opt/cardano/mithril-configs/${NETWORK}.env"
   mkdir -p /data
   echo "Downloading snapshot..."
   mithril-client snapshot download latest
@@ -21,10 +22,10 @@ fi
 echo "Starting the cardano-node"
 
 exec /usr/local/bin/cardano-node run \
-  --config /opt/cardano/network/${NETWORK}/cardano-node/config.json \
+  --config "/opt/cardano/network/${NETWORK}/cardano-node/config.json" \
   --database-path /data/db \
   --host-addr 0.0.0.0 \
   --port 3001 \
   --socket-path /ipc/node.socket \
-  --topology /opt/cardano/network/${NETWORK}/cardano-node/topology.json \
-  ${@}
+  --topology "/opt/cardano/network/${NETWORK}/cardano-node/topology.json" \
+  "${@}"
