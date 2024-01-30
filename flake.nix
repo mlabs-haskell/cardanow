@@ -8,6 +8,7 @@
     mithril.url = "github:input-output-hk/mithril";
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    disko.url = "github:nix-community/disko";
   };
   outputs = inputs @ { flake-parts, ... }:
     flake-parts.lib.mkFlake
@@ -17,6 +18,8 @@
       {
         imports = [
           ./nix/shell.nix
+          ./nix/host
+          ./nix/packages
         ];
         systems = [
           "aarch64-darwin"
