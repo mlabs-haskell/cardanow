@@ -1,6 +1,8 @@
 { pkgs, lib, ... }: {
   networking.hostName = "cardanow";
 
+  system.stateVersion = "24.05";
+
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot = {
     enable = true;
