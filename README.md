@@ -98,3 +98,8 @@ We will also provide a script to achieve the same without docker.
 [2]: https://cardanosolutions.github.io/kupo/#operation/getHealth
 [3]: https://github.com/input-output-hk/cardano-db-sync/blob/release/13.1.1.x/doc/state-snapshot.md#things-to-note
 [4]: https://github.com/CardanoSolutions/kupo/blob/master/CHANGELOG.md#240---2023-02-23
+
+## Testing
+Integration testing consists on a testing suite that run based on an input parameter: the network. It is possible to spawn a local mithril network and use that to run.
+
+Uploading is not yet supported in the testing suite.
