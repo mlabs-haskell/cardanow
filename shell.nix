@@ -1,4 +1,5 @@
 # Use `builtins.getFlake` if available
+
 if builtins ? getFlake
 then
   let
