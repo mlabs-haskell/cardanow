@@ -1,6 +1,7 @@
 {
   "scripts": {
     "test": "vitest --test-timeout=10000",
+    "test-ci": "vitest run --test-timeout=10000",
     "run": "ts-node main.ts"
   },
   "devDependencies": {
