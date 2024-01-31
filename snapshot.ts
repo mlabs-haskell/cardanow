@@ -101,7 +101,6 @@ export class SnapshotExporter {
           gzip: true,
           noPax: true,
           portable: true,
-          noMtime: true
         },
         [this.config.snapshotLocation]
       ),
