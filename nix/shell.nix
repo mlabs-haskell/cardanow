@@ -34,6 +34,8 @@
         jq
         nodejs_20
         nil
+        nixos-rebuild
+        wget
       ];
     };
   };

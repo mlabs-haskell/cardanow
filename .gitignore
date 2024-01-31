@@ -3,7 +3,6 @@ kupo-data
 ./*.js
 *.tgz
 node_modules/
-.envrc
 .direnv
 .pre-commit-config.yaml
 db/

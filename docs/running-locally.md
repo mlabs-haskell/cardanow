@@ -13,6 +13,7 @@ If you are not a nix user, you will have to manually install the various tools:
 - mithril-client-cli
 - jq
 - nodejs
+- nixos-rebuild
 
 **NOTE**: the versions of these tools are not yet bounded, the use case is still small enough that no version constrains are required yet, in the future che versions of at least the `mithril-client` and the `cardano-cli` will be specified.
 
