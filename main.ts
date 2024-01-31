@@ -6,7 +6,7 @@ const minutesToMilliseconds = (minutes: number) => minutes * 60 * 1000
 const kupoConfig: SnapshotConfig = {
   name: 'kupo',
   checkSnapshotState: checkKupo,
-  snapshotLocation: './test.txt',
+  snapshotLocation: './test/test.txt',
   snapshotTarName: 'test.tgz'
 }
 

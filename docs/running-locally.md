@@ -50,3 +50,10 @@ To run the tests:
 ```shell
 npm test
 ```
+
+## Run the exporter
+To run the tests:
+```shell
+npm start
+```
+This command will export the snapshot of kupo into a compressed tar.
