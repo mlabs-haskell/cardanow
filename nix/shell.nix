@@ -32,9 +32,9 @@
         inputs'.cardano-node.packages.cardano-cli
         inputs'.mithril.packages.mithril-client-cli
         jq
-        nodejs_20
         nil
         nixos-rebuild
+        nodejs_20
         wget
       ];
     };

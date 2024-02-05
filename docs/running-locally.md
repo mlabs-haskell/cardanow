@@ -45,8 +45,16 @@ docker compose run cardano-node cli "query tip --testnet-magic 2 --socket-path /
 ```
 
 **NOTE**: if you want to try query tip check for other networks (preprod/mainnet), you have to update the argument `(--testnet NATURAL|--mainnet)` flag.
+
 ## Run tests
 To run the tests:
 ```shell
 npm test
 ```
+
+## Run the exporter
+To run the tests:
+```shell
+npm start
+```
+This command will export the snapshot of kupo into a compressed tar.

@@ -94,13 +94,17 @@ export class SnapshotExporter {
     const hash = crypto
       .createHash('sha256')
       .setEncoding('hex')
-
+    
     await pipeline(
       tar.c(
         {
           gzip: true,
           noPax: true,
           portable: true,
+          // NOTE: this flag is necessary because the tar would be function
+          //       of time and this would make if more difficult to test
+          // @ts-ignore
+          noMtime: true 
         },
         [this.config.snapshotLocation]
       ),

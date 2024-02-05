@@ -1,8 +1,23 @@
+# Domain specific
 mithril-snapshot
 kupo-data
-./*.js
 *.tgz
-node_modules/
-.direnv
-.pre-commit-config.yaml
 db/
+
+
+# Javascript and nodejs
+./*.js
+node_modules/
+
+# Direnv 
+.envrc
+.direnv
+
+# Emacs 
+*~
+\#*\#
+.\#*
+*~
+
+# Misc
+.pre-commit-config.yaml
