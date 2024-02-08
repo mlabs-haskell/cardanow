@@ -1,6 +1,6 @@
-import tar from 'tar'
-import crypto from 'crypto'
-import fs from 'fs'
+import { c } from 'tar'
+import { createHash } from 'crypto'
+import { createWriteStream } from 'fs'
 import { pipeline } from 'stream/promises'
 import { PassThrough } from 'stream'
 
@@ -15,7 +15,7 @@ const delay = (time: number) => new Promise((resolve, _) => setTimeout(resolve, 
 // Passthrough stream that also writes to a file. Used to create tgz and calculate the hash in one pass
 const fileWriterPassThrough = (path: string) => {
   const p = new PassThrough()
-  const f = fs.createWriteStream(path)
+  const f = createWriteStream(path)
   p.on('data', (chunk) => f.write(chunk))
   p.on('end', () => f.end())
   return p
@@ -91,12 +91,10 @@ export class SnapshotExporter {
   private pkg: Action<string> = async () => {
     console.log(`${this.config.name}: packaging...`)
     
-    const hash = crypto
-      .createHash('sha256')
-      .setEncoding('hex')
+    const hash = createHash('sha256').setEncoding('hex')
     
     await pipeline(
-      tar.c(
+      c(
         {
           gzip: true,
           noPax: true,

@@ -1,6 +1,6 @@
 import { expect, test, describe } from 'vitest'
 import { SnapshotExporter, SnapshotConfig } from '../snapshot'
-import fs from 'fs/promises'
+
 
 const alwaysSuccessConfig: SnapshotConfig = {
   name: 'test',

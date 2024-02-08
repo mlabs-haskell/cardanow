@@ -1,4 +1,6 @@
 {
+  "name": "cardanow",
+  "version": "0.0.0.1",
   "scripts": {
     "test": "vitest --test-timeout=10000",
     "test-ci": "vitest run --test-timeout=10000",
@@ -10,7 +12,12 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
+    "esbuild": "^0.20.0",
+    "rollup": "^4.9.6",
     "tar": "^6.2.0",
     "vitest": "^1.1.0"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.3"
   }
 }
