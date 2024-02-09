@@ -1,17 +1,17 @@
 { lib, flake, ... }: {
   systemd = {
-    timers.foo = {
-      description = "Run task-foo every 5 minutes";
+    timers.cardanow = {
+      description = "Run cardanow every 60 minutes";
       wantedBy = [ "timers.target" ];
       timerConfig = {
-        OnBootSec = "5m";
-        OnUnitActiveSec = "5m";
-        Unit = "foo.service";
+        OnBootSec = "1h";
+        OnUnitActiveSec = "1h";
+        Unit = "cardanow.service";
       };
     };
 
-    services.foo = {
-      description = "Foo";
+    services.cardanow = {
+      description = "cardanow";
 
       serviceConfig = {
         Type = "oneshot";

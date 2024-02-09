@@ -6,39 +6,35 @@ services:
     networks:
       - internal-network
     volumes:
-      - cardano-node-data:/data
-      - cardano-node-ipc:/ipc
-      - ./mithril-snapshot:/data/db
-      - ./configurations/cardano-configurations/network/${NETWORK}:/config
-    environment:
-      - CARDANO_NODE_SOCKET_PATH=/ipc/node.socket # used by cardano-cli
+      - cardano-node-ipc:${CONTAINER_IPC_PATH}
+      - ./${MITHRIL_SNAPSHOT}/db:${CONTAINER_DATA_PATH}
+      - ./${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
     command:
       - "run"
       - "--config"
-      - "/config/cardano-node/config.json"
+      - "${CONTAINER_CONFIG_CONFIG_PATH}"
       - "--topology"
-      - "/config/cardano-node/topology.json"
+      - "${CONTAINER_CONFIG_TOPOLOGY_PATH}"
       - "--database-path"
-      - "/data/db"
+      - "${CONTAINER_DATA_PATH}"
       - "--socket-path"
-      - "/ipc/node.socket"
-
+      - "${CONTAINER_SOCKET_PATH}"
   kupo:
     image: cardanosolutions/kupo:v2.7.0
     depends_on:
       cardano-node:
         condition: service_started
     volumes:
-      - ./kupo-data:/db
-      - cardano-node-ipc:/ipc
-      - ./configurations/cardano-configurations/network/${NETWORK}:/config
+      - cardano-node-ipc:${CONTAINER_IPC_PATH}
+      - ./${KUPO_DATA}:${CONTAINER_DATA_PATH}
+      - ./${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
     ports:
       - "1442:1442"
     command:
       - "--node-socket"
-      - "/ipc/node.socket"
+      - "${CONTAINER_SOCKET_PATH}"
       - "--node-config"
-      - "/config/cardano-node/config.json"
+      - "${CONTAINER_CONFIG_CONFIG_PATH}"
       - "--defer-db-indexes"
       - "--host"
       - "0.0.0.0"
@@ -51,8 +47,7 @@ services:
 
 volumes:
   cardano-node-ipc:
-  cardano-node-data:
-
+  
 networks:
   internal-network:
     internal: true

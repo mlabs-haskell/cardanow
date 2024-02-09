@@ -27,6 +27,8 @@
         '';
       };
       packages = with pkgs; [
+        awscli2
+        bash
         docker
         docker-compose
         inputs'.cardano-node.packages.cardano-cli

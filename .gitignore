@@ -1,8 +1,12 @@
+# Nix
+result
+
 # Domain specific
-mithril-snapshot
+mithril-snapshots
 kupo-data
 *.tgz
 db/
+s3-volume
 
 
 # Javascript and nodejs

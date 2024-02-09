@@ -14,11 +14,9 @@ COMPONENT_DIR=$(realpath "${SCRIPT_DIR}/..")
 # Calculate the path to the parent directory of the component directory
 ROOT_DIR=$(realpath "${COMPONENT_DIR}/..")
 
+MITHRIL_SNAPSHOTS="${ROOT_DIR}/${MITHRIL_SNAPSHOTS_BASE_DIR}/${NETWORK}"
+
 # shellcheck source=/dev/null
 source "${ROOT_DIR}/configurations/mithril-configs/${NETWORK}.env"
 
-rm -rf "${ROOT_DIR}/db" "${ROOT_DIR}/mithril-snapshot/"*
-
-mithril-client snapshot download latest
-
-mv "${ROOT_DIR}/db/"* "${ROOT_DIR}/mithril-snapshot/" 
+mithril-client -vvv snapshot download latest --download-dir "${MITHRIL_SNAPSHOTS}"

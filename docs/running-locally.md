@@ -34,7 +34,7 @@ NETWORK=preview ./components/cardano-node/download-mithril-snapshot.sh
 ## Build environment - isolated network
 Start the compose environment. You will need to specify a `NETWORK` env var:
 ```shell
-NETWORK=preview
+NETWORK=preprod
 MITHRIL_CONFIG=configurations/mithril-configs/$NETWORK.env
 docker compose --env-file $MITHRIL_CONFIG up -d
 ```
@@ -59,3 +59,13 @@ nix run .#cardanow
 ```
 This command will export the snapshot of kupo into a compressed tar.
 NOTE: the containers spawned by the `compose up` must be running correctly to successfully complete the export.
+
+## Upload the snapshot
+To test the upload of the snapshot locally we need a bucket 
+```shell
+docker compose -f docker-compose-localstack.yaml up -d
+```
+And then we can run
+```shell
+./upload-local.sh
+```
