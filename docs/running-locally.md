@@ -55,6 +55,7 @@ npm test
 ## Run the exporter
 To run the tests:
 ```shell
-npm start
+nix run .#cardanow
 ```
 This command will export the snapshot of kupo into a compressed tar.
+NOTE: the containers spawned by the `compose up` must be running correctly to successfully complete the export.

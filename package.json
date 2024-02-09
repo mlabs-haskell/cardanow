@@ -1,9 +1,10 @@
 {
-  "name": "cardanow",
+  "name": "cardanow-ts",
   "version": "0.0.0.1",
+  "bin": "main.js",
   "scripts": {
-    "test": "vitest --test-timeout=10000",
-    "test-ci": "vitest run --test-timeout=10000",
+    "test-watch": "vitest --test-timeout=10000",
+    "test": "vitest run --test-timeout=10000",
     "start": "ts-node main.ts"
   },
   "devDependencies": {

@@ -28,13 +28,13 @@
     '';
   };
 
-  name = lib.mkForce "main";
-  version = lib.mkForce "1.0.0";
+  name = lib.mkForce "cardanow-ts";
+  version = lib.mkForce "0.0.0.1";
 
   mkDerivation = {
     src = lib.cleanSource ../../.;
     checkPhase = ''
-      echo "Check Phase"
+      npm test
     '';
     doCheck = true;
   };
