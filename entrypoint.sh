@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
+source ./setup_env_vars.sh
+
 set -x
 set -e
 set -a
 
-source ./setup_env_vars.sh
 
 # Check if the last directory in the current path is "cardanow"
 # This allows to use the same script both in local (where the dir is there) and remote host where we might have to clone the 
@@ -21,13 +22,13 @@ mkdir -p "${MITHRIL_SNAPSHOTS_BASE_DIR}" "${KUPO_DATA}"
 MITHRIL_QUERY=$(mithril-client snapshot list --json | jq -r '.[0]')
 DIGEST=$(jq -r '.digest' <<< "${MITHRIL_QUERY}")
 SNAPSHOT_NAME=$(jq -r '.beacon | "\(.network)-\(.epoch)-\(.immutable_file_number)"' <<< "${MITHRIL_QUERY}")
-MITHRIL_SNAPSHOT="${MITHRIL_SNAPSHOTS_BASE_DIR}/${SNAPSHOT_NAME}"
+MITHRIL_SNAPSHOT_DIR="${MITHRIL_SNAPSHOTS_BASE_DIR}/${SNAPSHOT_NAME}"
 EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots"
 # shellcheck disable=SC2034
 EXPORTED_KUPO_SNAPSHOT_PATH="${EXPORTED_SNAPSHOT_BASE_PATH}/kupo-${SNAPSHOT_NAME}.tgz"
 
 
-mithril-client -vvv snapshot download latest --download-dir "${MITHRIL_SNAPSHOTS_BASE_DIR}" || DOWNLOAD_SUCCEEDED=$?
+mithril-client -vvv snapshot download latest --download-dir "${MITHRIL_SNAPSHOT_DIR}" || DOWNLOAD_SUCCEEDED=$?
 
 if [ "${DOWNLOAD_SUCCEEDED}" -eq 0 ]; then
     echo "Download succeeded"
@@ -36,12 +37,13 @@ else
 fi
 
 echo "Last digest: ${DIGEST}"
-echo "Store snapshot dir: ${MITHRIL_SNAPSHOT}"
+echo "Store snapshot dir: ${MITHRIL_SNAPSHOT_DIR}"
+
 docker compose up -d
 
-docker compose run cardano-node cli "query tip ${CARDANO_NODE_FLAG} --socket-path ${CONTAINER_SOCKET_PATH}"
+# docker compose run cardano-node cli "query tip ${CARDANO_NODE_FLAG} --socket-path ${CONTAINER_SOCKET_PATH}"
 
-nix run .#cardanow-ts
+# nix run .#cardanow-ts
 
 # docker compose down
 

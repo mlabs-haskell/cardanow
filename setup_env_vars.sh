@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+set -a
 
 # Define the function to set CARDANO_NODE_FLAG
 set_cardano_node_flag() {
@@ -38,6 +39,8 @@ CONTAINER_CONFIG_TOPOLOGY_PATH="${CONTAINER_CONFIG_PATH}/topology.json"
 CONTAINER_DATA_PATH="/data"
 # shellcheck disable=SC2034
 CONTAINER_DATA_DB_PATH="${CONTAINER_DATA_PATH}/db"
+# shellcheck disable=SC2034
+CONTAINER_KUPO_DB_PATH="/db"
 
 # shellcheck disable=SC2034
 LOCAL_CONFIG_PATH="./configurations/cardano-configurations/network"

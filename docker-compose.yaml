@@ -6,15 +6,9 @@ services:
     networks:
       - internal-network
     volumes:
-      - ${MITHRIL_SNAPSHOTS_BASE_DIR}:${CONTAINER_DATA_DB_PATH}
+      - cardano-node-ipc:${CONTAINER_IPC_PATH}
+      - ${MITHRIL_SNAPSHOT_DIR}:${CONTAINER_DATA_PATH}
       - ${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
-      - type: volume
-        source: cardano-node-ipc
-        target: ${CONTAINER_IPC_PATH}
-      - type: volume
-        source: cardano-node-data
-        target: ${CONTAINER_DATA_PATH}
-
     command:
       - "run"
       - "--config"
@@ -25,17 +19,16 @@ services:
       - "${CONTAINER_DATA_DB_PATH}"
       - "--socket-path"
       - "${CONTAINER_SOCKET_PATH}"
+
   kupo:
     image: cardanosolutions/kupo:v2.7.0
     depends_on:
       cardano-node:
         condition: service_started
     volumes:
-      - ${KUPO_DATA}:${CONTAINER_DATA_DB_PATH}
+      - cardano-node-ipc:${CONTAINER_IPC_PATH}
+      - ${KUPO_DATA}:${CONTAINER_KUPO_DB_PATH}
       - ${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
-      - type: volume
-        source: cardano-node-ipc
-        target: ${CONTAINER_IPC_PATH}
     ports:
       - "1442:1442"
     command:
