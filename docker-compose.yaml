@@ -40,7 +40,7 @@ services:
       - "--host"
       - "0.0.0.0"
       - "--workdir"
-      - "db"
+      - "${CONTAINER_KUPO_DB_PATH}"
       - "--since"
       - "origin"
       - "--match"

@@ -38,6 +38,6 @@ describe('Snapshot', () => {
   test('Should exhaust all attempts despite checkSnapshotState throwing', async () => {
     const testSnapshot = new SnapshotExporter(throwingConfig, 10, 10)
     await expect(testSnapshot.run()).rejects.toThrowError(Error('Maximum attempts exhausted'))
-    await expect(testSnapshot.attempt).toEqual(10)
+    expect(testSnapshot.attempt).toEqual(10)
   })
 })

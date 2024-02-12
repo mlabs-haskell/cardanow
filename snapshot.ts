@@ -79,6 +79,8 @@ export class SnapshotExporter {
   }
 
   private handleFailure: Action<string> = async () => {
+    console.log(`Retrying.... Current attempt: ${this.attempt}, Max attempts: ${this.maxAttempts}`)
+
     if (this.attempt < this.maxAttempts) {
       return this.run()
     }

@@ -19,11 +19,12 @@ const kupoConfig: SnapshotConfig = {
 }
 // FIXME (albertodvp 2024-02-07): this function is not robust,
 // failures and retries should be addressed better
+// these should also be configurable
 const main = async () => {
   const kupoSnapshot = new SnapshotExporter(
     kupoConfig,
-    minutesToMilliseconds(0.01),
-    1)
+    minutesToMilliseconds(5),
+    25)
   const result = await kupoSnapshot.run()
   console.log(result)
 }
