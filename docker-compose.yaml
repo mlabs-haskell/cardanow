@@ -7,7 +7,7 @@ services:
       - internal-network
     volumes:
       - cardano-node-ipc:${CONTAINER_IPC_PATH}
-      - ${MITHRIL_SNAPSHOT_DIR}:${CONTAINER_DATA_PATH}
+      - ${LOCAL_MITHRIL_SNAPSHOT_DIR}:${CONTAINER_DATA_PATH}
       - ${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
     command:
       - "run"
@@ -27,10 +27,10 @@ services:
         condition: service_started
     volumes:
       - cardano-node-ipc:${CONTAINER_IPC_PATH}
-      - ${KUPO_DATA}:${CONTAINER_KUPO_DB_PATH}
+      - ${LOCAL_KUPO_DATA_PER_SNAPSHOT}:${CONTAINER_KUPO_DB_PATH}
       - ${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
     ports:
-      - "1442:1442"
+      - "${KUPO_PORT}:1442"
     command:
       - "--node-socket"
       - "${CONTAINER_SOCKET_PATH}"

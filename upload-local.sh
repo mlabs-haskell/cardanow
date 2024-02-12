@@ -1,9 +1,15 @@
 #!/usr/bin/env sh
+# FIXME (albertodvp 2024-02-12): env vars should bouble up to entrypoint script
 
+if [ -z "${EXPORTED_KUPO_SNAPSHOT_PATH}" ]; then
+    echo "EXPORTED_KUPO_SNAPSHOT_PATH is not set, exiting."
+    exit 1
+fi
 # Define AWS credentials and default region
 export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
 export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 export AWS_DEFAULT_REGION=us-west-2
+
 
 # Define the bucket name
 BUCKET_NAME="kupo"
@@ -30,9 +36,9 @@ aws --endpoint-url=http://localhost:4566 s3 ls
 echo "Listing contents of $BUCKET_NAME before operation:"
 aws --endpoint-url=http://localhost:4566 s3 ls "${BUCKET_PATH}"
 
-echo "Uploading kupo.tgz to $BUCKET_NAME."
-aws --endpoint-url=http://localhost:4566 s3 cp "${SNAPSHOT_PATH}" "${BUCKET_PATH}"
-echo "kupo.tgz uploaded to $BUCKET_NAME."
+echo "Uploading ${EXPORTED_KUPO_SNAPSHOT_PATH} to ${BUCKET_NAME}."
+aws --endpoint-url=http://localhost:4566 s3 cp "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${BUCKET_PATH}"
+echo "${EXPORTED_KUPO_SNAPSHOT_PATH} uploaded to ${BUCKET_NAME}."
 
-echo "Listing contents of $BUCKET_NAME after operation:"
+echo "Listing contents of ${BUCKET_NAME} after operation:"
 aws --endpoint-url=http://localhost:4566 s3 ls "${BUCKET_PATH}"

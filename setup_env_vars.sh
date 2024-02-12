@@ -7,13 +7,18 @@ set_cardano_node_flag() {
     case "${NETWORK}" in
         "preview")
             CARDANO_NODE_FLAG="--testnet-magic 2"
+            KUPO_PORT=1442
             ;;
         "preprod")
             CARDANO_NODE_FLAG="--testnet-magic 1"
+            KUPO_PORT=1443
+
             ;;
         "mainnet")
             # shellcheck disable=SC2034
             CARDANO_NODE_FLAG="--mainnet"
+            # shellcheck disable=SC2034
+            KUPO_PORT=1444
             ;;
         *)
             echo "Unknown network: $NETWORK"

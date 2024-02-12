@@ -1,10 +1,10 @@
 import { SnapshotExporter, SnapshotConfig } from './snapshot'
 import checkKupo from './components/kupo/watcher'
 
-const kupoData = process.env.KUPO_DATA;
-const snapshotPath = process.env.EXPORTED_KUPO_SNAPSHOT_PATH;
+const kupoSnapshotDataPath = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT;
+const exportedSnapshotPath = process.env.EXPORTED_KUPO_SNAPSHOT_PATH;
 
-if (kupoData === undefined || snapshotPath === undefined) {
+if (kupoSnapshotDataPath === undefined || exportedSnapshotPath === undefined) {
   console.error("Env variables not set");
   process.exit(1);
 }
@@ -14,8 +14,8 @@ const minutesToMilliseconds = (minutes: number) => minutes * 60 * 1000
 const kupoConfig: SnapshotConfig = {
   name: 'kupo',
   checkSnapshotState: checkKupo,
-  snapshotLocation: kupoData,
-  snapshotTarName: snapshotPath 
+  snapshotLocation: kupoSnapshotDataPath,
+  snapshotTarName: exportedSnapshotPath 
 }
 // FIXME (albertodvp 2024-02-07): this function is not robust,
 // failures and retries should be addressed better

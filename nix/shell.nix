@@ -37,6 +37,7 @@
         nil
         nixos-rebuild
         nodejs_20
+        sqlite
         wget
       ];
     };
