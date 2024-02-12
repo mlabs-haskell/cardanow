@@ -1,4 +1,4 @@
-{ dream2nix }: {
+{ inputs, ... }: {
   perSystem = { pkgs, inputs', system, ... }: {
     packages = {
       cardanow = pkgs.writeShellApplication {
@@ -12,8 +12,8 @@
           NETWORK=preview ./entrypoint.sh
         '';
       };
-      cardanow-ts = dream2nix.lib.evalModules {
-        packageSets.nixpkgs = dream2nix.inputs.nixpkgs.legacyPackages.${system};
+      cardanow-ts = inputs.dream2nix.lib.evalModules {
+        packageSets.nixpkgs = inputs.dream2nix.inputs.nixpkgs.legacyPackages.${system};
 
         modules = [
           ./cardanow-ts.nix
@@ -29,5 +29,3 @@
     };
   };
 }
-
-  

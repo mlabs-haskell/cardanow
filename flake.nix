@@ -11,7 +11,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
   };
-  outputs = inputs @ { flake-parts, dream2nix, ... }:
+  outputs = inputs @ { flake-parts, ... }:
     flake-parts.lib.mkFlake
       {
         inherit inputs;
@@ -19,9 +19,7 @@
       {
         imports = [
           ./nix/host
-          (import ./nix/packages {
-            inherit dream2nix;
-          })
+          ./nix/packages
           ./nix/shell.nix
         ];
         systems = [
