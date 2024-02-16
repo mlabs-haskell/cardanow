@@ -2,7 +2,11 @@
 , config
 , dream2nix
 , ...
-}: {
+}:
+let
+  packageJSON = lib.importJSON ../../package.json;
+in
+{
   imports = [
     dream2nix.modules.dream2nix.nodejs-package-lock-v3
     dream2nix.modules.dream2nix.nodejs-granular-v3
@@ -28,8 +32,8 @@
     '';
   };
 
-  name = lib.mkForce "cardanow-ts";
-  version = lib.mkForce "0.0.0.1";
+  name = packageJSON.name;
+  version = packageJSON.version;
 
   mkDerivation = {
     src = lib.cleanSource ../../.;
@@ -37,5 +41,10 @@
       npm test
     '';
     doCheck = true;
+  };
+  paths = {
+    projectRoot = ../../.;
+    projectRootFile = "flake.nix";
+    package = ../../.;
   };
 }

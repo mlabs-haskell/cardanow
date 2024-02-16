@@ -9,21 +9,13 @@
         ];
         text = ''
           # TODO add preprod and mainnet
-          NETWORK=preview ./entrypoint.sh
+          NETWORK=preview ${../../entrypoint.sh}
         '';
       };
       cardanow-ts = inputs.dream2nix.lib.evalModules {
         packageSets.nixpkgs = inputs.dream2nix.inputs.nixpkgs.legacyPackages.${system};
-
         modules = [
           ./cardanow-ts.nix
-          {
-            paths = {
-              projectRoot = ../../.;
-              projectRootFile = "flake.nix";
-              package = ../../.;
-            };
-          }
         ];
       };
     };
