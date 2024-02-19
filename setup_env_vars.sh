@@ -50,6 +50,8 @@ CONTAINER_KUPO_DB_PATH="/db"
 # shellcheck disable=SC2034
 LOCAL_CONFIG_PATH="./configurations/cardano-configurations/network"
 
+# shellcheck disable=SC2034
+EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots"
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"
 
