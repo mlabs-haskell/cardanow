@@ -1,5 +1,5 @@
 import { SnapshotExporter, SnapshotConfig } from './snapshot'
-import checkKupo from './components/kupo/watcher'
+import checkKupo from './kupo-watcher'
 
 const kupoSnapshotDataPath = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT;
 const exportedSnapshotPath = process.env.EXPORTED_KUPO_SNAPSHOT_PATH;

@@ -17,6 +17,6 @@ ROOT_DIR=$(realpath "${COMPONENT_DIR}/..")
 MITHRIL_SNAPSHOTS="${ROOT_DIR}/${MITHRIL_SNAPSHOTS_BASE_DIR}/${NETWORK}"
 
 # shellcheck source=/dev/null
-source "${ROOT_DIR}/configurations/mithril-configs/${NETWORK}.env"
+source "${MITHRIL_CONFIG}"
 
 mithril-client -vvv snapshot download latest --download-dir "${MITHRIL_SNAPSHOTS}"

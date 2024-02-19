@@ -1,23 +1,8 @@
 #!/usr/bin/env bash
 
-# This allows to use the same script both in local (where the dir is there) and remote host where we might have to clone the 
-if [[ $(basename "${PWD}") != "cardanow" ]]; then
-    # FIXME (albertodvp 2024-02-09): lock the version here
-    echo "Cloning cardanow"
-    git clone https://github.com/mlabs-haskell/cardanow.git
-
-    cd cardanow || exit 1
-fi
-
-# shellcheck source=/dev/null
-source setup_env_vars.sh
-
 set -x
 set -e
 set -a
-
-
-# Check if the last directory in the current path is "cardanow"
 
 # Create directories "mithril-snapshot" and "kupo-data" if they don't exist
 mkdir -p "${MITHRIL_SNAPSHOTS_BASE_DIR}" "${KUPO_DATA}" "${EXPORTED_SNAPSHOT_BASE_PATH}"
@@ -47,12 +32,10 @@ echo "Local kupo data snapshot dir: ${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
 
 docker compose -p "${NETWORK}" up -d
 
-# TODO use path in store (how do I get it)
-nix run .#cardanow-ts
+cardanow-ts
 
 docker compose -p "${NETWORK}" down
 
 docker compose -f docker-compose-localstack.yaml up -d
 
-./upload-local.sh
-
+# ./upload-local.sh

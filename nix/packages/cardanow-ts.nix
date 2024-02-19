@@ -4,7 +4,7 @@
 , ...
 }:
 let
-  packageJSON = lib.importJSON ../../package.json;
+  packageJSON = lib.importJSON (config.paths.projectRoot + "/package.json");
 in
 {
   imports = [
@@ -19,7 +19,7 @@ in
       ;
   };
   nodejs-package-lock-v3 = {
-    packageLockFile = ../../package-lock.json;
+    packageLockFile = config.paths.projectRoot + "/package-lock.json";
   };
   nodejs-granular-v3 = {
     buildScript = ''
@@ -36,15 +36,15 @@ in
   version = packageJSON.version;
 
   mkDerivation = {
-    src = lib.cleanSource ../../.;
+    src = lib.cleanSource ../../cardanow-ts;
     checkPhase = ''
       npm test
     '';
     doCheck = true;
   };
   paths = {
-    projectRoot = ../../.;
+    projectRoot = ../../cardanow-ts;
     projectRootFile = "flake.nix";
-    package = ../../.;
+    package = ../../cardanow-ts;
   };
 }

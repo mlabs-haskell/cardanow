@@ -3,6 +3,10 @@
 
   inputs = {
     cardano-node.url = "github:intersectmbo/cardano-node";
+    cardano-configurations = {
+      url = "github:input-output-hk/cardano-configurations";
+      flake = false;
+    };
     devshell.url = "github:numtide/devshell";
     disko.url = "github:nix-community/disko";
     dream2nix.url = "github:nix-community/dream2nix";
