@@ -87,6 +87,10 @@ We will provide tools to easily download snapshots for each service and start it
 Each component will provide a docker image that can be run to fetch the desired snapshot and then start off the service from there.
 We will also provide a script to achieve the same without docker.
 
+## Restore a cardano node
+
+We have created a docker image that contains the cardano-node together with a mithril-client. This image can be used to restore the latest snapshot for each network before starting the node. This image is automatically built and pushed to dockerhub every time there is an update to the relevant files on the repo provide several ways of using the snapshots for the supported components.
+
 ### Notes
 
 - We can use `kupo copy` [4][4] to allow users to reduce their final DB. We will always export a copy of the DB that indexes *. Users can specify what kupo filters they want and we can restrict the DB to only those matches
