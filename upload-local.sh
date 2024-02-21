@@ -5,6 +5,7 @@ if [ -z "${EXPORTED_KUPO_SNAPSHOT_PATH}" ]; then
     echo "EXPORTED_KUPO_SNAPSHOT_PATH is not set, exiting."
     exit 1
 fi
+
 # Define AWS credentials and default region
 export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
 export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY

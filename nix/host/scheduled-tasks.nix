@@ -4,8 +4,8 @@
       description = "Run cardanow every 60 minutes";
       wantedBy = [ "timers.target" ];
       timerConfig = {
-        OnBootSec = "1h";
-        OnUnitActiveSec = "1h";
+        OnBootSec = "0m";
+        OnUnitActiveSec = "6h";
         Unit = "cardanow.service";
       };
     };
