@@ -4,7 +4,7 @@
 directories=("cardano-node-data" "s3-volume" "exported-snapshots" "mithril-snapshots" "kupo-data")
 
 # Confirmation prompt
-read -p "Are you sure you want to delete the following directories: ${directories[*]}? (y/n): " answer
+read -rp "Are you sure you want to delete the following directories: ${directories[*]}? (y/n): " answer
 
 # Check user's response
 if [[ $answer != "y" ]]; then
