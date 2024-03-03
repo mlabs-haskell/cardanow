@@ -52,6 +52,7 @@ LOCAL_CONFIG_PATH="./cardano-configurations/network"
 
 # shellcheck disable=SC2034
 EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots"
+
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"
 

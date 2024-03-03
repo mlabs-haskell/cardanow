@@ -4,7 +4,7 @@
   inputs = {
     cardano-node.url = "github:intersectmbo/cardano-node";
     cardano-configurations = {
-      url = "github:input-output-hk/cardano-configurations";
+      url = "github:input-output-hk/cardano-configurations?rev=0d00e479a344c72cf42f8792560ed41c965abb81";
       flake = false;
     };
     devshell.url = "github:numtide/devshell";
