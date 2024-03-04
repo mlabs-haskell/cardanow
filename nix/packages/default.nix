@@ -11,7 +11,7 @@
             git
             openssh
             config.packages.cardanow-ts
-            busybox
+            toybox
             jq
           ];
           text = ''
