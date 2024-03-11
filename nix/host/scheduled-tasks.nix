@@ -1,11 +1,11 @@
 { lib, flake, config, ... }: {
   systemd = {
     timers.cardanow = {
-      description = "Run cardanow every 60 minutes";
+      description = "Run cardanow every 12 hours";
       wantedBy = [ "timers.target" ];
       timerConfig = {
         OnBootSec = "0m";
-        OnUnitActiveSec = "6h";
+        OnUnitActiveSec = "12h";
         Unit = "cardanow.service";
       };
     };

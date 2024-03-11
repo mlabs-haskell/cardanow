@@ -21,12 +21,23 @@
             ln -sfT ${../../nix-store-src/docker-compose-localstack.yaml} docker-compose-localstack.yaml
             ln -sfT ${inputs.cardano-configurations} cardano-configurations
 
-            # TODO add preprod and mainnet
-            export NETWORK=preview
-            # shellcheck source=/dev/null
-            source ${../../setup_env_vars.sh}
-            # shellcheck source=/dev/null
-            source ${../../entrypoint.sh}
+            # Define a function for sourcing scripts
+            source_scripts() {
+                export NETWORK="$1"
+                (
+                    # Redirect stdout and stderr to NETWORK.log
+                    exec >"$1.log" 2>&1
+                    # shellcheck source=/dev/null
+                    source "${../../setup_env_vars.sh}"
+                    # shellcheck source=/dev/null
+                    source "${../../entrypoint.sh}"
+                )
+            }
+
+            # Loop over different values of NETWORK and run in parallel
+            for NETWORK in preview preprod mainnet; do
+                source_scripts "$NETWORK" &
+            done
           '';
         };
         cardanow-ts = inputs.dream2nix.lib.evalModules {
