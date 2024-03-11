@@ -27,6 +27,7 @@ mithril-client -vvv cardano-db download "${DIGEST}" --download-dir "${LOCAL_MITH
 echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_MITHRIL_SNAPSHOT_DIR}"
 echo "Local kupo data snapshot dir: ${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
+
 # TODO: this is currently not used: recent cardano-node images are not present in dockerhub
 echo "Cardano node detail: ${CARDANO_NODE_VERSION}"
 
@@ -34,7 +35,7 @@ docker compose -p "${NETWORK}" up -d
 
 cardanow-ts
 
-# docker compose -p "${NETWORK}" down
+docker compose -p "${NETWORK}" down
 
 # # docker compose -f docker-compose-localstack.yaml up -d
 
