@@ -52,7 +52,7 @@ export class SnapshotExporter {
 
   private runWithDelay: Action<string> = async () => {
     this.attempt++
-    console.log(`${this.config.name}: Running attempt #${this.attempt}`)
+    console.log(`${this.config.name}: Running attempt #${this.attempt}/${this.maxAttempts} (delay after failure: ${this.cadence}) ms`)
 
     await delay(this.cadence)
     let isSnapshotReady
