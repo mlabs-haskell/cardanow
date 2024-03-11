@@ -11,7 +11,7 @@ cardano-configurations
 mithril-configurations
 docker-compose.yaml
 docker-compose-localstack.yaml
-*.log
+
 # Javascript and nodejs
 ./*.js
 node_modules/

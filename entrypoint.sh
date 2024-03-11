@@ -21,8 +21,10 @@ CARDANO_NODE_VERSION=$(jq -r '.cardano_node_version' <<< "${SNAPSHOT_DETAIL}")
 EXPORTED_KUPO_SNAPSHOT_PATH="${EXPORTED_SNAPSHOT_BASE_PATH}/kupo-${SNAPSHOT_NAME}.tgz"
 LOCAL_KUPO_DATA_PER_SNAPSHOT="${KUPO_DATA}/${SNAPSHOT_NAME}"
 
-# Download, exit with status code equal to 1 even the download fails (which could be the case that snapshot is already presen)
-mithril-client -vvv cardano-db download "${DIGEST}" --download-dir "${LOCAL_MITHRIL_SNAPSHOT_DIR}" || echo "Download exited with non zero"
+echo "Aggregator endpoint: ${AGGREGATOR_ENDPOINT}"
+echo "Genesis verification key: ${GENESIS_VERIFICATION_KEY}"
+
+mithril-client -v cardano-db download "${DIGEST}" --download-dir "${LOCAL_MITHRIL_SNAPSHOT_DIR}"
 
 echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_MITHRIL_SNAPSHOT_DIR}"
