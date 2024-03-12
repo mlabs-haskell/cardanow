@@ -5,11 +5,11 @@ let
   mkCardanow = network: {
     systemd = {
       timers."cardanow-${network}" = {
-        description = "Run cardanow for ${network} every 12 hours";
+        description = "Run cardanow for ${network} every 24 hours";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "0m";
-          OnUnitActiveSec = "12h";
+          OnUnitActiveSec = "24h";
           Unit = "cardanow-${network}.service";
         };
       };
