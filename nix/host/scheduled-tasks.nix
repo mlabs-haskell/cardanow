@@ -1,23 +1,40 @@
-{ lib, flake, ... }: {
-  systemd = {
-    timers.foo = {
-      description = "Run task-foo every 5 minutes";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnBootSec = "5m";
-        OnUnitActiveSec = "5m";
-        Unit = "foo.service";
+{ lib, flake, config, ... }:
+let
+  networks = [ "preview" "preprod" "mainnet" ];
+  systemdComponents = (lib.lists.map mkCardanow networks);
+  mkCardanow = network: {
+    systemd = {
+      timers."cardanow-${network}" = {
+        description = "Run cardanow for ${network} every 24 hours";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnBootSec = "0m";
+          OnUnitActiveSec = "24h";
+          Unit = "cardanow-${network}.service";
+        };
       };
-    };
 
-    services.foo = {
-      description = "Foo";
+      services."cardanow-${network}" = {
+        description = "cardanow-${network}";
 
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root"; # TODO is it needed to be executed by root?
-        ExecStart = lib.getExe flake.packages.cardanow;
+        path = [ config.virtualisation.docker.package ];
+
+        environment = {
+          NETWORK = network;
+        };
+
+        serviceConfig = {
+
+          Type = "simple";
+          user = "cardanow";
+          group = "cardanow";
+          ExecStart = lib.getExe flake.packages.cardanow;
+          StateDirectory = config.users.users.cardanow.home;
+          WorkingDirectory = config.users.users.cardanow.home;
+          Restart = "on-failure";
+        };
       };
     };
   };
-}
+in
+lib.foldl lib.recursiveUpdate { } systemdComponents

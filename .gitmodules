@@ -1,3 +1,0 @@
-[submodule "configurations/cardano-configurations"]
-	path = configurations/cardano-configurations
-	url = git@github.com:input-output-hk/cardano-configurations.git

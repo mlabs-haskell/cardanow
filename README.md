@@ -91,6 +91,18 @@ We will also provide a script to achieve the same without docker.
 
 We have created a docker image that contains the cardano-node together with a mithril-client. This image can be used to restore the latest snapshot for each network before starting the node. This image is automatically built and pushed to dockerhub every time there is an update to the relevant files on the repo provide several ways of using the snapshots for the supported components.
 
+## Restore a kupo snapshot
+Kupo needs to access the network in some ways, there are two alternatives:
+- cardano-node
+- equivalent Ogmios connection
+
+### Download the snapshot
+To restore a kupo snapshot, you first have to download a snapshot from the `cardanow` service (say `snapshot.tar.gz`).
+
+### Run cupo
+You can now start kupo
+
+
 ### Notes
 
 - We can use `kupo copy` [4][4] to allow users to reduce their final DB. We will always export a copy of the DB that indexes *. Users can specify what kupo filters they want and we can restrict the DB to only those matches

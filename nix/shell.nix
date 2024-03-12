@@ -27,6 +27,8 @@
         '';
       };
       packages = with pkgs; [
+        awscli2
+        bash
         docker
         docker-compose
         inputs'.cardano-node.packages.cardano-cli
@@ -35,7 +37,8 @@
         nil
         nixos-rebuild
         nodejs_20
-        wget
+        sqlite
+        curl
       ];
     };
   };

@@ -1,9 +1,16 @@
+# Nix
+result
+
 # Domain specific
-mithril-snapshot
+mithril-snapshots
 kupo-data
 *.tgz
 db/
-
+s3-volume
+cardano-configurations
+mithril-configurations
+docker-compose.yaml
+docker-compose-localstack.yaml
 
 # Javascript and nodejs
 ./*.js
@@ -21,3 +28,6 @@ node_modules/
 
 # Misc
 .pre-commit-config.yaml
+
+# Vm
+*.qcow2
