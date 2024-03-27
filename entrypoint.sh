@@ -39,6 +39,4 @@ cardanow-ts
 
 docker compose -p "${NETWORK}" down
 
-# # docker compose -f docker-compose-localstack.yaml up -d
-
-# # # ./upload-local.sh
+./upload.sh

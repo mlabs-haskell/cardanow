@@ -15,6 +15,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
   };
+
+
   outputs = inputs @ { flake-parts, ... }:
     flake-parts.lib.mkFlake
       {
