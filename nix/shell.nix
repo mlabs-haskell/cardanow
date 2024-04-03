@@ -11,10 +11,10 @@
           nixpkgs-fmt.enable = true;
           deadnix.enable = true;
           shellcheck.enable = true;
-          typos.enable = true;
-        };
-        settings = {
-          typos.exclude = "*.json";
+          typos = {
+            enable = true;
+            excludes = [ ".*\.json" ".*\.age" ];
+          };
         };
       };
     };
