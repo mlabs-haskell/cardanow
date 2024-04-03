@@ -24,7 +24,7 @@ let
 in
 {
   flake.nixosConfigurations.cardanow = mkHost {
-    sshAuthorizedKeys = import ./ssh-authorized-keys.nix;
+    sshAuthorizedKeys = with import ../public-keys.nix; (builtins.attrValues users) ++ [ hercules-ci ];
   };
   perSystem = { lib, ... }: {
     apps.vm.program =
