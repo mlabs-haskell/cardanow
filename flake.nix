@@ -15,6 +15,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
     agenix.url = "github:ryantm/agenix";
+    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
   };
 
 
