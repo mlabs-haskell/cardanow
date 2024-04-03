@@ -1,3 +1,4 @@
+# TODO make this a NixOS module
 { lib, flake, config, ... }:
 let
   networks = [ "preview" "preprod" "mainnet" ];
@@ -23,11 +24,15 @@ let
           NETWORK = network;
         };
 
-        serviceConfig = {
+        preStart = ''
+          	  echo $AWS_ACCESS_KEY_ID
+          	'';
 
+        serviceConfig = {
+          EnvironmentFile = config.age.secrets.cardanow-environment.path;
           Type = "simple";
-          user = "cardanow";
-          group = "cardanow";
+          User = "cardanow";
+          Group = "cardanow";
           ExecStart = lib.getExe flake.packages.cardanow;
           StateDirectory = config.users.users.cardanow.home;
           WorkingDirectory = config.users.users.cardanow.home;
