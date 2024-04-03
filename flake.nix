@@ -1,6 +1,5 @@
 {
   description = "cardanow";
-
   inputs = {
     cardano-node.url = "github:intersectmbo/cardano-node";
     cardano-configurations = {
@@ -29,6 +28,7 @@
           ./nix/host
           ./nix/packages
           ./nix/shell.nix
+          ./nix/effects.nix
         ];
         systems = [
           "x86_64-darwin"
