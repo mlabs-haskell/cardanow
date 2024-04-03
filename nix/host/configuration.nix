@@ -22,4 +22,13 @@
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
   environment.systemPackages = with pkgs; [ htop bottom ];
+
+  age.secrets = {
+    cardanow-environment = {
+      file = ../../secrets/cardanow-environment.age;
+      owner = "cardanow";
+      group = "cardanow";
+      mode = "0440";
+    };
+  };
 }

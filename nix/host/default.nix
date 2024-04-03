@@ -11,6 +11,7 @@ let
       modules = modules ++ [{
         imports = [
           inputs.disko.nixosModules.disko
+          inputs.agenix.nixosModules.age
           ./disko.nix
           ./configuration.nix
           ./scheduled-tasks.nix

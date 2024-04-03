@@ -14,6 +14,7 @@
     mithril.url = "github:input-output-hk/mithril";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
+    agenix.url = "github:ryantm/agenix";
   };
 
 

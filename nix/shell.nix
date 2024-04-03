@@ -39,6 +39,7 @@
         nodejs_20
         sqlite
         curl
+        inputs'.agenix.packages.agenix
       ];
     };
   };
