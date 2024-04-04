@@ -27,9 +27,9 @@ set_cardano_node_flag() {
     esac
 }
 # shellcheck disable=SC2034
-MITHRIL_SNAPSHOTS_BASE_DIR="./mithril-snapshots"
+MITHRIL_SNAPSHOTS_BASE_DIR="./mithril-snapshots/${NETWORK}"
 # shellcheck disable=SC2034
-KUPO_DATA="./kupo-data"
+KUPO_DATA="./kupo-data/${NETWORK}"
 MITHRIL_CONFIG="./mithril-configurations/${NETWORK}.env"
 CONTAINER_IPC_PATH="/ipc"
 # shellcheck disable=SC2034
@@ -51,7 +51,7 @@ CONTAINER_KUPO_DB_PATH="/db"
 LOCAL_CONFIG_PATH="./cardano-configurations/network"
 
 # shellcheck disable=SC2034
-EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots"
+EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots/${NETWORK}"
 
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"

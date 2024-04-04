@@ -20,12 +20,8 @@
               ln -sfT ${../../nix-store-src/mithril-configurations} mithril-configurations
               ln -sfT ${../../nix-store-src/docker-compose.yaml} docker-compose.yaml
               ln -sfT ${../../nix-store-src/docker-compose-localstack.yaml} docker-compose-localstack.yaml
+              ln -sfT ${../../nix-store-src/bin} bin
               ln -sfT ${inputs.cardano-configurations} cardano-configurations
-
-              # if [ "$${NETWORK-}" ]; then
-              #     echo "NETWORK is not set"
-              #     exit 1
-              # fi
 
               # shellcheck source=/dev/null
               source "${../../setup_env_vars.sh}"
