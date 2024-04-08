@@ -7,10 +7,6 @@
 #              removing old files in directories where new files are                      #
 #              frequently generated.                                                      #
 #                                                                                         #
-# Usage:       Run the script with the following arguments:                               #
-#              1. Number of most recent files to keep in each directory                   #
-#              2. List of directories to clean up                                         #
-#                Example: ./cleanup_script.sh 3 "/path/to/directory1 /path/to/directory2" #
 ###########################################################################################
 
 # Check if the number of arguments is correct

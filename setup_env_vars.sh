@@ -53,6 +53,15 @@ LOCAL_CONFIG_PATH="./cardano-configurations/network"
 # shellcheck disable=SC2034
 EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots/${NETWORK}"
 
+# shellcheck disable=SC2034
+R2_ENTRYPOINT_URL="https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com"
+
+# shellcheck disable=SC2034
+BUCKET_NAME="cardanow"
+
+# shellcheck disable=SC2034
+AWS_DEFAULT_REGION=auto
+
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"
 

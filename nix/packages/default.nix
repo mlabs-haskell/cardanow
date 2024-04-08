@@ -4,13 +4,19 @@
       packages = {
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
-          runtimeInputs = with pkgs; [ bash ];
+          runtimeInputs = with pkgs; [ ];
           text = ''${../../bin/cleanup-local-data.sh} "$@"'';
         };
         cleanup-s3-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
-          runtimeInputs = with pkgs; [ bash awscli2 jq ];
+          runtimeInputs = with pkgs; [ awscli2 jq ];
           text = ''${../../bin/cleanup-s3-data.sh} "$@"'';
+        };
+
+        upload-data = pkgs.writeShellApplication {
+          name = "upload-data";
+          runtimeInputs = with pkgs; [ awscli2 ];
+          text = ''${../../bin/upload-data.sh} "$@"'';
         };
 
         cardanow = pkgs.writeShellApplication
@@ -22,6 +28,7 @@
               git
               openssh
               config.packages.cardanow-ts
+              config.packages.upload-data
               curl
               jq
             ];
@@ -35,6 +42,7 @@
               source "${../../setup_env_vars.sh}"
               # shellcheck source=/dev/null
               source "${../../entrypoint.sh}"
+
             '';
           };
         cardanow-ts = inputs.dream2nix.lib.evalModules {

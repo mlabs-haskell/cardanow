@@ -2,23 +2,26 @@
 
 ################################################################################
 # Description: Bash script to delete old files from specified S3 paths.        #
-# Usage:       ./script.sh <files_to_keep> <path1> <path2> ...                #
 ################################################################################
-# TODO handle all env vars with nix
-export ENTRYPOINT_URL=https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com
 
+# Check if all parameters are provided
+if [ $# -lt 3 ]; then
+    echo "Usage: $0 <ENTRYPOINT_URL> <files_to_keep> <path1> <path2> ..."
+    exit 1
+fi
+
+# Assign parameters to variables
+ENTRYPOINT_URL="$1"
+files_to_keep="$2"
+shift 2
+paths_to_check=("$@")
 
 # Define the S3 bucket
 BUCKET="cardanow"
 
-# Get files_to_keep and paths_to_check from command line arguments
-files_to_keep="$1"
-shift
-paths_to_check=("$@")
-
 # Check if files_to_keep and at least one path are provided
-if [[ -z "$files_to_keep" || ${#paths_to_check[@]} -eq 0 ]]; then
-    echo "Usage: $0 <files_to_keep> <path1> <path2> ..."
+if [ "$files_to_keep" -eq 0 ] || [ -z "$files_to_keep" ] || [ ${#paths_to_check[@]} -eq 0 ]; then
+    echo "Error: 'files_to_keep' must be a non-zero positive integer."
     exit 1
 fi
 

@@ -21,7 +21,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
-  environment.systemPackages = with pkgs; [ htop bottom ];
+  environment.systemPackages = with pkgs; [ htop bottom bash ];
 
   age.secrets = {
     cardanow-environment = {
