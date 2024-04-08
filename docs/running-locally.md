@@ -64,9 +64,3 @@ To test the upload of the snapshot `EXPORTED_KUPO_SNAPSHOT_PATH` must be set.
 
 ## Run tests
 If you use nix, tests will run during the check phase of the `cardano-ts` package.
-
-To run the tests manually:
-```shell
-npm test
-```
-
