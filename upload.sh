@@ -16,7 +16,7 @@ export ENTRYPOINT_URL=https://5c90369860b916812808cd543a1d782b.r2.cloudflarestor
 # TODO this should be a parameter
 DATA_SOURCE_NAME="kupo"
 BUCKET_NAME="cardanow"
-REMOTE_DIR_PATH="${BUCKET_NAME}/${NETWORK}/${DATA_SOURCE_NAME}"
+REMOTE_DIR_PATH="${BUCKET_NAME}/${DATA_SOURCE_NAME}/${NETWORK}"
 REMOTE_PATH="s3://${REMOTE_DIR_PATH}/"
 # Echo statement before listing buckets
 echo "Listing contents of ${REMOTE_PATH} before operation:"

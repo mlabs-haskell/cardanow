@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/bin/bash
 
 ###########################################################################################
 # Description: This script iterates over a list of directories and cleans up              #

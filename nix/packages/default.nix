@@ -2,13 +2,23 @@
   perSystem = { pkgs, inputs', system, config, ... }:
     {
       packages = {
+        cleanup-local-data = pkgs.writeShellApplication {
+          name = "cleanup-local-data";
+          runtimeInputs = with pkgs; [ bash ];
+          text = ''${../../bin/cleanup-local-data.sh} "$@"'';
+        };
+        cleanup-s3-data = pkgs.writeShellApplication {
+          name = "cleanup-local-data";
+          runtimeInputs = with pkgs; [ bash awscli2 jq ];
+          text = ''${../../bin/cleanup-s3-data.sh} "$@"'';
+        };
+
         cardanow = pkgs.writeShellApplication
           {
             name = "cardanow";
             runtimeInputs = with pkgs; [
               inputs'.cardano-node.packages.cardano-cli
               inputs'.mithril.packages.mithril-client-cli
-              bash
               git
               openssh
               config.packages.cardanow-ts
@@ -19,8 +29,6 @@
               # TODO there is probably a better way to write this
               ln -sfT ${../../nix-store-src/mithril-configurations} mithril-configurations
               ln -sfT ${../../nix-store-src/docker-compose.yaml} docker-compose.yaml
-              ln -sfT ${../../nix-store-src/docker-compose-localstack.yaml} docker-compose-localstack.yaml
-              ln -sfT ${../../nix-store-src/bin} bin
               ln -sfT ${inputs.cardano-configurations} cardano-configurations
 
               # shellcheck source=/dev/null
@@ -38,3 +46,4 @@
       };
     };
 }
+
