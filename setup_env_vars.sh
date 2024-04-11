@@ -51,7 +51,15 @@ CONTAINER_KUPO_DB_PATH="/db"
 LOCAL_CONFIG_PATH="./cardano-configurations/network"
 
 # shellcheck disable=SC2034
-EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots/${NETWORK}"
+EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots/"
+
+# TODO make this temporary
+# shellcheck disable=SC2034
+DATA_SOURCE="kupo"
+
+# shellcheck disable=SC2034
+EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE="${EXPORTED_SNAPSHOT_BASE_PATH}/${DATA_SOURCE}/${NETWORK}"
+
 
 # shellcheck disable=SC2034
 R2_ENTRYPOINT_URL="https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com"

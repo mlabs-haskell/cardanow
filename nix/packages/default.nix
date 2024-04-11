@@ -4,18 +4,18 @@
       packages = {
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
-          runtimeInputs = with pkgs; [ ];
+          runtimeInputs = with pkgs; [ bash ];
           text = ''${../../bin/cleanup-local-data.sh} "$@"'';
         };
         cleanup-s3-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
-          runtimeInputs = with pkgs; [ awscli2 jq ];
+          runtimeInputs = with pkgs; [ awscli2 bash jq ];
           text = ''${../../bin/cleanup-s3-data.sh} "$@"'';
         };
 
         upload-data = pkgs.writeShellApplication {
           name = "upload-data";
-          runtimeInputs = with pkgs; [ awscli2 ];
+          runtimeInputs = with pkgs; [ bash awscli2 ];
           text = ''${../../bin/upload-data.sh} "$@"'';
         };
 

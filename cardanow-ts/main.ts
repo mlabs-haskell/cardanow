@@ -24,7 +24,7 @@ const main = async () => {
   const kupoSnapshot = new SnapshotExporter(
     kupoConfig,
     minutesToMilliseconds(30),
-    50)
+    100)
   const result = await kupoSnapshot.run()
   console.log(result)
 }
