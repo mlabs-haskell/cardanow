@@ -11,10 +11,10 @@
           nixpkgs-fmt.enable = true;
           deadnix.enable = true;
           shellcheck.enable = true;
-          typos.enable = true;
-        };
-        settings = {
-          typos.exclude = "*.json";
+          typos = {
+            enable = true;
+            excludes = [ ".*\.json" ".*\.age" ];
+          };
         };
       };
     };
@@ -27,6 +27,8 @@
         '';
       };
       packages = with pkgs; [
+        awscli2
+        bash
         docker
         docker-compose
         inputs'.cardano-node.packages.cardano-cli
@@ -35,7 +37,9 @@
         nil
         nixos-rebuild
         nodejs_20
-        wget
+        sqlite
+        curl
+        inputs'.agenix.packages.agenix
       ];
     };
   };

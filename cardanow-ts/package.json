@@ -1,0 +1,25 @@
+{
+  "name": "cardanow-ts",
+  "version": "0.0.0.1",
+  "bin": "main.js",
+  "scripts": {
+    "test-watch": "vitest --test-timeout=10000",
+    "test": "vitest run --test-timeout=10000",
+    "start": "ts-node main.ts"
+  },
+  "devDependencies": {
+    "@types/tar": "^6.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "esbuild": "^0.20.0",
+    "rollup": "^4.9.6",
+    "tar": "^6.2.0",
+    "vitest": "^1.1.0",
+    "vite": ">=5.0.13"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.3"
+  }
+}

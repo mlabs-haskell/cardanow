@@ -11,9 +11,11 @@ let
       modules = modules ++ [{
         imports = [
           inputs.disko.nixosModules.disko
+          inputs.agenix.nixosModules.age
           ./disko.nix
           ./configuration.nix
           ./scheduled-tasks.nix
+          ./docker.nix
         ];
         users.users.root.openssh.authorizedKeys.keys = sshAuthorizedKeys;
         _module.args.flake = config.perSystem system;
@@ -22,6 +24,17 @@ let
 in
 {
   flake.nixosConfigurations.cardanow = mkHost {
-    sshAuthorizedKeys = import ./ssh-authorized-keys.nix;
+    sshAuthorizedKeys = with import ../public-keys.nix; (builtins.attrValues users) ++ [ hercules-ci ];
+  };
+  perSystem = { lib, ... }: {
+    apps.vm.program =
+      let
+        cardanow-vm = config.flake.nixosConfigurations.cardanow.extendModules {
+          modules = [
+            ./vm.nix
+          ];
+        };
+      in
+      "${lib.getExe cardanow-vm.config.system.build.vm}";
   };
 }
