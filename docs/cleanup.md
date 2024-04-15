@@ -11,17 +11,17 @@ The service produces a significant amount of data, including downloaded mithril 
 We provide a simple script that essentially deletes all folders prone to size growth. This script must be executed manually:
 
 ```bash
-./bin/cleanup-local-data.sh <files_to_keep> <list_of_dirs>
+nix run .#cleanup-local-data 3 kupo-data/{preview,preprod,mainnet} exported-snapshots/{preview,preprod,mainnet} mithril-snapshots/{preview,preprod,mainnet}
 ```
 
 So for example, given the config default at the time of writing, we can clean up dirs using the following:
 ```bash
-./bin/cleanup-local-data.sh 3 kupo-data/{preview,preprod,mainnet} exported-snapshots/{preview,preprod,mainnet} mithril-snapshots/{preview,preprod,mainnet}
+nix run .#cleanup-s3-data cardanow 3 kupo-data/{preview,preprod,mainnet} exported-snapshots/{preview,preprod,mainnet} mithril-snapshots/{preview,preprod,mainnet}
 ```
 ## Cleaning Up Service-Host Data
 This process is more complex due to the possibility of system interruptions and data upload failures. To address this, we adopt a simple but effective approach: retaining only the three most recent files in directories prone to size growth. For instance, if we are storing mithril snapshots for mainnet in `MITHRIL_SNAPSHOTS_BASE_DIR`, we regularly check to ensure that we have at most three snapshots, including the most recent one.
 
-Technically, this is accomplished by running a systemd daemon that executes the cleanup script every 6 hours. The script 
+Technically, this is accomplished by running a systemd daemon that executes the cleanup script (see `nix/host/scheduled-tasks.nix` for details).
 
 ## Cleaning Up Cloud Data
 Cloud data, which we serve, follows a similar approach to cleaning up service-host data. The only distinction is that we utilize a third-party API for deletion, as this data is stored on another machine.

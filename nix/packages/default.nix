@@ -5,7 +5,7 @@
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
           runtimeInputs = with pkgs; [ bash ];
-          text = ''${../../bin/cleanup-local-data.sh} "$@"'';
+          text = ../../bin/cleanup-local-data.sh;
         };
         cleanup-s3-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";

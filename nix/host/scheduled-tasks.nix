@@ -1,4 +1,7 @@
 # TODO make this a NixOS module
+# TODO make scheduling smarter, starting points:
+# - https://github.com/mlabs-haskell/cardanow/pull/36#discussion_r1565513548
+# - https://github.com/mlabs-haskell/cardanow/pull/36#discussion_r1565521197
 { lib, flake, config, ... }:
 let
   networks = [ "preview" "preprod" "mainnet" ];
@@ -9,7 +12,6 @@ let
   # TODO make this parametric with mode data source
   mkS3DataPath = network: "kupo/${network}/";
   s3DataPaths = lib.concatStringsSep " " (map mkS3DataPath networks);
-  r2Endpoint = "https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com";
   bucketName = "cardanow";
   mkCardanowService = network: {
     systemd = {
@@ -83,7 +85,7 @@ let
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = "${lib.getExe flake.packages.cleanup-s3-data} ${r2Endpoint} ${bucketName} 3 ${s3DataPaths}";
+          ExecStart = "${lib.getExe flake.packages.cleanup-s3-data} ${bucketName} 3 ${s3DataPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };

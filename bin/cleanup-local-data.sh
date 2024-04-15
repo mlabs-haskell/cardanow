@@ -35,10 +35,8 @@ clean_up_directory() {
     files_to_delete=$(ls -t | tail -n +$(($files_to_keep + 1)))
 
     # Delete files except for the n most recent ones
-    for file in $files_to_delete; do
-        rm -fr "$file"
-        echo "Deleted file: $file"
-    done
+    echo -e "${files_to_delete}" | xargs rm -fr
+    echo "Deleted file: ${files_to_delete}"
 
     # Return to the original directory
     popd || { echo "Error: Could not return to the original directory"; return 1; }
