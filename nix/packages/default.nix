@@ -34,8 +34,8 @@
             ];
             text = ''
               # TODO there is probably a better way to write this
-              ln -sfT ${../../nix-store-src/mithril-configurations} mithril-configurations
-              ln -sfT ${../../nix-store-src/docker-compose.yaml} docker-compose.yaml
+              ln -sfT ${../../config/mithril-configurations} mithril-configurations
+              ln -sfT ${../../config/docker-compose.yaml} docker-compose.yaml
               ln -sfT ${inputs.cardano-configurations} cardano-configurations
 
               # shellcheck source=/dev/null
