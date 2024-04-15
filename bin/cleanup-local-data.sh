@@ -20,15 +20,15 @@ files_to_keep="$1"
 # List of paths to iterate over
 paths=("${@:2}")
 
-# Save the current directory
-original_dir=$(pwd)
+# Save the current directory to the stack
+pushd .
 
 # Function to clean up files in a directory
 clean_up_directory() {
     local directory="$1"
 
     # Change directory to the specified directory
-    cd "$directory" || { echo "Error: Could not change directory to $directory"; return 1; }
+    pushd "$directory" || { echo "Error: Could not change directory to $directory"; return 1; }
 
     # List files, sort by modification time (newest first), and skip the first n
     # shellcheck disable=SC2012,SC2004
@@ -41,7 +41,7 @@ clean_up_directory() {
     done
 
     # Return to the original directory
-    cd "$original_dir" || { echo "Error: Could not return to the original directory"; return 1; }
+    popd || { echo "Error: Could not return to the original directory"; return 1; }
 }
 
 # Iterate over each path and clean up files
