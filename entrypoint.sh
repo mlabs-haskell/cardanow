@@ -44,7 +44,4 @@ cardanow-ts
 
 docker compose -p "${NETWORK}" down
 
-# TODO
-# chown -R cardanow:cardanow "${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
-
 upload-data "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${R2_ENTRYPOINT_URL}" "${BUCKET_NAME}" "${DATA_SOURCE}" "${NETWORK}"

@@ -64,7 +64,7 @@ let
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = updateFileToServeAfter "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
+          ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };

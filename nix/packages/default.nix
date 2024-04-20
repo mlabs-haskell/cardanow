@@ -12,12 +12,12 @@
               outFile = "andrea-change-this.json";
               bucketName = "cardanow";
             in
-              ''aws s3api list-objects-v2 --bucket ${bucketName} --query "Contents[].{Key:Key, LastModified:LastModified}" | jq '.[] | .Key = "${awsEndpoint}" + .Key' > ${outFile}'';
+            ''aws s3api list-objects-v2 --bucket ${bucketName} --query "Contents[].{Key:Key, LastModified:LastModified}" | jq '.[] | .Key = "${awsEndpoint}" + .Key' > ${outFile}'';
         };
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
           runtimeInputs = with pkgs; [ bash ];
-          text = ../../bin/cleanup-local-data.sh;
+          text = ''${../../bin/cleanup-local-data.sh} "$@"'';
         };
         cleanup-s3-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
