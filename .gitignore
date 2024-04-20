@@ -8,6 +8,7 @@ kupo-data
 db/
 s3-volume
 cardano-configurations
+available-snapshots.json
 
 # Javascript and nodejs
 ./*.js

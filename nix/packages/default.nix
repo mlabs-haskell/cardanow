@@ -2,17 +2,19 @@
   perSystem = { pkgs, inputs', system, config, ... }:
     {
       packages = {
-        get-s3-state = pkgs.writeShellApplication {
-          name = "get-s3-state";
+        refresh-available-snapshots-state = pkgs.writeShellApplication {
+          name = "refresh-available-snapshots-state";
           runtimeInputs = with pkgs; [ awscli2 jq ];
           text =
             let
               # TODO: handle this variable better (e.g. move in a better place, some vars are duplicated in scheduled tasks) 
               awsEndpoint = "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev/";
-              outFile = "andrea-change-this.json";
+              outFile = "available-snapshots.json";
               bucketName = "cardanow";
             in
-            ''aws s3api list-objects-v2 --bucket ${bucketName} --query "Contents[].{Key:Key, LastModified:LastModified}" | jq '.[] | .Key = "${awsEndpoint}" + .Key' > ${outFile}'';
+            ''
+              aws s3api list-objects-v2 --bucket ${bucketName} --query "Contents[].{Key:Key, LastModified:LastModified}" | jq '.[] | .Key = "${awsEndpoint}" + .Key' > ${outFile} && aws s3 cp ${outFile} s3://${bucketName}/available-snapshots.json
+            '';
         };
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
@@ -21,7 +23,12 @@
         };
         cleanup-s3-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
-          runtimeInputs = with pkgs; [ awscli2 bash jq ];
+          runtimeInputs = with pkgs; [
+            awscli2
+            bash
+            config.packages.refresh-available-snapshots-state
+            jq
+          ];
           text = ''${../../bin/cleanup-s3-data.sh} "$@"'';
         };
 
@@ -35,14 +42,15 @@
           {
             name = "cardanow";
             runtimeInputs = with pkgs; [
-              inputs'.cardano-node.packages.cardano-cli
-              inputs'.mithril.packages.mithril-client-cli
-              git
-              openssh
               config.packages.cardanow-ts
+              config.packages.refresh-available-snapshots-state
               config.packages.upload-data
               curl
+              git
+              inputs'.cardano-node.packages.cardano-cli
+              inputs'.mithril.packages.mithril-client-cli
               jq
+              openssh
             ];
             text = ''
               # TODO there is probably a better way to write this

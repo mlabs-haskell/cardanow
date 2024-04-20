@@ -35,3 +35,5 @@ for path in "${paths_to_check[@]}"; do
         echo "Deleted: ${file} in s3://${bucket_name}/${file}"
     done
 done
+
+refresh-available-snapshots-state
