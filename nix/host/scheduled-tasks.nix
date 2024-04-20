@@ -13,6 +13,7 @@ let
   mkS3DataPath = network: "kupo/${network}/";
   s3DataPaths = lib.concatStringsSep " " (map mkS3DataPath networks);
   bucketName = "cardanow";
+  updateFileToServeAfter = command: "${command} && ${lib.getExe flake.packages.get-s3-state}";
   mkCardanowService = network: {
     systemd = {
       timers."cardanow-${network}" = {
@@ -38,7 +39,7 @@ let
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = lib.getExe flake.packages.cardanow;
+          ExecStart = updateFileToServeAfter (lib.getExe flake.packages.cardanow);
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
@@ -63,7 +64,7 @@ let
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
+          ExecStart = updateFileToServeAfter "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
@@ -85,7 +86,7 @@ let
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = "${lib.getExe flake.packages.cleanup-s3-data} ${bucketName} 3 ${s3DataPaths}";
+          ExecStart = updateFileToServeAfter "${lib.getExe flake.packages.cleanup-s3-data} ${bucketName} 3 ${s3DataPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };

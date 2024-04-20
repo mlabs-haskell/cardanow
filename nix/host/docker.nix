@@ -1,6 +1,10 @@
 {
-  virtualisation.docker.enable = true;
-
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+    };
+  };
   users.users.cardanow = {
     isSystemUser = true;
     home = "/var/lib/cardanow";

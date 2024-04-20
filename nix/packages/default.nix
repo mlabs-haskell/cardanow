@@ -7,11 +7,12 @@
           runtimeInputs = with pkgs; [ awscli2 jq ];
           text =
             let
-              # TODO: handle this variable better (e.g. move in a better place) 
+              # TODO: handle this variable better (e.g. move in a better place, some vars are duplicated in scheduled tasks) 
               awsEndpoint = "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev/";
               outFile = "andrea-change-this.json";
+              bucketName = "cardanow";
             in
-            ''aws s3api list-objects-v2 --bucket cardanow --query "Contents[].{Key:Key, LastModified:LastModified}" | jq '.[] | .Key = "${awsEndpoint}" + .Key' > ${outFile}'';
+              ''aws s3api list-objects-v2 --bucket ${bucketName} --query "Contents[].{Key:Key, LastModified:LastModified}" | jq '.[] | .Key = "${awsEndpoint}" + .Key' > ${outFile}'';
         };
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
