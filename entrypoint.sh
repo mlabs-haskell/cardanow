@@ -44,4 +44,4 @@ cardanow-ts
 
 docker compose -p "${NETWORK}" down
 
-upload-data "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${R2_ENTRYPOINT_URL}" "${BUCKET_NAME}" "${DATA_SOURCE}" "${NETWORK}"
+upload-data "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${AWS_ENTRYPOINT_URL}" "${BUCKET_NAME}" "${DATA_SOURCE}" "${NETWORK}"
