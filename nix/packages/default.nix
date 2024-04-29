@@ -1,5 +1,5 @@
 { inputs, ... }: {
-  perSystem = { pkgs, inputs', system, config, ... }:
+  perSystem = { pkgs, inputs', system, config, lib, ... }:
     {
       packages = {
         refresh-available-snapshots-state = pkgs.writeShellApplication {
@@ -8,12 +8,19 @@
           text =
             let
               # TODO: handle this variable better (e.g. move in a better place, some vars are duplicated in scheduled tasks) 
-              awsEndpoint = "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev/";
+              awsEndpoint = "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev";
+              awsEndpointEscaped = lib.escape [ ":" "/" "." ] awsEndpoint;
               outFile = "available-snapshots.json";
               bucketName = "cardanow";
             in
             ''
-              aws s3api list-objects-v2 --bucket ${bucketName} --query "Contents[].{Key:Key, LastModified:LastModified}" | jq '.[] | .Key = "${awsEndpoint}" + .Key' > ${outFile} && aws s3 cp ${outFile} s3://${bucketName}/available-snapshots.json
+              aws s3api list-objects-v2 \
+                  --output json \
+                  --bucket ${bucketName} \
+                  --query "Contents[].{Key:Key, LastModified:LastModified}" \
+              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "DataSource": "\1", "Networks": "\2", "Epoch": "\4", "ImmutableBlock": "\5"/g' \
+              | python -m json.tool \
+              > ${outFile}
             '';
         };
         cleanup-local-data = pkgs.writeShellApplication {
@@ -22,7 +29,7 @@
           text = ''${../../bin/cleanup-local-data.sh} "$@"'';
         };
         cleanup-s3-data = pkgs.writeShellApplication {
-          name = "cleanup-local-data";
+          name = "cleanup-s3-data";
           runtimeInputs = with pkgs; [
             awscli2
             bash
