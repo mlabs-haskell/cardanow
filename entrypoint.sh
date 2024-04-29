@@ -36,6 +36,9 @@ echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 # TODO: this is currently not used: recent cardano-node images are not present in dockerhub
 echo "Cardano node detail: ${CARDANO_NODE_VERSION}"
 
+# Kill hanging containers
+# shellcheck disable=SC2046
+docker stop $(docker ps -aq -f name="${NETWORK}")
 docker compose -p "${NETWORK}" up -d --force-recreate
 
 echo "Starting cardanow-ts"
