@@ -14,7 +14,6 @@
               bucketName = "cardanow";
             in
             ''
-              source ${../../setup_env_vars.sh}
               aws s3api list-objects-v2 \
                   --output json \
                   --bucket ${bucketName} \
@@ -27,7 +26,7 @@
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
           runtimeInputs = with pkgs; [ bash ];
-          text = ''${../../bin/cleanup-local-data.sh} "$@"'';
+          text = builtins.readFile ../../bin/cleanup-local-data.sh;
         };
         cleanup-s3-data = pkgs.writeShellApplication {
           name = "cleanup-s3-data";
@@ -37,13 +36,13 @@
             config.packages.refresh-available-snapshots-state
             jq
           ];
-          text = ''${../../bin/cleanup-s3-data.sh} "$@"'';
+          text = builtins.readFile ../../bin/cleanup-s3-data.sh;
         };
 
         upload-data = pkgs.writeShellApplication {
           name = "upload-data";
           runtimeInputs = with pkgs; [ bash awscli2 ];
-          text = ''${../../bin/upload-data.sh} "$@"'';
+          text = builtins.readFile ../../bin/upload-data.sh;
         };
 
         cardanow = pkgs.writeShellApplication

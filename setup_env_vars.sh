@@ -60,7 +60,6 @@ DATA_SOURCE="kupo"
 # shellcheck disable=SC2034
 EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE="${EXPORTED_SNAPSHOT_BASE_PATH}/${DATA_SOURCE}/${NETWORK}"
 
-
 # shellcheck disable=SC2034
 BUCKET_NAME="cardanow"
 
@@ -69,8 +68,11 @@ AWS_DEFAULT_REGION=auto
 # shellcheck disable=SC2034
 AWS_ENDPOINT_URL="https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com"
 
-
+# shellcheck source=/dev/null
+AWS_ENDPOINT_URL
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"
 
 set_cardano_node_flag
+
+
