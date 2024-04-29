@@ -9,6 +9,8 @@ db/
 s3-volume
 cardano-configurations
 available-snapshots.json
+docker-compose.yaml
+mithril-configurations
 
 # Javascript and nodejs
 ./*.js
