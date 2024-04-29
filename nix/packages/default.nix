@@ -14,11 +14,12 @@
               bucketName = "cardanow";
             in
             ''
+              source ${../../setup_env_vars.sh}
               aws s3api list-objects-v2 \
                   --output json \
                   --bucket ${bucketName} \
                   --query "Contents[].{Key:Key, LastModified:LastModified}" \
-              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "DataSource": "\1", "Networks": "\2", "Epoch": "\4", "ImmutableBlock": "\5"/g' \
+              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "DataSource": "\1", "Networks": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
               | python -m json.tool \
               > ${outFile}
             '';
