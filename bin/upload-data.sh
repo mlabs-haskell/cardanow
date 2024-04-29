@@ -45,3 +45,5 @@ aws --endpoint-url="${ENTRYPOINT_URL}" s3 cp "$1" "${REMOTE_PATH}"
 # Echo statement after uploading (for debugging puropses)
 echo "Listing contents of ${REMOTE_PATH} after operation:"
 aws --endpoint-url="${ENTRYPOINT_URL}" s3 ls "${REMOTE_PATH}"
+
+refresh-available-snapshots-state

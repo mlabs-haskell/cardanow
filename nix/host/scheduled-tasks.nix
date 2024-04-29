@@ -16,7 +16,7 @@ let
   mkCardanowService = network: {
     systemd = {
       timers."cardanow-${network}" = {
-        description = "Run cardanow for ${network} every 24 hours";
+        description = "Run cardanow for ${network} every 48 hours";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "0m";
@@ -34,6 +34,7 @@ let
         };
 
         serviceConfig = {
+          # TODO better handle env files (now we have only secrets here) using nix
           EnvironmentFile = config.age.secrets.cardanow-environment.path;
           Type = "simple";
           User = "cardanow";

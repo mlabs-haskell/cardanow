@@ -36,6 +36,8 @@ echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 # TODO: this is currently not used: recent cardano-node images are not present in dockerhub
 echo "Cardano node detail: ${CARDANO_NODE_VERSION}"
 
+# Kill hanging containers
+docker ps -aq -f name="${NETWORK}" | xargs docker stop
 docker compose -p "${NETWORK}" up -d --force-recreate
 
 echo "Starting cardanow-ts"
@@ -44,7 +46,4 @@ cardanow-ts
 
 docker compose -p "${NETWORK}" down
 
-# TODO
-# chown -R cardanow:cardanow "${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
-
-upload-data "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${R2_ENTRYPOINT_URL}" "${BUCKET_NAME}" "${DATA_SOURCE}" "${NETWORK}"
+upload-data "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${AWS_ENTRYPOINT_URL}" "${BUCKET_NAME}" "${DATA_SOURCE}" "${NETWORK}"

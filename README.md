@@ -87,6 +87,17 @@ We will provide tools to easily download snapshots for each service and start it
 Each component will provide a docker image that can be run to fetch the desired snapshot and then start off the service from there.
 We will also provide a script to achieve the same without docker.
 
+## Available snapshots
+You can view the current snapshot list here. This list enumerates all available snapshots along with corresponding links for retrieval.
+[here](https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev/available-snapshots.json).
+
+### Snapshot Naming Convention:
+Each snapshot follows a specific naming convention, structured as follows:
+- `{DATA-SOURCE}-{NETWORK}-{EPOCH-IMMUTABLE-FILE-NUMBER}.tgz`
+
+#### Example Snapshot:
+For instance, a valid snapshot name for 'kupo' would be: kupo-preprod-136-2642.
+
 ## Restore a cardano node
 
 We have created a docker image that contains the cardano-node together with a mithril-client. This image can be used to restore the latest snapshot for each network before starting the node. This image is automatically built and pushed to dockerhub every time there is an update to the relevant files on the repo provide several ways of using the snapshots for the supported components.

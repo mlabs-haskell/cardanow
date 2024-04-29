@@ -1,36 +1,63 @@
 { inputs, ... }: {
-  perSystem = { pkgs, inputs', system, config, ... }:
+  perSystem = { pkgs, inputs', system, config, lib, ... }:
     {
       packages = {
+        refresh-available-snapshots-state = pkgs.writeShellApplication {
+          name = "refresh-available-snapshots-state";
+          runtimeInputs = with pkgs; [ awscli2 jq ];
+          text =
+            let
+              # TODO: handle this variable better (e.g. move in a better place, some vars are duplicated in scheduled tasks) 
+              awsEndpoint = "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev";
+              awsEndpointEscaped = lib.escape [ ":" "/" "." ] awsEndpoint;
+              outFile = "available-snapshots.json";
+              bucketName = "cardanow";
+            in
+            ''
+              aws s3api list-objects-v2 \
+                  --output json \
+                  --bucket ${bucketName} \
+                  --query "Contents[].{Key:Key, LastModified:LastModified}" \
+              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "DataSource": "\1", "Networks": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
+              | python -m json.tool \
+              > ${outFile}
+            '';
+        };
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
           runtimeInputs = with pkgs; [ bash ];
-          text = ../../bin/cleanup-local-data.sh;
+          text = builtins.readFile ../../bin/cleanup-local-data.sh;
         };
         cleanup-s3-data = pkgs.writeShellApplication {
-          name = "cleanup-local-data";
-          runtimeInputs = with pkgs; [ awscli2 bash jq ];
-          text = ''${../../bin/cleanup-s3-data.sh} "$@"'';
+          name = "cleanup-s3-data";
+          runtimeInputs = with pkgs; [
+            awscli2
+            bash
+            config.packages.refresh-available-snapshots-state
+            jq
+          ];
+          text = builtins.readFile ../../bin/cleanup-s3-data.sh;
         };
 
         upload-data = pkgs.writeShellApplication {
           name = "upload-data";
           runtimeInputs = with pkgs; [ bash awscli2 ];
-          text = ''${../../bin/upload-data.sh} "$@"'';
+          text = builtins.readFile ../../bin/upload-data.sh;
         };
 
         cardanow = pkgs.writeShellApplication
           {
             name = "cardanow";
             runtimeInputs = with pkgs; [
-              inputs'.cardano-node.packages.cardano-cli
-              inputs'.mithril.packages.mithril-client-cli
-              git
-              openssh
               config.packages.cardanow-ts
+              config.packages.refresh-available-snapshots-state
               config.packages.upload-data
               curl
+              git
+              inputs'.cardano-node.packages.cardano-cli
+              inputs'.mithril.packages.mithril-client-cli
               jq
+              openssh
             ];
             text = ''
               # TODO there is probably a better way to write this
