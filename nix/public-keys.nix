@@ -7,5 +7,5 @@ rec {
     nazrhom = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOLsYeYRKOMKKzTrsMpMLgJ70hgfldtaGOF8P1qA5JDS giovanni@mlabs.city";
   };
   secret-managers = builtins.attrValues users;
-  hercules-ci = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM0aCzozWdp//bsVT7P9JL4Ryavhm3uVYTk2TngMDLiq";
+  hercules-ci = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDwwUbxrT2m14x27CoAUV10VIGuKpgYp/49//gbhfzf2 hercules-ci-effects-devops@ci.staging.mlabs.city";
 }
