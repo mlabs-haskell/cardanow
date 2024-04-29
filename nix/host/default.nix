@@ -16,6 +16,7 @@ let
           ./configuration.nix
           ./scheduled-tasks.nix
           ./docker.nix
+          ./nginx.nix
         ];
         users.users.root.openssh.authorizedKeys.keys = sshAuthorizedKeys;
         _module.args.flake = config.perSystem system;
