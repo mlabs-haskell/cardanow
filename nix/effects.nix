@@ -15,7 +15,7 @@ flakePartsArgs@{ inputs
           userSetupScript = ''
             writeSSHKey ssh
             cat >>~/.ssh/known_hosts <<EOF
-            ${(import ./public-keys.nix).hosts.cardanow}
+            cardanow.staging.mlabs.city ${(import ./public-keys.nix).hosts.cardanow}
             EOF
           '';
         });
