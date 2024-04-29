@@ -69,10 +69,6 @@ AWS_DEFAULT_REGION=auto
 AWS_ENDPOINT_URL="https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com"
 
 # shellcheck source=/dev/null
-AWS_ENDPOINT_URL
-# shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"
 
 set_cardano_node_flag
-
-
