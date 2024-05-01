@@ -62,8 +62,8 @@ let
 
         serviceConfig = {
           Type = "simple";
-          User = "cardanow";
-          Group = "cardanow";
+          User = "root";
+          Group = "root";
           ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
