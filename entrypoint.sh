@@ -37,7 +37,8 @@ echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 echo "Cardano node detail: ${CARDANO_NODE_VERSION}"
 
 # Kill hanging containers
-docker ps -aq -f name="${NETWORK}" | xargs docker stop
+docker ps -aq -f name="${NETWORK}" | xargs docker stop | true
+
 docker compose -p "${NETWORK}" up -d --force-recreate
 
 echo "Starting cardanow-ts"
