@@ -57,6 +57,7 @@ let
         description = "cardanow-cleanup-local-data";
 
         serviceConfig = {
+          EnvironmentFile = config.age.secrets.cardanow-environment.path;
           Type = "simple";
           User = "root";
           Group = "root";

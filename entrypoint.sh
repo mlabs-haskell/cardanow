@@ -46,5 +46,3 @@ echo "Starting cardanow-ts"
 cardanow-ts
 
 docker compose -p "${NETWORK}" down
-
-upload-data "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${AWS_ENTRYPOINT_URL}" "${BUCKET_NAME}" "${DATA_SOURCE}" "${NETWORK}"

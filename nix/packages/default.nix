@@ -4,7 +4,7 @@
       packages = {
         refresh-available-snapshots-state = pkgs.writeShellApplication {
           name = "refresh-available-snapshots-state";
-          runtimeInputs = with pkgs; [ awscli2 jq ];
+          runtimeInputs = with pkgs; [ awscli2 jq python3 ];
           text =
             let
               # TODO: handle this variable better (e.g. move in a better place, some vars are duplicated in scheduled tasks) 
@@ -25,24 +25,13 @@
         };
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
-          runtimeInputs = with pkgs; [ bash ];
-          text = builtins.readFile ../../bin/cleanup-local-data.sh;
-        };
-        cleanup-s3-data = pkgs.writeShellApplication {
-          name = "cleanup-s3-data";
           runtimeInputs = with pkgs; [
             awscli2
             bash
             config.packages.refresh-available-snapshots-state
             jq
           ];
-          text = builtins.readFile ../../bin/cleanup-s3-data.sh;
-        };
-
-        upload-data = pkgs.writeShellApplication {
-          name = "upload-data";
-          runtimeInputs = with pkgs; [ bash awscli2 ];
-          text = builtins.readFile ../../bin/upload-data.sh;
+          text = builtins.readFile ../../bin/cleanup-local-data.sh;
         };
 
         cardanow = pkgs.writeShellApplication
@@ -51,7 +40,6 @@
             runtimeInputs = with pkgs; [
               config.packages.cardanow-ts
               config.packages.refresh-available-snapshots-state
-              config.packages.upload-data
               curl
               git
               inputs'.cardano-node.packages.cardano-cli
