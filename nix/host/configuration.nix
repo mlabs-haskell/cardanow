@@ -21,7 +21,8 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
-  environment.systemPackages = with pkgs; [ htop bottom ];
+  # TODO awscli2 is used only by cardanow
+  environment.systemPackages = with pkgs; [ htop bottom awscli2 ];
 
   age.secrets = {
     cardanow-environment = {

@@ -10,7 +10,7 @@
               # TODO: handle this variable better (e.g. move in a better place, some vars are duplicated in scheduled tasks) 
               awsEndpoint = "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev";
               awsEndpointEscaped = lib.escape [ ":" "/" "." ] awsEndpoint;
-              outFile = "available-snapshots.json";
+              outFile = "exported-snapshots/available-snapshots.json";
               bucketName = "cardanow";
             in
             ''

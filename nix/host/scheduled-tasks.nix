@@ -2,17 +2,13 @@
 # TODO make scheduling smarter, starting points:
 # - https://github.com/mlabs-haskell/cardanow/pull/36#discussion_r1565513548
 # - https://github.com/mlabs-haskell/cardanow/pull/36#discussion_r1565521197
-{ lib, flake, config, ... }:
+{ lib, flake, config, pkgs, ... }:
 let
   networks = [ "preview" "preprod" "mainnet" ];
   # TODO make this parametric with mode data source
   basePaths = [ "kupo-data" "exported-snapshots/kupo" "mithril-snapshots" ];
   mkLocalDataPathFromBase = basePath: lib.concatStringsSep " " (map (network: "${basePath}/${network}") networks);
   localDataPaths = lib.concatStringsSep " " (map mkLocalDataPathFromBase basePaths);
-  # TODO make this parametric with mode data source
-  mkS3DataPath = network: "kupo/${network}/";
-  s3DataPaths = lib.concatStringsSep " " (map mkS3DataPath networks);
-  bucketName = "cardanow";
   mkCardanowService = network: {
     systemd = {
       timers."cardanow-${network}" = {
@@ -46,7 +42,7 @@ let
       };
     };
   };
-  cleanupServices = {
+  otherServices = {
     systemd = {
       timers."cardanow-cleanup-local-data" = {
         description = "Run local cleanup script every 6 hours";
@@ -69,24 +65,25 @@ let
           Restart = "on-failure";
         };
       };
-      timers."cardanow-cleanup-s3" = {
-        description = "Run s3 cleanup script every 6 hours";
+      timers."cardanow-sync-s3-data" = {
+        description = "Run s3 sync script every 6 hours";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "0m";
           OnUnitActiveSec = "6h";
-          Unit = "cardanow-cleanup-s3-data.service";
+          Unit = "cardanow-sync-s3-data.service";
         };
       };
-      services."cardanow-cleanup-s3-data" = {
-        description = "cardanow-cleanup-s3-data";
+      services."cardanow-sync-s3-data" = {
+        description = "cardanow-sync-s3-data";
 
         serviceConfig = {
           EnvironmentFile = config.age.secrets.cardanow-environment.path;
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = "${lib.getExe flake.packages.cleanup-s3-data} ${bucketName} 3 ${s3DataPaths}";
+          # TODO exported-snapshot should be a variable / we should move it to somewhere else
+          ExecStart = "${lib.getExe pkgs.awscli2} s3 sync exported-snapshots s3://cardanow --delete";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
@@ -95,4 +92,4 @@ let
   };
   cardanowServices = (lib.lists.map mkCardanowService networks);
 in
-lib.foldl lib.recursiveUpdate cleanupServices cardanowServices
+lib.foldl lib.recursiveUpdate otherServices cardanowServices
