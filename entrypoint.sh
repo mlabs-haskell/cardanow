@@ -37,7 +37,19 @@ echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 echo "Cardano node detail: ${CARDANO_NODE_VERSION}"
 
 # Kill hanging containers
-docker ps -aq -f name="${NETWORK}" | xargs docker stop | true
+HANGING_CONTAINER=$(docker ps -aq -f name="${NETWORK}")
+# Check if HANGING_CONTAINER is non-empty
+if [ -n "$HANGING_CONTAINER" ]; then
+    # Stop hanging containers
+    echo "Stopping hanging containers..."
+    docker stop "${HANGING_CONTAINER}"
+
+    # Remove hanging containers
+    echo "Removing hanging containers..."
+    docker rm "${HANGING_CONTAINER}"
+else
+    echo "No hanging containers found."
+fi
 
 docker compose -p "${NETWORK}" up -d --force-recreate
 
