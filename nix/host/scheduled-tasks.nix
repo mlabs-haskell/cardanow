@@ -84,7 +84,8 @@ let
           User = "cardanow";
           Group = "cardanow";
           # TODO exported-snapshot should be a variable / we should move it to somewhere else
-          ExecStart = "${lib.getExe pkgs.awscli2} s3 sync exported-snapshots s3://cardanow --delete";
+          #          ExecStart = "${lib.getExe pkgs.awscli2} s3 sync exported-snapshots s3://cardanow --delete";
+          ExecStart = "${lib.getExe pkgs.awscli2} s3 sync s3://cardanow exported-snapshots";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
