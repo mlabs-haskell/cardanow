@@ -32,4 +32,10 @@
       mode = "0440";
     };
   };
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 100;
+  };
 }
