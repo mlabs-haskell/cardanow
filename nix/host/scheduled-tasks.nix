@@ -22,7 +22,7 @@ let
       };
       services."cardanow-${network}" = {
         description = "cardanow-${network}";
-
+        after = [ "network.target" ];
         path = [ config.virtualisation.docker.package ];
 
         environment = {
@@ -54,6 +54,7 @@ let
         };
       };
       services."cardanow-cleanup-local-data" = {
+        after = [ "network.target" ];
         description = "cardanow-cleanup-local-data";
 
         serviceConfig = {
@@ -76,6 +77,7 @@ let
         };
       };
       services."cardanow-sync-s3-data" = {
+        after = [ "network.target" ];
         description = "cardanow-sync-s3-data";
 
         serviceConfig = {
