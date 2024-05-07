@@ -36,25 +36,25 @@ echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 # TODO: this is currently not used: recent cardano-node images are not present in dockerhub
 echo "Cardano node detail: ${CARDANO_NODE_VERSION}"
 
-# Kill hanging containers
-HANGING_CONTAINER=$(docker ps -aq -f name="${NETWORK}")
-# Check if HANGING_CONTAINER is non-empty
-if [ -n "$HANGING_CONTAINER" ]; then
-    # Stop hanging containers
-    echo "Stopping hanging containers..."
-    docker stop "${HANGING_CONTAINER}"
+# # Kill hanging containers
+# HANGING_CONTAINER=$(docker ps -aq -f name="${NETWORK}")
+# # Check if HANGING_CONTAINER is non-empty
+# if [ -n "$HANGING_CONTAINER" ]; then
+#     # Stop hanging containers
+#     echo "Stopping hanging containers..."
+#     docker stop "${HANGING_CONTAINER}"
 
-    # Remove hanging containers
-    echo "Removing hanging containers..."
-    docker rm "${HANGING_CONTAINER}"
-else
-    echo "No hanging containers found."
-fi
+#     # Remove hanging containers
+#     echo "Removing hanging containers..."
+#     docker rm "${HANGING_CONTAINER}"
+# else
+#     echo "No hanging containers found."
+# fi
 
-docker compose -p "${NETWORK}" up -d --force-recreate
+# docker compose -p "${NETWORK}" up -d --force-recreate
 
-echo "Starting cardanow-ts"
+# echo "Starting cardanow-ts"
 
-cardanow-ts
+# cardanow-ts
 
-docker compose -p "${NETWORK}" down
+# docker compose -p "${NETWORK}" down

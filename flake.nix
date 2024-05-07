@@ -10,7 +10,9 @@
     disko.url = "github:nix-community/disko";
     dream2nix.url = "github:nix-community/dream2nix";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    mithril.url = "github:input-output-hk/mithril";
+    mithril-preview.url = "github:input-output-hk/mithril/2418.1-pre";
+    # Should work for both preprod & mainnet
+    mithril.url = "github:input-output-hk/mithril/2412.0";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     pre-commit-hooks-nix.url = "github:cachix/pre-commit-hooks.nix";
     agenix.url = "github:ryantm/agenix";

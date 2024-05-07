@@ -9,6 +9,7 @@ let
   basePaths = [ "kupo-data" "exported-snapshots/kupo" "mithril-snapshots" ];
   mkLocalDataPathFromBase = basePath: lib.concatStringsSep " " (map (network: "${basePath}/${network}") networks);
   localDataPaths = lib.concatStringsSep " " (map mkLocalDataPathFromBase basePaths);
+  cardanowPerNetwork = lib.genAttrs networks (network: flake.packages."cardanow-${network}");
   mkCardanowService = network: {
     systemd = {
       timers."cardanow-${network}" = {
@@ -25,17 +26,13 @@ let
         after = [ "network.target" ];
         path = [ config.virtualisation.docker.package ];
 
-        environment = {
-          NETWORK = network;
-        };
-
         serviceConfig = {
           # TODO better handle env files (now we have only secrets here) using nix
           EnvironmentFile = config.age.secrets.cardanow-environment.path;
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = lib.getExe flake.packages.cardanow;
+          ExecStart = lib.getExe cardanowPerNetwork.${network};
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };

@@ -34,34 +34,21 @@
           text = builtins.readFile ../../bin/cleanup-local-data.sh;
         };
 
-        cardanow = pkgs.writeShellApplication
-          {
-            name = "cardanow";
-            runtimeInputs = with pkgs; [
-              config.packages.cardanow-ts
-              config.packages.refresh-available-snapshots-state
-              curl
-              git
-              inputs'.cardano-node.packages.cardano-cli
-              inputs'.mithril.packages.mithril-client-cli
-              jq
-              openssh
-            ];
-            text = ''
-              # TODO there is probably a better way to write this
-              ln -sfT ${../../config/mithril-configurations} mithril-configurations
-              ln -sfT ${../../config/docker-compose.yaml} docker-compose.yaml
-              ln -sfT ${inputs.cardano-configurations} cardano-configurations
-
-              # shellcheck source=/dev/null
-              source "${../../setup_env_vars.sh}"
-              # shellcheck source=/dev/null
-              source "${../../entrypoint.sh}"
-
-            '';
-          };
+        cardanow-mainnet = pkgs.callPackage ./cardanow.nix {
+          inherit (inputs'.mithril.packages) mithril-client-cli;
+          inherit (inputs'.cardano-node.packages) cardano-cli;
+          inherit (inputs) cardano-configurations;
+          inherit (config.packages) cardanow-ts refresh-available-snapshots-state;
+        };
+        cardanow-preview = config.packages.cardanow-mainnet.override {
+          network = "preview";
+          inherit (inputs'.mithril-preview.packages) mithril-client-cli;
+        };
+        cardanow-preprod = config.packages.cardanow-mainnet.override {
+          network = "preprod";
+        };
         cardanow-ts = inputs.dream2nix.lib.evalModules {
-          packageSets.nixpkgs = inputs.dream2nix.inputs.nixpkgs.legacyPackages.${system};
+          packageSets. nixpkgs = inputs.dream2nix.inputs.nixpkgs.legacyPackages.${ system};
           modules = [
             ./cardanow-ts.nix
           ];
