@@ -22,7 +22,7 @@
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
   # TODO awscli2 is used only by cardanow
-  environment.systemPackages = with pkgs; [ htop bottom awscli2 tmux ];
+  environment.systemPackages = with pkgs; [ btop awscli2 tmux ];
 
   age.secrets = {
     cardanow-environment = {

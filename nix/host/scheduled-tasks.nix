@@ -64,8 +64,21 @@ let
           Restart = "on-failure";
         };
       };
+      services."cardanow-start-monitoring" = {
+        description = "cardanow-start-monitoring";
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "forking";
+          User = "root";
+          Group = "root";
+          ExecStart = lib.getExe flake.packages.start-cardanow-monitoring-tmux;
+          WorkingDirectory = config.users.users.cardanow.home;
+          Restart = "on-failure";
+        };
+      };
     };
   };
   cardanowServices = (lib.lists.map mkCardanowService networks);
 in
 lib.foldl lib.recursiveUpdate otherServices cardanowServices
+
