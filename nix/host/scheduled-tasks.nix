@@ -2,7 +2,7 @@
 # TODO make scheduling smarter, starting points:
 # - https://github.com/mlabs-haskell/cardanow/pull/36#discussion_r1565513548
 # - https://github.com/mlabs-haskell/cardanow/pull/36#discussion_r1565521197
-{ lib, flake, config, pkgs, ... }:
+{ lib, flake, config, ... }:
 let
   networks = [ "preview" "preprod" "mainnet" ];
   # TODO make this parametric with mode data source
@@ -60,30 +60,6 @@ let
           User = "root";
           Group = "root";
           ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
-          WorkingDirectory = config.users.users.cardanow.home;
-          Restart = "on-failure";
-        };
-      };
-      timers."cardanow-sync-s3-data" = {
-        description = "Run s3 sync script every 6 hours";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnBootSec = "0m";
-          OnUnitActiveSec = "6h";
-          Unit = "cardanow-sync-s3-data.service";
-        };
-      };
-      services."cardanow-sync-s3-data" = {
-        after = [ "network.target" ];
-        description = "cardanow-sync-s3-data";
-
-        serviceConfig = {
-          EnvironmentFile = config.age.secrets.cardanow-environment.path;
-          Type = "simple";
-          User = "cardanow";
-          Group = "cardanow";
-          # TODO exported-snapshot should be a variable / we should move it to somewhere else
-          ExecStart = "${lib.getExe pkgs.awscli2} s3 sync exported-snapshots s3://cardanow --delete";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
