@@ -20,9 +20,9 @@ writeShellApplication
     ln -sfT ${cardano-configurations} cardano-configurations
 
     # shellcheck source=/dev/null
-    source "${../../setup_env_vars.sh}"
+    source "${../../bin/setup_env_vars.sh}"
     # shellcheck source=/dev/null
-    source "${../../entrypoint.sh}"
+    source "${../../bin/entrypoint.sh}"
 
     cleanup-local-data
   '';
