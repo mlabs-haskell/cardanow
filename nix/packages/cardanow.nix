@@ -1,11 +1,11 @@
-{ writeShellApplication, cardanow-ts, refresh-available-snapshots-state, git, curl, cardano-cli, mithril-client-cli, jq, openssh, cardano-configurations, network ? "mainnet" }:
+{ writeShellApplication, cardanow-ts, cleanup-local-data, git, curl, cardano-cli, mithril-client-cli, jq, openssh, cardano-configurations, network ? "mainnet" }:
 writeShellApplication
 {
   name = "cardanow";
   runtimeEnv.NETWORK = network;
   runtimeInputs = [
     cardanow-ts
-    refresh-available-snapshots-state
+    cleanup-local-data
     curl
     git
     cardano-cli
@@ -24,5 +24,6 @@ writeShellApplication
     # shellcheck source=/dev/null
     source "${../../entrypoint.sh}"
 
+    cleanup-local-data
   '';
 }

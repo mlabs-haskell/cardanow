@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -x
-set -e
 set -a
 
 # Create data directories if they don't exist
@@ -26,7 +25,7 @@ echo "Genesis verification key: ${GENESIS_VERIFICATION_KEY}"
 
 echo "Deleting previous dir (if present): ${LOCAL_MITHRIL_SNAPSHOT_DIR}"
 rm -fr "${LOCAL_MITHRIL_SNAPSHOT_DIR}"
-mithril-client -v cardano-db download "${DIGEST}" --download-dir "${LOCAL_MITHRIL_SNAPSHOT_DIR}"
+mithril-client -vvv cardano-db download "${DIGEST}" --download-dir "${LOCAL_MITHRIL_SNAPSHOT_DIR}"
 
 echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_MITHRIL_SNAPSHOT_DIR}"
