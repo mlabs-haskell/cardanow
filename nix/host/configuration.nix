@@ -21,7 +21,8 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
-  environment.systemPackages = with pkgs; [ htop bottom ];
+  # TODO awscli2 is used only by cardanow
+  environment.systemPackages = with pkgs; [ btop awscli2 tmux ];
 
   age.secrets = {
     cardanow-environment = {
@@ -30,5 +31,11 @@
       group = "cardanow";
       mode = "0440";
     };
+  };
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 100;
   };
 }

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -x
-set -e
 set -a
 
 # Create data directories if they don't exist
@@ -26,7 +25,7 @@ echo "Genesis verification key: ${GENESIS_VERIFICATION_KEY}"
 
 echo "Deleting previous dir (if present): ${LOCAL_MITHRIL_SNAPSHOT_DIR}"
 rm -fr "${LOCAL_MITHRIL_SNAPSHOT_DIR}"
-mithril-client -v cardano-db download "${DIGEST}" --download-dir "${LOCAL_MITHRIL_SNAPSHOT_DIR}"
+mithril-client -vvv cardano-db download "${DIGEST}" --download-dir "${LOCAL_MITHRIL_SNAPSHOT_DIR}"
 
 echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_MITHRIL_SNAPSHOT_DIR}"
@@ -37,7 +36,16 @@ echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 echo "Cardano node detail: ${CARDANO_NODE_VERSION}"
 
 # Kill hanging containers
-docker ps -aq -f name="${NETWORK}" | xargs docker stop
+HANGING_CONTAINER=$(docker ps -aq -f name="${NETWORK}")
+# Check if HANGING_CONTAINER is non-empty
+if [ -n "$HANGING_CONTAINER" ]; then
+    # Remove hanging containers
+    echo "Removing hanging containers..."
+    docker rm -f "${HANGING_CONTAINER}"
+else
+    echo "No hanging containers found."
+fi
+
 docker compose -p "${NETWORK}" up -d --force-recreate
 
 echo "Starting cardanow-ts"
@@ -45,5 +53,3 @@ echo "Starting cardanow-ts"
 cardanow-ts
 
 docker compose -p "${NETWORK}" down
-
-upload-data "${EXPORTED_KUPO_SNAPSHOT_PATH}" "${AWS_ENTRYPOINT_URL}" "${BUCKET_NAME}" "${DATA_SOURCE}" "${NETWORK}"

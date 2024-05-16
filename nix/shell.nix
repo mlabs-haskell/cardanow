@@ -29,8 +29,10 @@
       packages = with pkgs; [
         awscli2
         bash
+        curl
         docker
         docker-compose
+        inputs'.agenix.packages.agenix
         inputs'.cardano-node.packages.cardano-cli
         inputs'.mithril.packages.mithril-client-cli
         jq
@@ -38,8 +40,6 @@
         nixos-rebuild
         nodejs_20
         sqlite
-        curl
-        inputs'.agenix.packages.agenix
       ];
     };
   };

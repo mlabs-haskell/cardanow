@@ -9,10 +9,7 @@ let
   basePaths = [ "kupo-data" "exported-snapshots/kupo" "mithril-snapshots" ];
   mkLocalDataPathFromBase = basePath: lib.concatStringsSep " " (map (network: "${basePath}/${network}") networks);
   localDataPaths = lib.concatStringsSep " " (map mkLocalDataPathFromBase basePaths);
-  # TODO make this parametric with mode data source
-  mkS3DataPath = network: "kupo/${network}/";
-  s3DataPaths = lib.concatStringsSep " " (map mkS3DataPath networks);
-  bucketName = "cardanow";
+  cardanowPerNetwork = lib.genAttrs networks (network: flake.packages."cardanow-${network}");
   mkCardanowService = network: {
     systemd = {
       timers."cardanow-${network}" = {
@@ -26,12 +23,8 @@ let
       };
       services."cardanow-${network}" = {
         description = "cardanow-${network}";
-
+        after = [ "network.target" ];
         path = [ config.virtualisation.docker.package ];
-
-        environment = {
-          NETWORK = network;
-        };
 
         serviceConfig = {
           # TODO better handle env files (now we have only secrets here) using nix
@@ -39,14 +32,14 @@ let
           Type = "simple";
           User = "cardanow";
           Group = "cardanow";
-          ExecStart = lib.getExe flake.packages.cardanow;
+          ExecStart = lib.getExe cardanowPerNetwork.${network};
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
       };
     };
   };
-  cleanupServices = {
+  otherServices = {
     systemd = {
       timers."cardanow-cleanup-local-data" = {
         description = "Run local cleanup script every 6 hours";
@@ -58,35 +51,27 @@ let
         };
       };
       services."cardanow-cleanup-local-data" = {
+        after = [ "network.target" ];
         description = "cardanow-cleanup-local-data";
 
         serviceConfig = {
+          EnvironmentFile = config.age.secrets.cardanow-environment.path;
           Type = "simple";
-          User = "cardanow";
-          Group = "cardanow";
+          User = "root";
+          Group = "root";
           ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
       };
-      timers."cardanow-cleanup-s3" = {
-        description = "Run s3 cleanup script every 6 hours";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnBootSec = "0m";
-          OnUnitActiveSec = "6h";
-          Unit = "cardanow-cleanup-s3-data.service";
-        };
-      };
-      services."cardanow-cleanup-s3-data" = {
-        description = "cardanow-cleanup-s3-data";
-
+      services."cardanow-start-monitoring" = {
+        description = "cardanow-start-monitoring";
+        wantedBy = [ "multi-user.target" ];
         serviceConfig = {
-          EnvironmentFile = config.age.secrets.cardanow-environment.path;
-          Type = "simple";
-          User = "cardanow";
-          Group = "cardanow";
-          ExecStart = "${lib.getExe flake.packages.cleanup-s3-data} ${bucketName} 3 ${s3DataPaths}";
+          Type = "forking";
+          User = "root";
+          Group = "root";
+          ExecStart = lib.getExe flake.packages.start-cardanow-monitoring-tmux;
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
@@ -95,4 +80,5 @@ let
   };
   cardanowServices = (lib.lists.map mkCardanowService networks);
 in
-lib.foldl lib.recursiveUpdate cleanupServices cardanowServices
+lib.foldl lib.recursiveUpdate otherServices cardanowServices
+

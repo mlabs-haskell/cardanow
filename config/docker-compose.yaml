@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   cardano-node:
-    image: inputoutput/cardano-node:8.1.2
+    image: ghcr.io/intersectmbo/cardano-node:8.9.0
     networks:
       - internal-network
     volumes:
@@ -21,7 +19,7 @@ services:
       - "${CONTAINER_SOCKET_PATH}"
 
   kupo:
-    image: cardanosolutions/kupo:v2.7.0
+    image: cardanosolutions/kupo:v2.8.0
     depends_on:
       cardano-node:
         condition: service_started

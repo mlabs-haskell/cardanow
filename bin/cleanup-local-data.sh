@@ -49,3 +49,7 @@ for path in "${paths[@]}"; do
 done
 
 echo "Cleanup completed."
+
+echo "Refreshing available snapshots state..."
+refresh-available-snapshots-state
+echo "Refresh completed."

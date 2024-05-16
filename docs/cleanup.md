@@ -14,10 +14,6 @@ We provide a simple script that essentially deletes all folders prone to size gr
 nix run .#cleanup-local-data 3 kupo-data/{preview,preprod,mainnet} exported-snapshots/{preview,preprod,mainnet} mithril-snapshots/{preview,preprod,mainnet}
 ```
 
-So for example, given the config default at the time of writing, we can clean up dirs using the following:
-```bash
-nix run .#cleanup-s3-data cardanow 3 kupo-data/{preview,preprod,mainnet} exported-snapshots/{preview,preprod,mainnet} mithril-snapshots/{preview,preprod,mainnet}
-```
 ## Cleaning Up Service-Host Data
 This process is more complex due to the possibility of system interruptions and data upload failures. To address this, we adopt a simple but effective approach: retaining only the three most recent files in directories prone to size growth. For instance, if we are storing mithril snapshots for mainnet in `MITHRIL_SNAPSHOTS_BASE_DIR`, we regularly check to ensure that we have at most three snapshots, including the most recent one.
 

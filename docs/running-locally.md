@@ -20,9 +20,9 @@ The system is build in such a way that allows parallel execution on different `N
 
 ### Complete cycle
 ```bash
-NETWORK=preview ./entrypoint.sh
-NETWORK=preprod ./entrypoint.sh
-NETWORK=mainnet ./entrypoint.sh
+NETWORK=preview bin/entrypoint.sh
+NETWORK=preprod bin/entrypoint.sh
+NETWORK=mainnet bin/entrypoint.sh
 ```
 These 3 run does not interfere with each other (but the individual run is blocking so these three lines are intended to run in different shells)
 
@@ -32,10 +32,10 @@ The system depends on different environment variables. If you are using `direnv`
 
 If you need to change the network (or you don't use `direnv`), you can run this:
 ```bash
-NETWORK=preprod . ./setup_env_vars.sh
+NETWORK=preprod . bin/setup_env_vars.sh
 ```
 #### Mithril snapshot download
-The download of the mithril snapshot is currently coupled into the `./entrypoint.sh`. It will be eventually extracted from there.
+The download of the mithril snapshot is currently coupled into the `bin/entrypoint.sh`. It will be eventually extracted from there.
 
 #### Snapshot exporter
 The `cardano-ts` is a typescript component that takes the kupo generated database and compress it into the final artifact that will be uploaded
