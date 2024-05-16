@@ -20,10 +20,10 @@ writeShellApplication
     ln -sfT ${cardano-configurations} cardano-configurations
 
     # shellcheck source=/dev/null
-    source "${../../bin/setup_env_vars.sh}"
+    source "${../../bin/setup-env-vars.sh}"
     # shellcheck source=/dev/null
-    source "${../../bin/entrypoint.sh}"
-
-    cleanup-local-data
+    source "${../../bin/download-with-mithril.sh}"
+    # shellcheck source=/dev/null
+    source "${../../bin/start-cardanow-isolated-sync.sh}"
   '';
 }

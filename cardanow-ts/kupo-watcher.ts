@@ -1,5 +1,7 @@
+const kupoPort = process.env.KUPO_PORT;
+
 export default async () => {
-  return fetch("http://localhost:1442/health", { headers: {'Accept': 'application/json'} })
+  return fetch(`http://localhost:${kupoPort}/health`, { headers: {'Accept': 'application/json'} })
   .then((res) => res.json())
     .then((result) => {
       console.log(`Kupo response: ${JSON.stringify(result)}`)

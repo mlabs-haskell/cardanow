@@ -53,8 +53,8 @@ export class SnapshotExporter {
   private runWithDelay: Action<string> = async () => {
     this.attempt++
     console.log(`${this.config.name}: Running attempt #${this.attempt}/${this.maxAttempts} (delay after failure: ${this.cadence}) ms`)
-
     await delay(this.cadence)
+
     let isSnapshotReady
 
     // Wrap in try/catch to handle any exceptions coming from the IO action.
@@ -80,7 +80,6 @@ export class SnapshotExporter {
 
   private handleFailure: Action<string> = async () => {
     console.log(`Retrying.... Current attempt: ${this.attempt}, Max attempts: ${this.maxAttempts}`)
-
     if (this.attempt < this.maxAttempts) {
       return this.run()
     }

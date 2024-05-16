@@ -2,15 +2,14 @@
 
 set -x
 
-# Check if the required arguments are provided
-if [ $# -ne 2 ]; then
-    echo "Usage: $0 <network> <destination_path>"
+network="${NETWORK}"
+destination_path="${1}"
+
+# Check if destination_path is provided
+if [ -z "$destination_path" ]; then
+    echo "Usage: $0 <destination_path>"
     exit 1
 fi
-
-network="$1"
-destination_path="$2"
-
 # Fetch the JSON file
 json_url="https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev/available-snapshots.json"
 json_data=$(curl -s "$json_url")
