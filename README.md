@@ -1,14 +1,12 @@
 # Cardanow
 
-
-The goal of this project is to reduce the friction Cardano developers encounter when trying to provision or maintain the necessary infrastructure for a DApp. 
+The goal of this project is to reduce the friction Cardano developers encounter when trying to provision or maintain the necessary infrastructure for a DApp.
 
 The first step in this direction is to provide a caching service for three key components in almost any DApp: the cardano node, cardano-db-sync and kupo.
 
 > Although here we use the term cache for consistency with the original proposal, it is more illuminating to think of this service as a snapshot provider. The goal of this service is to produce and host snapshots that users can fetch to spin up an environment rapidly. In the remaining of this document we will stick with the term snapshot provider.
 
 We also produced [a video](https://www.youtube.com/watch?v=xuwEbPUlZ-s) that contains an introduction and a high-level description of this architecture.
-
 
 ## Architecture
 
@@ -39,19 +37,23 @@ Once the node is ready, we can spin up instances of each indexer we want to buil
 
 Once this is done will have snapshots of the databases for all the supported indexers, alongside the snapshot of the cardano-node we fetched from the Mithril network.
 
-All the generated snapshots can finally be uploaded back to our snapshot storage servers. To be able to fully identify each snapshot, we have to keep around some metadata about how it was generated. In particular, for each indexer snapshot, we will record:
+All the generated snapshots can finally be uploaded back to our snapshot storage servers. To be able to fully identify each snapshot, we have to keep around some metadata about how it was generated. Here is an example of record
 
-- cardano-node version
-- cardano-node snapshot
-- indexer version
-
-This information will be stored in the filename, for example: assuming we produced a snapshot with `kupo v2.8.0` from a `cardano node v2.3.0` with the snapshot from `2023-10-10`, then the output would be called `snapshot-kupo-2.8.0-2023-10-10-2.3.0.tar`.
+```json
+{
+  "Key": "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev/mainnet/kupo/kupo-mainnet-484-5742.tgz",
+  "Network": "mainnet",
+  "DataSource": "kupo",
+  "Epoch": "484",
+  "ImmutableFileNumber": "5742",
+  "LastModified": "2024-05-16T08:31:30.504000+00:00"
+}
+```
 
 We also have to account for the fact of periodically having to update versions of the node and indexers. Sometimes this will also mean that snapshots that were produced with an earlier version of the indexer, will not work with a later version of it.
 We will attempt to always use the latest (major) cardano-node version to build the snapshots and - for each indexer - the latest (major) version supporting the node we are running.
 
 One consideration to make is that using a snapshot, provided by a third party, partly invalidates many of the benefits of using a distributed ledger. This is because you ultimately have to trust the party that is producing these snapshots, to not alter the data in any way.
-To mitigate this issue, we will publish the hash of each snapshot. Users will be able to easily spin up our system locally, and re-compute the snapshots if and when they want to verify the authenticity of the data contained inside of it. Moreover, all the code will be open source, so members of the community will be able to read exactly what code is involved in producing the snapshots.
 
 ### Hosting the snapshots
 
@@ -61,7 +63,6 @@ Any hosting solution for the snapshots will have to provide at least the followi
 - Access control for the data. This means that the snapshots are exposed as read-only. There will be only one key that is authorised to write to the storage, this will be used by our system producing snapshots.
 
 - Replication across different regions. We want to host the snapshots across different locations, to increase the speed at which they can be downloaded by users. New snapshots are only added once per epoch, which makes replication relatively easier, as updates are infrequent. Nevertheless, we want to ensure that any storage solution offers availability across different regions, and fast replication of the data between them
-
 
 ### Notes
 
@@ -77,7 +78,8 @@ Any hosting solution for the snapshots will have to provide at least the followi
 
 ## Using the snapshots
 
-We can provide several ways of using the snapshots for the supported components.
+We can provide several ways of using the snapshots for
+the supported components.
 
 - Cardano-node
 - Kupo
@@ -88,40 +90,21 @@ Each component will provide a docker image that can be run to fetch the desired 
 We will also provide a script to achieve the same without docker.
 
 ## Available snapshots
-You can view the current snapshot list here. This list enumerates all available snapshots along with corresponding links for retrieval.
-[here](https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev/available-snapshots.json).
 
-### Snapshot Naming Convention:
+You can view the current snapshot list [here](https://cardanow.staging.mlabs.city/available-snapshots.json). This list enumerates all available snapshots along with corresponding links for retrieval.
+
+### Snapshot Naming Convention
+
 Each snapshot follows a specific naming convention, structured as follows:
+
 - `{DATA-SOURCE}-{NETWORK}-{EPOCH-IMMUTABLE-FILE-NUMBER}.tgz`
 
-#### Example Snapshot:
+#### Example Snapshot
+
 For instance, a valid snapshot name for 'kupo' would be: kupo-preprod-136-2642.
 
-## Restore a cardano node
-
-We have created a docker image that contains the cardano-node together with a mithril-client. This image can be used to restore the latest snapshot for each network before starting the node. This image is automatically built and pushed to dockerhub every time there is an update to the relevant files on the repo provide several ways of using the snapshots for the supported components.
-
-## Restore a kupo snapshot
-Kupo needs to access the network in some ways, there are two alternatives:
-- cardano-node
-- equivalent Ogmios connection
-
-### Download the snapshot
-To restore a kupo snapshot, you first have to download a snapshot from the `cardanow` service (say `snapshot.tar.gz`).
-
-### Run cupo
-You can now start kupo
-
-
-### Notes
-
-- We can use `kupo copy` [4][4] to allow users to reduce their final DB. We will always export a copy of the DB that indexes *. Users can specify what kupo filters they want and we can restrict the DB to only those matches
-
-- We can use  `postgresql-setup.sh --restore-snapshot` to restore snapshot on cardano-db-sync.
-
+### References
 
 [1]: https://mithril.network/doc/
 [2]: https://cardanosolutions.github.io/kupo/#operation/getHealth
 [3]: https://github.com/input-output-hk/cardano-db-sync/blob/release/13.1.1.x/doc/state-snapshot.md#things-to-note
-[4]: https://github.com/CardanoSolutions/kupo/blob/master/CHANGELOG.md#240---2023-02-23

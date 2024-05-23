@@ -3,7 +3,9 @@
 This project uses [agenix](https://github.com/ryantm/agenix) to store encrypted secrets directly in the repository and automatically decrypt them in NixOS hosts.
 
 ## Manage secrets
+
 ### Add a new secret manager
+
 Someone that is already a secret manager has to add a new public key under `users` in [public-keys.nix](../nix/public-keys.nix) and run the following command:
 
 ```bash
@@ -12,6 +14,7 @@ agenix --rekey
 ```
 
 ### Add a secret
+
 Add a line to `secrets.nix`, e.g.
 
 ```nix
@@ -32,6 +35,7 @@ agenix --edit new-secret.age
 ```
 
 Notice that:
+
 - If you are using this flake's `devShell` then you already have `agenix` in your PATH
 - `agenix` will read the `EDITOR` environment variable and use that executable to let you edit the secret
 
