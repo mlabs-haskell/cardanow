@@ -53,16 +53,9 @@ All the generated snapshots can finally be uploaded back to our snapshot storage
 We also have to account for the fact of periodically having to update versions of the node and indexers. Sometimes this will also mean that snapshots that were produced with an earlier version of the indexer, will not work with a later version of it.
 We will attempt to always use the latest (major) cardano-node version to build the snapshots and - for each indexer - the latest (major) version supporting the node we are running.
 
-One consideration to make is that using a snapshot, provided by a third party, partly invalidates many of the benefits of using a distributed ledger. This is because you ultimately have to trust the party that is producing these snapshots, to not alter the data in any way.
-
 ### Hosting the snapshots
 
-It is important to pick a reliable system for the snapshots to be hosted, this could be something like AWS S3, or a comparable product.
-Any hosting solution for the snapshots will have to provide at least the following:
-
-- Access control for the data. This means that the snapshots are exposed as read-only. There will be only one key that is authorised to write to the storage, this will be used by our system producing snapshots.
-
-- Replication across different regions. We want to host the snapshots across different locations, to increase the speed at which they can be downloaded by users. New snapshots are only added once per epoch, which makes replication relatively easier, as updates are infrequent. Nevertheless, we want to ensure that any storage solution offers availability across different regions, and fast replication of the data between them
+The snapshots are currently hosted on a Cloudflare R2 bucket.
 
 ### Notes
 
@@ -73,8 +66,6 @@ Any hosting solution for the snapshots will have to provide at least the followi
 - Snapshots produced by cardano-db-sync are dependent on [the architecture][3]. We will initially only support `x86_64`.
 
 - Rollbacks could happen across epoch boundaries. In this case, the node might contain data that has been rolled-back, and since the node is not connected to the internet, it won't be able to detect the rollback has happened. In this case, the indexer snapshots will also contain this rolled-back data. Luckily the indexers (and node) are built to deal with this possibility, so they should be able to replace the small portion of data that has been rolled-back, as soon as they detect it. Nevertheless, we want to build a test suite that specifically tests these scenarios to catch any unexpected behavior in the presence of rollbacks.
-
-- We will always have, at minimum, 2 snapshots from the last 2 epochs. When a new snapshot is produced, we want to make sure to keep this invariant, only after the new snapshot is uploaded to the storage, we can mark for deletion the oldest one available. We also need to ensure that if an old snapshot is being downloaded as it gets marked for deletion, then users who are already downloading it, will be able to finish, but new queries should not list the snapshot as available.
 
 ## Using the snapshots
 
