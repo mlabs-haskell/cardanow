@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 
-export NETWORK="preprod"
+# Check if the first argument is provided, otherwise exit with an error message
+if [ -z "$1" ]; then
+  echo "Error: NETWORK variable not provided."
+  echo "Usage: $0 <network>"
+  exit 1
+fi
+
+# Assign the first argument to the NETWORK variable
+NETWORK=$1
+
+# Export the NETWORK variable
+export NETWORK
 
 echo "Setting up variables"
 source bin/setup-env-vars.sh
