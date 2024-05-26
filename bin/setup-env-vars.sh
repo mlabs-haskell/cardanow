@@ -50,9 +50,9 @@ CONTAINER_DATA_CARDANO_NODE_PATH="${CONTAINER_DATA_PATH}"
 # shellcheck disable=SC2034
 CONTAINER_DATA_KUPO_PATH="${CONTAINER_DATA_PATH}/kupo"
 
-# shellcheck disable=SC2w034
+# shellcheck disable=SC2034
 LOCAL_CONFIG_PATH="./cardano-configurations/network"
-# shellcheck disable=SC2w034
+# shellcheck disable=SC2034
 LOCAL_NONIX_CONFIG_PATH="./config/cardano-configurations/network"
 
 # shellcheck disable=SC2034

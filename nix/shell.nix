@@ -15,6 +15,7 @@
             enable = true;
             excludes = [ ".*\.json" ".*\.age" ];
           };
+          markdownlint.enable = true;
         };
       };
     };
@@ -40,7 +41,7 @@
         nixos-rebuild
         nodejs_20
         sqlite
-      ];
+      ] ++ config.pre-commit.settings.enabledPackages;
     };
   };
 }

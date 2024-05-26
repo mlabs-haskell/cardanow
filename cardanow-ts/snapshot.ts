@@ -103,9 +103,10 @@ export class SnapshotExporter {
           // NOTE: this flag is necessary because the tar would be function
           //       of time and this would make if more difficult to test
           // @ts-ignore
-          noMtime: true 
+          noMtime: true,
+          C: this.config.snapshotLocation
         },
-        [this.config.snapshotLocation]
+        ['.']
       ),
       fileWriterPassThrough(this.config.snapshotTarName),
       hash
