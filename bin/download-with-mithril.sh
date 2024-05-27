@@ -24,8 +24,6 @@ LOCAL_KUPO_DATA_PER_SNAPSHOT="${SNAPSHOTS_KUPO_DIR}/${MITHRIL_SNAPSHOT_NAME}"
 echo "Aggregator endpoint: ${AGGREGATOR_ENDPOINT}"
 echo "Genesis verification key: ${GENESIS_VERIFICATION_KEY}"
 
-echo "Deleting previous dir (if present): ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
-
 if [ ! -d "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" ]; then
   mkdir -p "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
   mithril-client -vvv cardano-db download "${DIGEST}" --download-dir "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" || true

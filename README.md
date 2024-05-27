@@ -35,9 +35,9 @@ We will now provision a cardano-node using the snapshot, this node and all the i
 
 Once the node is ready, we can spin up instances of each indexer we want to build a snapshot for. These components will all connect to the same cardano-node.
 
-Once this is done will have snapshots of the databases for all the supported indexers, alongside the snapshot of the cardano-node we fetched from the Mithril network.
+Once this is done, we will have snapshots of the databases for all the supported indexers, alongside the snapshot of the cardano-node we fetched from the Mithril network.
 
-All the generated snapshots can finally be uploaded back to our snapshot storage servers. To be able to fully identify each snapshot, we have to keep around some metadata about how it was generated. Here is an example of record
+All the generated snapshots can finally be uploaded back to our snapshot storage servers. To be able to fully identify each snapshot, we have to keep around some metadata about how it was generated. Here is an example record:
 
 ```json
 {
@@ -88,14 +88,10 @@ You can view the current snapshot list [here](https://cardanow.staging.mlabs.cit
 
 Each snapshot follows a specific naming convention, structured as follows:
 
-- `{DATA-SOURCE}-{NETWORK}-{EPOCH-IMMUTABLE-FILE-NUMBER}.tgz`
+- `{NETWORK}-{EPOCH}-{IMMUTABLE-FILE-NUMBER}`
+
+The exported snapshot will have the prefix of the data source.
 
 #### Example Snapshot
 
-For instance, a valid snapshot name for 'kupo' would be: kupo-preprod-136-2642.
-
-### References
-
-[1]: https://mithril.network/doc/
-[2]: https://cardanosolutions.github.io/kupo/#operation/getHealth
-[3]: https://github.com/input-output-hk/cardano-db-sync/blob/release/13.1.1.x/doc/state-snapshot.md#things-to-note
+For instance, a valid snapshot name for 'kupo' would be: `kupo-preprod-136-2642`.

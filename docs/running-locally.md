@@ -10,14 +10,14 @@ nix develop
 
 ## Run the project
 
-The project depend from a env variable `NETWORK` that identifies the cardano network that will be used for the flow.
-The system is build in such a way that allows parallel execution on different `NETWORK`.
+The project depends on a `NETWORK` environment variable that identifies the Cardano network to be used for the flow.
+The system is designed to allow parallel execution on different networks.
 
 ### Individual steps
 
 #### Setup
 
-The system depends on different environment variables. If you are using `direnv` the variable are automatically loaded (with `NETWORK=preview`).
+The system depends on different environment variables. If you are using `direnv` the variables are automatically loaded (with `NETWORK=preview`).
 
 If you need to change the network (or you don't use `direnv`), you can run this:
 
@@ -44,7 +44,7 @@ In order to run it, these variables must be set
 `LOCAL_KUPO_DATA_PER_SNAPSHOT`:
 `EXPORTED_KUPO_SNAPSHOT_PATH`;
 
-The kupo service must be running: the script will interact to it to check if kupo is synced.
+The kupo service must be running: the script will interact with it to check if kupo is synced.
 
 To test the upload of the snapshot `EXPORTED_KUPO_SNAPSHOT_PATH` must be set.
 

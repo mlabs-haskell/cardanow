@@ -1,13 +1,14 @@
 # Restore snapshots
 
-We have created a docker image that contains the cardano-node together with a mithril-client. This image can be used to restore the latest snapshot for each network before starting the node. This image is automatically built and pushed to dockerhub every time there is an update to the relevant files on the repo provide several ways of using the snapshots for the supported components.
+## Restore a Kupo snapshot
 
-## Restore a kupo snapshot
+### Prerequisites
 
-### Download the snapshot
+Kupo has some [requirements](https://cardanosolutions.github.io/kupo/#section/Getting-started) to start. The most straightforward approach is to download a snapshot of the Cardano ledger using Mithril and start a Cardano node from that. The Mithril client will print out the exact command to run to start the node.
 
-To restore a kupo snapshot, you first have to download a snapshot from the `cardanow` service (say `snapshot.tar.gz`).
+Once the Cardano node is up and running, you can proceed with the restore of the Kupo snapshot.
 
-### Run cupo
+### Restore the snapshot
 
-You can now start kupo
+To restore a Kupo snapshot, you can simply download one from [here](https://cardanow.staging.mlabs.city/available-snapshots.json). Extract it to a directory and use it as Kupo's `workdir` (as described [here](https://cardanosolutions.github.io/kupo/#section/Getting-started/-in-memory-workdir-dir)).
+You can take a look at [examples](../examples) to see a very simple approach to restore the latest kupo snapshot for a given network.
