@@ -1,4 +1,4 @@
-const kupoPort = process.env.KUPO_PORT;
+import { kupoPort } from './config';
 
 export default async () => {
   return fetch(`http://localhost:${kupoPort}/health`, { headers: {'Accept': 'application/json'} })
