@@ -8,7 +8,7 @@ kupo-data
 db/
 s3-volume
 available-snapshots.json
-docker-compose.yaml
+/docker-compose.yaml
 mithril-configurations
 
 # Javascript and nodejs

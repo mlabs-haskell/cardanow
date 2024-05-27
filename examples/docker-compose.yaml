@@ -1,0 +1,62 @@
+services:
+  cardano-node:
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM ghcr.io/intersectmbo/cardano-node:8.9.0
+        COPY examples/cardano-node-completely-sync.sh /bin/healthcheck.sh
+        RUN chmod +x /bin/healthcheck.sh
+    volumes:
+      - cardano-node-ipc:${CONTAINER_IPC_PATH}
+      - ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}:${CONTAINER_DATA_CARDANO_NODE_PATH}
+      - ${LOCAL_NONIX_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
+    command:
+      - "run"
+      - "--config"
+      - "${CONTAINER_CONFIG_CONFIG_PATH}"
+      - "--topology"
+      - "${CONTAINER_CONFIG_TOPOLOGY_PATH}"
+      - "--database-path"
+      - "${CONTAINER_DATA_CARDANO_NODE_PATH}/db"
+      - "--socket-path"
+      - "${CONTAINER_SOCKET_PATH}"
+    healthcheck:
+      test:
+        - "CMD"
+        - "bash"
+        - "/bin/healthcheck.sh"
+        - "${CARDANO_NODE_FLAG}"
+        - "${CONTAINER_SOCKET_PATH}"
+      interval: 30s
+      timeout: 20s
+      retries: 10
+      start_period: 30s
+  kupo:
+    image: cardanosolutions/kupo:v2.8.0
+    depends_on:
+      cardano-node:
+        condition: service_healthy
+    volumes:
+      - cardano-node-ipc:${CONTAINER_IPC_PATH}
+      - ${LOCAL_KUPO_DATA_PER_SNAPSHOT}:${CONTAINER_DATA_KUPO_PATH}
+      - ${LOCAL_NONIX_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
+    ports:
+      - "1442:1442"
+    command:
+      - "--node-socket"
+      - "${CONTAINER_SOCKET_PATH}"
+      - "--node-config"
+      - "${CONTAINER_CONFIG_CONFIG_PATH}"
+      # TODO: check docs
+      - "--defer-db-indexes"
+      - "--host"
+      - "0.0.0.0"
+      - "--workdir"
+      - "${CONTAINER_DATA_KUPO_PATH}"
+      - "--since"
+      - "origin"
+      - "--match"
+      - "*"
+
+volumes:
+  cardano-node-ipc:
