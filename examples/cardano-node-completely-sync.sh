@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # Check if the correct number of arguments are provided
-if [ "$#" -ne 2 ]; then
-  echo "Usage: $0 <CARDANO_NODE_FLAG> <CONTAINER_SOCKET_PATH>"
+# Check if the required environment variables are set
+if [ -z "$CARDANO_NODE_FLAG" ] || [ -z "$CONTAINER_SOCKET_PATH" ]; then
+  echo "Error: Environment variables CARDANO_NODE_FLAG and CONTAINER_SOCKET_PATH must be set."
   exit 1
 fi
 
-# Assign arguments to variables
-CARDANO_NODE_FLAG=$1
-CONTAINER_SOCKET_PATH=$2
-
 # Run the cardano-cli query tip command and capture the output
-output=$(/usr/local/bin/cardano-cli query tip "${CARDANO_NODE_FLAG}" --socket-path "${CONTAINER_SOCKET_PATH}")
+# NOTE: we disable this rule here because CARDANO_NODE_FLAG can be "--testnet-magic NUMBER" and we don't
+# want to pass that as a single string
+# shellcheck disable=SC2086
+output=$(/usr/local/bin/cardano-cli query tip ${CARDANO_NODE_FLAG} --socket-path "${CONTAINER_SOCKET_PATH}")
 
 # Extract the syncProgress value using parameter expansion
 sync_progress=$(echo "$output" | while read -r line; do

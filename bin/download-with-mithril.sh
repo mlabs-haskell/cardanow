@@ -26,7 +26,7 @@ echo "Genesis verification key: ${GENESIS_VERIFICATION_KEY}"
 
 if [ ! -d "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" ]; then
   mkdir -p "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
-  mithril-client -vvv cardano-db download "${DIGEST}" --download-dir "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" || true
+  mithril-client cardano-db download "${DIGEST}" --download-dir "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" || true
 else
   echo "Directory ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR} already exists. Skipping download."
 fi
