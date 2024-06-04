@@ -27,9 +27,12 @@ set_cardano_node_flag() {
     esac
 }
 # shellcheck disable=SC2034
-MITHRIL_SNAPSHOTS_BASE_DIR="./mithril-snapshots/${NETWORK}"
+SNAPSHOTS_BASE_DIR="./snapshots/${NETWORK}"
 # shellcheck disable=SC2034
-KUPO_DATA="./kupo-data/${NETWORK}"
+SNAPSHOTS_CARDANO_NODE_DIR="${SNAPSHOTS_BASE_DIR}/cardano-node"
+# shellcheck disable=SC2034
+SNAPSHOTS_KUPO_DIR="${SNAPSHOTS_BASE_DIR}/kupo"
+# shellcheck disable=SC2034
 MITHRIL_CONFIG="./mithril-configurations/${NETWORK}.env"
 CONTAINER_IPC_PATH="/ipc"
 # shellcheck disable=SC2034
@@ -43,22 +46,24 @@ CONTAINER_CONFIG_TOPOLOGY_PATH="${CONTAINER_CONFIG_PATH}/topology.json"
 # shellcheck disable=SC2034
 CONTAINER_DATA_PATH="/data"
 # shellcheck disable=SC2034
-CONTAINER_DATA_DB_PATH="${CONTAINER_DATA_PATH}/db"
+CONTAINER_DATA_CARDANO_NODE_PATH="${CONTAINER_DATA_PATH}"
 # shellcheck disable=SC2034
-CONTAINER_KUPO_DB_PATH="/db"
+CONTAINER_DATA_KUPO_PATH="${CONTAINER_DATA_PATH}/kupo"
 
 # shellcheck disable=SC2034
 LOCAL_CONFIG_PATH="./cardano-configurations/network"
+# shellcheck disable=SC2034
+LOCAL_NONIX_CONFIG_PATH="./config/cardano-configurations/network"
 
 # shellcheck disable=SC2034
-EXPORTED_SNAPSHOT_BASE_PATH="exported-snapshots/"
+EXPORTED_SNAPSHOT_BASE_PATH="./exported-snapshots"
 
 # TODO make this temporary
 # shellcheck disable=SC2034
 DATA_SOURCE="kupo"
 
 # shellcheck disable=SC2034
-EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE="${EXPORTED_SNAPSHOT_BASE_PATH}/${DATA_SOURCE}/${NETWORK}"
+EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE="${EXPORTED_SNAPSHOT_BASE_PATH}/${NETWORK}/${DATA_SOURCE}"
 
 # shellcheck disable=SC2034
 BUCKET_NAME="cardanow"

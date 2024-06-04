@@ -19,7 +19,10 @@ let
           ./nginx.nix
         ];
         users.users.root.openssh.authorizedKeys.keys = sshAuthorizedKeys;
-        _module.args.flake = config.perSystem system;
+        _module.args = {
+          flake = config.perSystem system;
+          inherit inputs;
+        };
       }];
     };
 in

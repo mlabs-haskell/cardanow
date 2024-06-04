@@ -24,7 +24,7 @@
                   --output json \
                   --bucket ${bucketName} \
                   --query "Contents[].{Key:Key, LastModified:LastModified}" \
-              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "DataSource": "\1", "Network": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
+              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "Network": "\1", "DataSource": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
               | python -m json.tool \
               > ${outFile}
               echo "Syncing s3 bucket..."

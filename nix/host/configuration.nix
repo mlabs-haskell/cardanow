@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, inputs, ... }: {
   networking.hostName = "cardanow";
 
   system.stateVersion = "24.05";
@@ -21,8 +21,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
-  # TODO awscli2 is used only by cardanow
-  environment.systemPackages = with pkgs; [ btop awscli2 tmux ];
+  environment.systemPackages = with pkgs; [ btop tmux inputs.cardano-node.packages.${pkgs.stdenv.system}.cardano-cli ];
 
   age.secrets = {
     cardanow-environment = {

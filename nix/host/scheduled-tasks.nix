@@ -6,18 +6,26 @@
 let
   networks = [ "preview" "preprod" "mainnet" ];
   # TODO make this parametric with mode data source
-  basePaths = [ "kupo-data" "exported-snapshots/kupo" "mithril-snapshots" ];
-  mkLocalDataPathFromBase = basePath: lib.concatStringsSep " " (map (network: "${basePath}/${network}") networks);
-  localDataPaths = lib.concatStringsSep " " (map mkLocalDataPathFromBase basePaths);
+  cleanupLocalPaths = lib.concatStringsSep " " [
+    "snapshots/preview/cardano-node"
+    "snapshots/preprod/cardano-node"
+    "snapshots/mainnet/cardano-node"
+    "snapshots/preview/kupo"
+    "snapshots/preprod/kupo"
+    "snapshots/mainnet/kupo"
+    "exported-snapshots/preview/kupo"
+    "exported-snapshots/preprod/kupo"
+    "exported-snapshots/mainnet/kupo"
+  ];
   cardanowPerNetwork = lib.genAttrs networks (network: flake.packages."cardanow-${network}");
   mkCardanowService = network: {
     systemd = {
       timers."cardanow-${network}" = {
-        description = "Run cardanow for ${network} every 48 hours";
+        description = "Run cardanow for ${network} every 72 hours";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "0m";
-          OnUnitActiveSec = "48h";
+          OnUnitActiveSec = "72h";
           Unit = "cardanow-${network}.service";
         };
       };
@@ -34,7 +42,6 @@ let
           Group = "cardanow";
           ExecStart = lib.getExe cardanowPerNetwork.${network};
           WorkingDirectory = config.users.users.cardanow.home;
-          Restart = "on-failure";
         };
       };
     };
@@ -42,11 +49,11 @@ let
   otherServices = {
     systemd = {
       timers."cardanow-cleanup-local-data" = {
-        description = "Run local cleanup script every 6 hours";
+        description = "Run local cleanup script every 24 hours";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "0m";
-          OnUnitActiveSec = "6h";
+          OnUnitActiveSec = "24h";
           Unit = "cardanow-cleanup-local-data.service";
         };
       };
@@ -59,7 +66,7 @@ let
           Type = "simple";
           User = "root";
           Group = "root";
-          ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${localDataPaths}";
+          ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${cleanupLocalPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };

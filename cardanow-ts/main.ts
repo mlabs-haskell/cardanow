@@ -1,13 +1,8 @@
 import { SnapshotExporter, SnapshotConfig } from './snapshot'
 import checkKupo from './kupo-watcher'
+import { kupoSnapshotDataPath, exportedSnapshotPath, kupoPort } from './config';
 
-const kupoSnapshotDataPath = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT;
-const exportedSnapshotPath = process.env.EXPORTED_KUPO_SNAPSHOT_PATH;
-
-if (kupoSnapshotDataPath === undefined || exportedSnapshotPath === undefined) {
-  console.error("Env variables not set");
-  process.exit(1);
-}
+console.log(kupoSnapshotDataPath, exportedSnapshotPath);
 
 const minutesToMilliseconds = (minutes: number) => minutes * 60 * 1000
 
@@ -24,7 +19,7 @@ const main = async () => {
   const kupoSnapshot = new SnapshotExporter(
     kupoConfig,
     minutesToMilliseconds(30),
-    100)
+    200)
   const result = await kupoSnapshot.run()
   console.log(result)
 }

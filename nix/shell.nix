@@ -6,7 +6,7 @@
   perSystem = { config, inputs', pkgs, ... }: {
     pre-commit = {
       settings = {
-        default_stages = [ "commit" "push" ];
+
         hooks = {
           nixpkgs-fmt.enable = true;
           deadnix.enable = true;

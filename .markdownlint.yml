@@ -1,0 +1,5 @@
+default: true
+
+MD013:
+  # This is an arbitrary high number to "suppress" the warning    
+  line_length: 999
