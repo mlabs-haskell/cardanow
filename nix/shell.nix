@@ -39,6 +39,7 @@
         nil
         nixos-rebuild
         nodejs_20
+        postgresql_14
         sqlite
       ];
     };
