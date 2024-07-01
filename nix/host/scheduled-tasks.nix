@@ -5,7 +5,10 @@
 { lib, flake, config, ... }:
 let
   networks = [ "preview" "preprod" "mainnet" ];
-  # TODO make this parametric with mode data source
+  # TODO make this parametric with mode data source. NOTE: we have to keep this despite the 
+  # optimization on the clean up to avoid to fill the disk in case the exporting scripts fails 
+  # (and then the deletion of the snapshots is not triggere). However, we probably want to make
+  # this parametric: exported-snapshots/* folders needs 3 files, all the other should have at most 1
   cleanupLocalPaths = lib.concatStringsSep " " [
     "snapshots/preview/cardano-node"
     "snapshots/preprod/cardano-node"

@@ -14,10 +14,18 @@ else
     echo "No hanging containers found."
 fi
 
+echo "Starting cardanow isoldated containers"
+
 docker compose -p "${NETWORK}" up -d
 
 echo "Starting cardanow-ts"
 
 cardanow-ts
 
+echo "Stopping cardanow isoldated containers"
+
 docker compose -p "${NETWORK}" down
+
+echo "Cleaning up data"
+
+rm -fr "${LOCAL_KUPO_DATA_PER_SNAPSHOT}" "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
