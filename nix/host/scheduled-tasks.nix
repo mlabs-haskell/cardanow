@@ -19,6 +19,12 @@ let
     "exported-snapshots/preview/kupo"
     "exported-snapshots/preprod/kupo"
     "exported-snapshots/mainnet/kupo"
+    "snapshots/preview/cardano-db-sync"
+    "snapshots/preprod/cardano-db-sync"
+    "snapshots/mainnet/cardano-db-sync"
+    "exported-snapshots/preview/cardano-db-sync"
+    "exported-snapshots/preprod/cardano-db-sync"
+    "exported-snapshots/mainnet/cardano-db-sync"
   ];
   cardanowPerNetwork = lib.genAttrs networks (network: flake.packages."cardanow-${network}");
   mkCardanowService = network: {

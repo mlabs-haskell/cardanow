@@ -8,10 +8,12 @@ set_cardano_node_flag() {
         "preview")
             CARDANO_NODE_FLAG="--testnet-magic 2"
             KUPO_PORT=1442
+            CARDANO_DB_SYNC_PORT=12344
             ;;
         "preprod")
             CARDANO_NODE_FLAG="--testnet-magic 1"
             KUPO_PORT=1443
+            CARDANO_DB_SYNC_PORT=12345
 
             ;;
         "mainnet")
@@ -19,6 +21,8 @@ set_cardano_node_flag() {
             CARDANO_NODE_FLAG="--mainnet"
             # shellcheck disable=SC2034
             KUPO_PORT=1444
+            # shellcheck disable=SC2034
+            CARDANO_DB_SYNC_PORT=12346
             ;;
         *)
             echo "Unknown network: $NETWORK"
@@ -32,6 +36,8 @@ SNAPSHOTS_BASE_DIR="./snapshots/${NETWORK}"
 SNAPSHOTS_CARDANO_NODE_DIR="${SNAPSHOTS_BASE_DIR}/cardano-node"
 # shellcheck disable=SC2034
 SNAPSHOTS_KUPO_DIR="${SNAPSHOTS_BASE_DIR}/kupo"
+# shellcheck disable=SC2034
+SNAPSHOTS_CARADNO_DB_SYNC_DIR="${SNAPSHOTS_BASE_DIR}/cardano-db-sync"
 # shellcheck disable=SC2034
 MITHRIL_CONFIG="./mithril-configurations/${NETWORK}.env"
 CONTAINER_IPC_PATH="/ipc"
@@ -51,6 +57,9 @@ CONTAINER_DATA_CARDANO_NODE_PATH="${CONTAINER_DATA_PATH}"
 CONTAINER_DATA_KUPO_PATH="${CONTAINER_DATA_PATH}/kupo"
 
 # shellcheck disable=SC2034
+CONTAINER_DATA_CARDANO_DB_SYNC_PATH="${CONTAINER_DATA_PATH}/cardano-db-sync"
+
+# shellcheck disable=SC2034
 LOCAL_CONFIG_PATH="./cardano-configurations/network"
 # shellcheck disable=SC2034
 LOCAL_NONIX_CONFIG_PATH="./config/cardano-configurations/network"
@@ -58,12 +67,11 @@ LOCAL_NONIX_CONFIG_PATH="./config/cardano-configurations/network"
 # shellcheck disable=SC2034
 EXPORTED_SNAPSHOT_BASE_PATH="./exported-snapshots"
 
-# TODO make this temporary
 # shellcheck disable=SC2034
-DATA_SOURCE="kupo"
+EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_KUPO="${EXPORTED_SNAPSHOT_BASE_PATH}/${NETWORK}/kupo"
 
 # shellcheck disable=SC2034
-EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE="${EXPORTED_SNAPSHOT_BASE_PATH}/${NETWORK}/${DATA_SOURCE}"
+EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_CARDANO_DB_SYNC="${EXPORTED_SNAPSHOT_BASE_PATH}/${NETWORK}/cardano-db-sync"
 
 # shellcheck disable=SC2034
 BUCKET_NAME="cardanow"
