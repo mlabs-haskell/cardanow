@@ -13,6 +13,14 @@ NETWORK=$1
 # Export the NETWORK variable
 export NETWORK
 
+echo "Clone cardano-configurations"
+git clone https://github.com/input-output-hk/cardano-configurations.git
+cd cardano-configurations || exit
+# NOTE: this is simply the most recent commit in master
+# if you update this hash, you should check the restore script works.
+git checkout 692010ed0f454bfbb566c06443227c79e2f4dbab
+cd .. || exit
+
 echo "Setting up variables"
 source bin/setup-env-vars.sh
 
