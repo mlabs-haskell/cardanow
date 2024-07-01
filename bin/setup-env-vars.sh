@@ -42,7 +42,7 @@ SNAPSHOTS_CARADNO_DB_SYNC_DIR="${SNAPSHOTS_BASE_DIR}/cardano-db-sync"
 MITHRIL_CONFIG="./mithril-configurations/${NETWORK}.env"
 CONTAINER_IPC_PATH="/ipc"
 # shellcheck disable=SC2034
-CONTAINER_SOCKET_PATH="${CONTAINER_IPC_PATH}/${NETWORK}.socket"
+CONTAINER_SOCKET_PATH="${CONTAINER_IPC_PATH}/node.socket"
 CONTAINER_CONFIG_BASE_PATH="/config"
 CONTAINER_CONFIG_PATH="${CONTAINER_CONFIG_BASE_PATH}/${NETWORK}/cardano-node"
 # shellcheck disable=SC2034
@@ -61,6 +61,8 @@ CONTAINER_DATA_CARDANO_DB_SYNC_PATH="${CONTAINER_DATA_PATH}/cardano-db-sync"
 
 # shellcheck disable=SC2034
 LOCAL_CONFIG_PATH="./cardano-configurations/network"
+
+# TODO verify if this is still used
 # shellcheck disable=SC2034
 LOCAL_NONIX_CONFIG_PATH="./config/cardano-configurations/network"
 
@@ -81,6 +83,8 @@ AWS_DEFAULT_REGION=auto
 # shellcheck disable=SC2034
 AWS_ENDPOINT_URL="https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com"
 
+# shellcheck disable=SC2034
+POSTGRES_SECRETS="./config/postgres/secrets"
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"
 
