@@ -12,7 +12,7 @@ available-snapshots.json
 mithril-configurations
 
 # Javascript and nodejs
-./*.js
+*.js
 node_modules/
 
 # Direnv 

@@ -32,6 +32,7 @@
         curl
         docker
         docker-compose
+        emmet-ls
         inputs'.agenix.packages.agenix
         inputs'.cardano-node.packages.cardano-cli
         inputs'.mithril.packages.mithril-client-cli
@@ -39,8 +40,12 @@
         nil
         nixos-rebuild
         nodejs_20
+        nodePackages.vscode-langservers-extracted
+        nodePackages.prettier
         postgresql_14
         sqlite
+        deno
+        typescript
       ];
     };
   };
