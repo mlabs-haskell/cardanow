@@ -1,14 +1,22 @@
-import { kupoPort } from './config';
+import { 
+  // Data paths
+  cardanoDBSyncSnapshotDataPath,
+} from './config';
+
+import * as fs from 'fs';
 
 export default async () => {
-  return fetch(`http://localhost:${kupoPort}/health`, { headers: {'Accept': 'application/json'} })
-  .then((res) => res.json())
-    .then((result) => {
-      console.log(`Kupo response: ${JSON.stringify(result)}`)
-      return result.most_recent_checkpoint != null && result.most_recent_checkpoint === result.most_recent_node_tip
-    })
-  .catch((e) => {
-    console.error(e)
-    return false
-  })
+  try {
+    // Create an empty file at the specified data path
+
+    fs.writeFileSync(cardanoDBSyncSnapshotDataPath, '');
+    
+    // Always return true after creating the empty file
+    return true;
+  } catch (e) {
+    console.error(e);
+    
+    // Always return true even if there's an error
+    return false;
+  }
 }

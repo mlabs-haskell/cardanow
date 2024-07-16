@@ -1,4 +1,4 @@
-import { c } from 'tar'
+import * as tar from 'tar';
 import { createHash } from 'crypto'
 import { createWriteStream } from 'fs'
 import { pipeline } from 'stream/promises'
@@ -95,7 +95,7 @@ export class SnapshotExporter {
     const hash = createHash('sha256').setEncoding('hex')
     
     await pipeline(
-      c(
+      tar.c(
         {
           gzip: true,
           noPax: true,

@@ -1,19 +1,19 @@
-const kupoSnapshotDataPath = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT;
-const cardanoDBSyncSnapshotDataPath = process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT;
+const kupoSnapshotDataPath: string = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT as string;
+const cardanoDBSyncSnapshotDataPath: string = process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT as string;
 
-const kupoExportedSnapshotPath = process.env.EXPORTED_KUPO_SNAPSHOT_PATH;
-const cardanoDBSyncExportedSnapshotPath = process.env.EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH;
+const kupoExportedSnapshotPath: string = process.env.EXPORTED_KUPO_SNAPSHOT_PATH as string;
+const cardanoDBSyncExportedSnapshotPath: string = process.env.EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH as string;
 
-const kupoPort = process.env.KUPO_PORT;
+const kupoPort: string = process.env.KUPO_PORT as string;
 
 if (
-     kupoSnapshotDataPath === undefined 
-  || cardanoDBSyncSnapshotDataPath === undefined 
+  !kupoSnapshotDataPath 
+  || !cardanoDBSyncSnapshotDataPath 
 
-  || cardanoDBSyncExportedSnapshotPath === undefined 
-  || kupoExportedSnapshotPath === undefined 
+  || !kupoExportedSnapshotPath 
+  || !cardanoDBSyncExportedSnapshotPath 
 
-  || kupoPort === undefined
+  || !kupoPort
 ) {
   console.error("Env variables not set properly");
   process.exit(1);
@@ -25,7 +25,7 @@ export {
   cardanoDBSyncSnapshotDataPath,
 
   // Exported snapshot paths
-  kupoExportedSnapshotPath , 
+  kupoExportedSnapshotPath, 
   cardanoDBSyncExportedSnapshotPath, 
 
   // Ports
