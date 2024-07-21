@@ -80,11 +80,19 @@ BUCKET_NAME="cardanow"
 
 # shellcheck disable=SC2034
 AWS_DEFAULT_REGION=auto
+
 # shellcheck disable=SC2034
 AWS_ENDPOINT_URL="https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com"
 
 # shellcheck disable=SC2034
-POSTGRES_SECRETS="./config/postgres/secrets"
+POSTGRES_DB="cexplorer"
+
+# shellcheck disable=SC2034
+POSTGRES_USER="postgres"
+
+# shellcheck disable=SC2034
+POSTGRES_HOST="0.0.0.0"
+
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"
 
