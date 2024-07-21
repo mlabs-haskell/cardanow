@@ -6,16 +6,32 @@ const cardanoDBSyncExportedSnapshotPath: string = process.env.EXPORTED_CARDANO_D
 
 const kupoPort: string = process.env.KUPO_PORT as string;
 
-if (
-  !kupoSnapshotDataPath 
-  || !cardanoDBSyncSnapshotDataPath 
+// Database connection details
+const postgresHost: string = process.env.POSTGRES_HOST as string;
+const postgresUser: string = process.env.POSTGRES_USER as string;
+const postgresPassword: string = process.env.POSTGRES_PASSWORD as string;
+const postgresDb: string = process.env.POSTGRES_DB as string;
 
-  || !kupoExportedSnapshotPath 
-  || !cardanoDBSyncExportedSnapshotPath 
+// Expected epoch number
+const epoch: number = parseInt(process.env.EPOCH as string, 10);
 
-  || !kupoPort
-) {
-  console.error("Env variables not set properly");
+// Collecting missing environment variables
+let missingVars: string[] = [];
+
+if (!kupoSnapshotDataPath) missingVars.push('LOCAL_KUPO_DATA_PER_SNAPSHOT');
+if (!cardanoDBSyncSnapshotDataPath) missingVars.push('LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT');
+if (!kupoExportedSnapshotPath) missingVars.push('EXPORTED_KUPO_SNAPSHOT_PATH');
+if (!cardanoDBSyncExportedSnapshotPath) missingVars.push('EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH');
+if (!kupoPort) missingVars.push('KUPO_PORT');
+if (!postgresHost) missingVars.push('POSTGRES_HOST');
+if (!postgresUser) missingVars.push('POSTGRES_USER');
+if (!postgresPassword) missingVars.push('POSTGRES_PASSWORD');
+if (!postgresDb) missingVars.push('POSTGRES_DATABASE');
+if (isNaN(epoch)) missingVars.push('EPOCH');
+
+if (missingVars.length > 0) {
+  console.error("The following environment variables are not set properly or have invalid values:");
+  missingVars.forEach(variable => console.error(`- ${variable}`));
   process.exit(1);
 }
 
@@ -29,5 +45,14 @@ export {
   cardanoDBSyncExportedSnapshotPath, 
 
   // Ports
-  kupoPort, 
+  kupoPort,
+
+  // Database connection details
+  postgresHost,
+  postgresUser,
+  postgresPassword,
+  postgresDb,
+
+  // Expected epoch number
+  epoch
 };

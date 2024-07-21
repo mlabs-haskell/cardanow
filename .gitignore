@@ -10,6 +10,7 @@ s3-volume
 available-snapshots.json
 /docker-compose.yaml
 mithril-configurations
+cardano-configurations
 
 # Javascript and nodejs
 *.js
