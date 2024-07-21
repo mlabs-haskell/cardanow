@@ -1,6 +1,6 @@
 services:
   cardano-node:
-    image: ghcr.io/intersectmbo/cardano-node:8.9.2
+    image: ghcr.io/intersectmbo/cardano-node:9.0.0
     healthcheck:
       test: ["CMD-SHELL", "curl -f 127.0.0.1:12788 || exit 1"]
       interval: 60s
@@ -30,7 +30,7 @@ services:
       - "${CONTAINER_SOCKET_PATH}"
 
   kupo:
-    image: cardanosolutions/kupo:v2.8.0
+    image: cardanosolutions/kupo:v2.9.0
     depends_on:
       cardano-node:
         condition: service_started
@@ -88,7 +88,7 @@ services:
 
   cardano-db-sync:
     # TODO check version
-    image: ghcr.io/intersectmbo/cardano-db-sync:13.2.0.2
+    image: ghcr.io/intersectmbo/cardano-db-sync:13.3.0.0
     environment:
       # - DISABLE_LEDGER=${DISABLE_LEDGER}
       - NETWORK=${NETWORK}
