@@ -11,7 +11,7 @@ const postgresHost: string = process.env.POSTGRES_HOST as string;
 const postgresUser: string = process.env.POSTGRES_USER as string;
 const postgresPassword: string = process.env.POSTGRES_PASSWORD as string;
 const postgresDb: string = process.env.POSTGRES_DB as string;
-
+const postgresPort: number = parseInt(process.env.POSTGRES_PORT as string, 10);
 // Expected epoch number
 const epoch: number = parseInt(process.env.EPOCH as string, 10);
 
@@ -27,6 +27,7 @@ if (!postgresHost) missingVars.push('POSTGRES_HOST');
 if (!postgresUser) missingVars.push('POSTGRES_USER');
 if (!postgresPassword) missingVars.push('POSTGRES_PASSWORD');
 if (!postgresDb) missingVars.push('POSTGRES_DATABASE');
+if (!postgresPort) missingVars.push('POSTGRES_PORT');
 if (isNaN(epoch)) missingVars.push('EPOCH');
 
 if (missingVars.length > 0) {
@@ -52,6 +53,7 @@ export {
   postgresUser,
   postgresPassword,
   postgresDb,
+  postgresPort,
 
   // Expected epoch number
   epoch

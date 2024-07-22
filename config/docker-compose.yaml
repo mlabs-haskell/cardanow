@@ -83,10 +83,8 @@ services:
         max-file: "10"
 
   cardano-db-sync:
-    # TODO check version
     image: ghcr.io/intersectmbo/cardano-db-sync:13.3.0.0
     environment:
-      # - DISABLE_LEDGER=${DISABLE_LEDGER}
       - NETWORK=${NETWORK}
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432

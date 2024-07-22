@@ -6,6 +6,7 @@ import {
   postgresUser,
   postgresPassword,
   postgresDb,
+  postgresPort,
   // Expected epoch number
   epoch
 } from './config';
@@ -23,6 +24,7 @@ export default async () => {
     client = new Client({
       host: postgresHost,
       user: postgresUser,
+      port: postgresPort,
       password: postgresPassword,
       database: postgresDb
     });
@@ -41,10 +43,9 @@ export default async () => {
       console.log(`Epoch number matches the expected value. epochNo: ${epochNo}, expected: ${epoch}`);
     } else {
       console.log(`Epoch number does not match the expected value. epochNo: ${epochNo}, expected: ${epoch}`);
+      return false;
     }
 
-    // Always return true after creating the empty file
-    return true;
   } catch (e) {
     console.error(e);
 

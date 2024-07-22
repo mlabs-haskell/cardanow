@@ -8,12 +8,12 @@ set_cardano_node_flag() {
         "preview")
             CARDANO_NODE_FLAG="--testnet-magic 2"
             KUPO_PORT=1442
-            CARDANO_DB_SYNC_PORT=12344
+            POSTGRES_PORT=12344
             ;;
         "preprod")
             CARDANO_NODE_FLAG="--testnet-magic 1"
             KUPO_PORT=1443
-            CARDANO_DB_SYNC_PORT=12345
+            POSTGRES_PORT=12345
 
             ;;
         "mainnet")
@@ -22,7 +22,7 @@ set_cardano_node_flag() {
             # shellcheck disable=SC2034
             KUPO_PORT=1444
             # shellcheck disable=SC2034
-            CARDANO_DB_SYNC_PORT=12346
+            POSTGRES_PORT=12346
             ;;
         *)
             echo "Unknown network: $NETWORK"
