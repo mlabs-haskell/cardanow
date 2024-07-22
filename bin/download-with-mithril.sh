@@ -42,7 +42,8 @@ fi
 echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
 echo "Local kupo data snapshot dir: ${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
-echo "Local kupo data snapshot dir: ${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}"
+echo "Local cardano-db-sync data snapshot dir: ${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}"
 echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
+echo "Exported cardano-db-sync snapshot path: ${EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH}"
 echo "Epoch: ${EPOCH}"
 

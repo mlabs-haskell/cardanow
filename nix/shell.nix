@@ -40,6 +40,7 @@
         nil
         nixos-rebuild
         nodejs_20
+        nodePackages.bash-language-server
         nodePackages.vscode-langservers-extracted
         nodePackages.prettier
         postgresql_14

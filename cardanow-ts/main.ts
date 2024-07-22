@@ -39,7 +39,8 @@ const main = async () => {
     200)
   const cardanoDBSyncSnapshot = new SnapshotExporter(
     cardanoDBSyncConfig,
-    minutesToMilliseconds(0.1),
+    // TODO change before deploy
+    minutesToMilliseconds(30),
     200)
 
   const [kupoResult, cardanoDBSyncResult] = await Promise.all([

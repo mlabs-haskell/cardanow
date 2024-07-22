@@ -8,12 +8,12 @@ set_cardano_node_flag() {
         "preview")
             CARDANO_NODE_FLAG="--testnet-magic 2"
             KUPO_PORT=1442
-            POSTGRES_PORT=12344
+            PGPORT=12344
             ;;
         "preprod")
             CARDANO_NODE_FLAG="--testnet-magic 1"
             KUPO_PORT=1443
-            POSTGRES_PORT=12345
+            PGPORT=12345
 
             ;;
         "mainnet")
@@ -22,7 +22,7 @@ set_cardano_node_flag() {
             # shellcheck disable=SC2034
             KUPO_PORT=1444
             # shellcheck disable=SC2034
-            POSTGRES_PORT=12346
+            PGPORT=12346
             ;;
         *)
             echo "Unknown network: $NETWORK"
@@ -85,13 +85,13 @@ AWS_DEFAULT_REGION=auto
 AWS_ENDPOINT_URL="https://5c90369860b916812808cd543a1d782b.r2.cloudflarestorage.com"
 
 # shellcheck disable=SC2034
-POSTGRES_DB="cexplorer"
+PGDATABASE="cexplorer"
 
 # shellcheck disable=SC2034
-POSTGRES_USER="postgres"
+PGUSER="postgres"
 
 # shellcheck disable=SC2034
-POSTGRES_HOST="0.0.0.0"
+PGHOST="0.0.0.0"
 
 # shellcheck source=/dev/null
 source "${MITHRIL_CONFIG}"

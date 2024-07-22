@@ -197,17 +197,17 @@
     "cardano-configurations": {
       "flake": false,
       "locked": {
-        "lastModified": 1720834069,
-        "narHash": "sha256-jWFjTUTpwAgvsSJsQ4INgKl/paR489n1si35GLtSkuU=",
+        "lastModified": 1720789031,
+        "narHash": "sha256-brZB5iLQnvqCvxV8XAdrGUfqwlzsRv6aIboVlLG3QD0=",
         "owner": "input-output-hk",
         "repo": "cardano-configurations",
-        "rev": "de80edfd569d82d5191d2c6103834e700787bb2d",
+        "rev": "6d7fac44d6a877ae9a3cf5eeda163ae539b17774",
         "type": "github"
       },
       "original": {
         "owner": "input-output-hk",
         "repo": "cardano-configurations",
-        "rev": "de80edfd569d82d5191d2c6103834e700787bb2d",
+        "rev": "6d7fac44d6a877ae9a3cf5eeda163ae539b17774",
         "type": "github"
       }
     },

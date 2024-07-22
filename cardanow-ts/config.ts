@@ -7,11 +7,11 @@ const cardanoDBSyncExportedSnapshotPath: string = process.env.EXPORTED_CARDANO_D
 const kupoPort: string = process.env.KUPO_PORT as string;
 
 // Database connection details
-const postgresHost: string = process.env.POSTGRES_HOST as string;
-const postgresUser: string = process.env.POSTGRES_USER as string;
-const postgresPassword: string = process.env.POSTGRES_PASSWORD as string;
-const postgresDb: string = process.env.POSTGRES_DB as string;
-const postgresPort: number = parseInt(process.env.POSTGRES_PORT as string, 10);
+const postgresHost: string = process.env.PGHOST as string;
+const postgresUser: string = process.env.PGUSER as string;
+const postgresPassword: string = process.env.PGPASSWORD as string;
+const postgresDb: string = process.env.PGDATABASE as string;
+const postgresPort: number = parseInt(process.env.PGPORT as string, 10);
 // Expected epoch number
 const epoch: number = parseInt(process.env.EPOCH as string, 10);
 
@@ -23,11 +23,11 @@ if (!cardanoDBSyncSnapshotDataPath) missingVars.push('LOCAL_CARDANO_DB_SYNC_DATA
 if (!kupoExportedSnapshotPath) missingVars.push('EXPORTED_KUPO_SNAPSHOT_PATH');
 if (!cardanoDBSyncExportedSnapshotPath) missingVars.push('EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH');
 if (!kupoPort) missingVars.push('KUPO_PORT');
-if (!postgresHost) missingVars.push('POSTGRES_HOST');
-if (!postgresUser) missingVars.push('POSTGRES_USER');
-if (!postgresPassword) missingVars.push('POSTGRES_PASSWORD');
-if (!postgresDb) missingVars.push('POSTGRES_DATABASE');
-if (!postgresPort) missingVars.push('POSTGRES_PORT');
+if (!postgresHost) missingVars.push('PGHOST');
+if (!postgresUser) missingVars.push('PGUSER');
+if (!postgresPassword) missingVars.push('PGPASSWORD');
+if (!postgresDb) missingVars.push('PGDATABASE');
+if (!postgresPort) missingVars.push('PGPORT');
 if (isNaN(epoch)) missingVars.push('EPOCH');
 
 if (missingVars.length > 0) {
