@@ -12,6 +12,7 @@ writeShellApplication
     jq
     mithril-client-cli
     openssh
+    # NOTE: this version should match the postgresql version that is used in the docker-compose
     postgresql_14
   ];
   text = ''

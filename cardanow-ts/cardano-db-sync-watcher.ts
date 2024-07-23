@@ -70,7 +70,6 @@ return true;
   } catch (e) {
     console.error(e);
 
-    // Always return true even if there's an error
     return false;
   } finally {
     // Ensure the client is closed to free up resources

@@ -55,7 +55,6 @@ services:
       - "--match"
       - "*"
 
-  # TODO move variables out
   postgres:
     image: postgres:14.10-alpine
     environment:

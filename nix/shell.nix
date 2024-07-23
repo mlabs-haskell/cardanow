@@ -43,6 +43,7 @@
         nodePackages.bash-language-server
         nodePackages.vscode-langservers-extracted
         nodePackages.prettier
+        # NOTE: this version should match the postgresql version that is used in the docker-compose
         postgresql_14
         sqlite
         typescript
