@@ -45,7 +45,6 @@
         nodePackages.prettier
         postgresql_14
         sqlite
-        deno
         typescript
       ];
     };
