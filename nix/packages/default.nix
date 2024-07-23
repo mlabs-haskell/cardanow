@@ -67,7 +67,7 @@
           network = "preprod";
         };
         cardanow-ts = inputs.dream2nix.lib.evalModules {
-          packageSets.nixpkgs = inputs.dream2nix.inputs.nixpkgs.legacyPackages.${ system};
+          packageSets.nixpkgs = inputs.dream2nix.inputs.nixpkgs.legacyPackages.${system};
           modules = [
             ./cardanow-ts.nix
           ];
