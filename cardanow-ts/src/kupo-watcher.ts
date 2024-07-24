@@ -1,4 +1,4 @@
-import config from './config';
+import config from './config.js';
 
 export default async () => {
   return fetch(`http://localhost:${config.kupoPort}/health`, { headers: {'Accept': 'application/json'} })

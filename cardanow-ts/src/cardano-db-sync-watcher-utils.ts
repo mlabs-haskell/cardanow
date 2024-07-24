@@ -1,8 +1,10 @@
-import config from './config';
-
 import * as fs from 'fs';
-import { Client } from 'pg';
+import pg from 'pg';
+
 import { execSync } from 'child_process';
+import config from './config.js';
+
+const { Client } = pg;
 
 export const createDirectory = (path: string): void => {
   fs.mkdirSync(path, { recursive: true });
@@ -20,7 +22,7 @@ export const connectToDatabase = async () => {
   return client;
 };
 
-export const getEpochNumber = async (client: Client): Promise<number | null> => {
+export const getEpochNumber = async (client: any): Promise<number | null> => {
   const res = await client.query('SELECT epoch_no FROM block WHERE epoch_no IS NOT NULL ORDER BY epoch_no DESC LIMIT 1');
   return res.rows[0]?.epoch_no || null;
 };

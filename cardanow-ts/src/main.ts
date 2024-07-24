@@ -1,7 +1,7 @@
-import { SnapshotExporter, SnapshotConfig } from './snapshot'
-import checkKupo from './kupo-watcher'
-import checkCardanoDBSync from './cardano-db-sync-watcher'
-import config from './config';
+import { SnapshotExporter, SnapshotConfig } from './snapshot.js'
+import checkKupo from './kupo-watcher.js'
+import checkCardanoDBSync from './cardano-db-sync-watcher.js'
+import config from './config.js';
 
 const minutesToMilliseconds = (minutes: number) => minutes * 60 * 1000
 

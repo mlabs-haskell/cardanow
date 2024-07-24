@@ -1,6 +1,6 @@
-import config from './config';
+import config from './config.js';
 
-import { connectToDatabase, createDirectory, executePgDump, getEpochNumber } from './cardano-db-sync-watcher-utils';
+import { connectToDatabase, createDirectory, executePgDump, getEpochNumber } from './cardano-db-sync-watcher-utils.js';
 
 export const main = async (): Promise<boolean> => {
   let client;

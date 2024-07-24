@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
-import { main } from './../cardano-db-sync-watcher';
-import { createDirectory, connectToDatabase, getEpochNumber, executePgDump } from './../cardano-db-sync-watcher-utils';
-import config from '../config';
+import { main } from '../src/cardano-db-sync-watcher';
+import { createDirectory, connectToDatabase, getEpochNumber, executePgDump } from '../src/cardano-db-sync-watcher-utils';
+import config from '../src/config';
 
 
 // Mock all dependencies
@@ -24,8 +24,8 @@ describe('main', () => {
 
   it('should create directory and connect to the database', async () => {
     // Arrange
-    (connectToDatabase as unknown as Mock).mockResolvedValue(mockClient);
-    (getEpochNumber as unknown as Mock).mockResolvedValue(config.epoch);
+    connectToDatabase.mockResolvedValue(mockClient);
+    getEpochNumber.mockResolvedValue(config.epoch);
 
     // Act
     const result = await main();
@@ -41,8 +41,8 @@ describe('main', () => {
 
   it('should return false if epoch number does not match', async () => {
     // Arrange
-    (connectToDatabase as unknown as Mock).mockResolvedValue(mockClient);
-    (getEpochNumber as unknown as Mock).mockResolvedValue(config.epoch - 1);
+    connectToDatabase.mockResolvedValue(mockClient);
+    getEpochNumber.mockResolvedValue(config.epoch - 1);
 
     // Act
     const result = await main();
@@ -58,8 +58,8 @@ describe('main', () => {
 
   it('should return false and log an error if an exception occurs', async () => {
     // Arrange
-    (connectToDatabase as unknown as Mock).mockResolvedValue(mockClient);
-    (getEpochNumber as unknown as Mock).mockRejectedValue(new Error('Test error'));
+    connectToDatabase.mockResolvedValue(mockClient);
+    getEpochNumber.mockRejectedValue(new Error('Test error'));
 
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 

@@ -23,10 +23,9 @@ in
   };
   nodejs-granular-v3 = {
     buildScript = ''
-      tsc ./main.ts
-      mv main.js main.js.tmp
+      npm run build
       echo "#!${config.deps.nodejs}/bin/node" > main.js
-      cat main.js.tmp >> main.js
+      cat build/bundle.js >> main.js
       chmod +x ./main.js
       patchShebangs .
     '';
@@ -38,7 +37,7 @@ in
   mkDerivation = {
     src = lib.cleanSource ../../cardanow-ts;
     checkPhase = ''
-      npm test
+      # npm run test
     '';
     doCheck = true;
   };

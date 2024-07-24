@@ -1,16 +1,20 @@
-import { describe, it, expect, vi, beforeEach, afterEach, Mock, MockedFunction, MockInstance} from 'vitest';
+import { describe, it, expect, vi, Mock, MockedFunction, MockInstance} from 'vitest';
 import * as fs from 'fs';
-import { Client } from 'pg';
+import pg from 'pg';
 import * as child_process from 'child_process';
-import { createDirectory, connectToDatabase, getEpochNumber, executePgDump} from './../cardano-db-sync-watcher-utils';
-import config from '../config';
+import { createDirectory, connectToDatabase, getEpochNumber, executePgDump} from './../src/cardano-db-sync-watcher-utils';
+import config from '../src/config';
+
+const { Client } = pg;
 
 // Mock fs and pg modules
 vi.mock('fs');
 
 // Mock Client class
-vi.mock('pg', () => {
+vi.mock('pg', async () => {
+  const actual = <Record<string, unknown>>await vi.importActual('pg');
   return {
+    ... actual,
     Client: vi.fn().mockImplementation(() => {
       return {
         connect: vi.fn().mockResolvedValue(undefined),
@@ -56,7 +60,7 @@ describe('getEpochNumber', () => {
   it('should return the correct epoch number when the query returns rows', async () => {
     const mockClient = new Client();
     // Mock the query method to return a simulated result
-    (mockClient.query as unknown as Mock).mockResolvedValue({ rows: [{ epoch_no: 42 }] });
+    (mockClient.query as Mock).mockResolvedValue({ rows: [{ epoch_no: 42 }] });
 
     const epochNumber = await getEpochNumber(mockClient);
 
@@ -66,7 +70,7 @@ describe('getEpochNumber', () => {
   it('should return null when the query returns no rows', async () => {
     const mockClient = new Client();
     // Mock the query method to return no rows
-    (mockClient.query as unknown as Mock).mockResolvedValue({ rows: [] });
+    mockClient.query.mockResolvedValue({ rows: [] });
 
     const epochNumber = await getEpochNumber(mockClient);
 
@@ -76,7 +80,7 @@ describe('getEpochNumber', () => {
   it('should return null when the query returns null values', async () => {
     const mockClient = new Client();
     // Mock the query method to return rows with null epoch_no
-    (mockClient.query as unknown as Mock).mockResolvedValue({ rows: [{ epoch_no: null }] });
+    mockClient.query.mockResolvedValue({ rows: [{ epoch_no: null }] });
 
     const epochNumber = await getEpochNumber(mockClient);
 
