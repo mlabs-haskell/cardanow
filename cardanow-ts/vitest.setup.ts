@@ -1,0 +1,11 @@
+process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT = '/path/to/kupo/snapshot';
+process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT = '/path/to/cardano/dbsync/snapshot';
+process.env.EXPORTED_KUPO_SNAPSHOT_PATH = '/path/to/exported/kupo/snapshot';
+process.env.EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH = '/path/to/exported/cardano/dbsync/snapshot';
+process.env.KUPO_PORT = '1234';
+process.env.PGHOST = 'localhost';
+process.env.PGUSER = 'user';
+process.env.PGPASSWORD = 'password';
+process.env.PGDATABASE = 'database';
+process.env.PGPORT = '5432';
+process.env.EPOCH = '290';

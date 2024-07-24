@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "cardanow-ts",
   "version": "0.0.0.1",
   "bin": "main.js",
@@ -8,6 +9,7 @@
     "start": "ts-node main.ts"
   },
   "devDependencies": {
+    "@types/pg": "^8.11.6",
     "@types/tar": "^6.1.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

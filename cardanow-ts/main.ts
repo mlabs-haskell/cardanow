@@ -1,33 +1,22 @@
 import { SnapshotExporter, SnapshotConfig } from './snapshot'
 import checkKupo from './kupo-watcher'
 import checkCardanoDBSync from './cardano-db-sync-watcher'
-import { 
-  // Data paths
-  kupoSnapshotDataPath, 
-  cardanoDBSyncSnapshotDataPath,
-
-  // Exported snapshot paths
-  kupoExportedSnapshotPath , 
-  cardanoDBSyncExportedSnapshotPath, 
-
-  // Ports
-  kupoPort, 
-} from './config';
+import config from './config';
 
 const minutesToMilliseconds = (minutes: number) => minutes * 60 * 1000
 
 const kupoConfig: SnapshotConfig = {
   name: 'kupo',
   checkSnapshotState: checkKupo,
-  snapshotLocation: kupoSnapshotDataPath,
-  snapshotTarName: kupoExportedSnapshotPath 
+  snapshotLocation: config.kupoSnapshotDataPath,
+  snapshotTarName: config.kupoExportedSnapshotPath 
 }
 
 const cardanoDBSyncConfig: SnapshotConfig = {
   name: 'cardano-db-sync',
   checkSnapshotState: checkCardanoDBSync,
-  snapshotLocation: cardanoDBSyncSnapshotDataPath,
-  snapshotTarName: cardanoDBSyncExportedSnapshotPath
+  snapshotLocation: config.cardanoDBSyncSnapshotDataPath,
+  snapshotTarName: config.cardanoDBSyncExportedSnapshotPath
 }
 // FIXME (albertodvp 2024-02-07): this function is not robust,
 // failures and retries should be addressed better

@@ -1,0 +1,17 @@
+  {
+    "compilerOptions": {
+      "module": "ESNext", // Use "ESNext" or "ES6" for ES module syntax
+      "target": "ESNext", // Use "ES6" or higher to support ES module features
+      "moduleResolution": "node",
+      "esModuleInterop": true, // Enable this if you are using CommonJS modules alongside ES modules
+      "allowSyntheticDefaultImports": true,
+      "outDir": "./dist", // Directory for output files
+      "rootDir": ".", // Directory containing source files
+      "strict": true, // Enable strict type-checking options
+      "skipLibCheck": true, // Skip type checking of declaration files (optional)
+      "forceConsistentCasingInFileNames": true // Ensure consistent casing in file names
+    },
+    "exclude": [
+      "node_modules"
+    ] // Exclude node_modules directory
+  }

@@ -1,3 +1,28 @@
+// Define the TypeScript interface for your configuration
+export interface Config {
+  // Data paths
+  kupoSnapshotDataPath: string;
+  cardanoDBSyncSnapshotDataPath: string;
+
+  // Exported snapshot paths
+  kupoExportedSnapshotPath: string;
+  cardanoDBSyncExportedSnapshotPath: string;
+
+  // Ports
+  kupoPort: string;
+
+  // Database connection details
+  postgresHost: string;
+  postgresUser: string;
+  postgresPassword: string;
+  postgresDb: string;
+  postgresPort: number;
+
+  // Expected epoch number
+  epoch: number;
+}
+
+// Define environment variables and their defaults
 const kupoSnapshotDataPath: string = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT as string;
 const cardanoDBSyncSnapshotDataPath: string = process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT as string;
 
@@ -36,14 +61,15 @@ if (missingVars.length > 0) {
   process.exit(1);
 }
 
-export { 
+// Define and export the configuration object
+const config: Config = {
   // Data paths
-  kupoSnapshotDataPath, 
+  kupoSnapshotDataPath,
   cardanoDBSyncSnapshotDataPath,
 
   // Exported snapshot paths
-  kupoExportedSnapshotPath, 
-  cardanoDBSyncExportedSnapshotPath, 
+  kupoExportedSnapshotPath,
+  cardanoDBSyncExportedSnapshotPath,
 
   // Ports
   kupoPort,
@@ -58,3 +84,6 @@ export {
   // Expected epoch number
   epoch
 };
+
+// Export the configuration object and the Config type
+export default config;
