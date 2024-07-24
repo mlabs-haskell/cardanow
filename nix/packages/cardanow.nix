@@ -1,17 +1,19 @@
-{ writeShellApplication, cardanow-ts, cleanup-local-data, git, curl, cardano-cli, mithril-client-cli, jq, openssh, cardano-configurations, network ? "mainnet" }:
+{ writeShellApplication, cardanow-ts, cleanup-local-data, git, curl, cardano-cli, mithril-client-cli, jq, openssh, cardano-configurations, postgresql_14, network ? "mainnet" }:
 writeShellApplication
 {
   name = "cardanow";
   runtimeEnv.NETWORK = network;
   runtimeInputs = [
+    cardano-cli
     cardanow-ts
     cleanup-local-data
     curl
     git
-    cardano-cli
-    mithril-client-cli
     jq
+    mithril-client-cli
     openssh
+    # NOTE: this version should match the postgresql version that is used in the docker-compose
+    postgresql_14
   ];
   text = ''
     # TODO there is probably a better way to write this

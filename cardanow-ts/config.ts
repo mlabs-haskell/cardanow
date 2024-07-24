@@ -1,14 +1,60 @@
-const kupoSnapshotDataPath = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT;
-const exportedSnapshotPath = process.env.EXPORTED_KUPO_SNAPSHOT_PATH;
-const cardanoDBSyncSnapshotDataPath = process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT;
-const cardanoDBSyncSnapshotPath = process.env.EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH;
+const kupoSnapshotDataPath: string = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT as string;
+const cardanoDBSyncSnapshotDataPath: string = process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT as string;
 
-const kupoPort = process.env.KUPO_PORT;
-const cardanoDBSyncPort = process.env.CARDANO_DB_SYNC_PORT;
+const kupoExportedSnapshotPath: string = process.env.EXPORTED_KUPO_SNAPSHOT_PATH as string;
+const cardanoDBSyncExportedSnapshotPath: string = process.env.EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH as string;
 
-if (cardanoDBSyncSnapshotDataPath === undefined || cardanoDBSyncSnapshotPath === undefined || cardanoDBSyncPort === undefined || kupoSnapshotDataPath === undefined || exportedSnapshotPath === undefined || kupoPort === undefined) {
-  console.error("Env variables not set properly");
+const kupoPort: string = process.env.KUPO_PORT as string;
+
+// Database connection details
+const postgresHost: string = process.env.PGHOST as string;
+const postgresUser: string = process.env.PGUSER as string;
+const postgresPassword: string = process.env.PGPASSWORD as string;
+const postgresDb: string = process.env.PGDATABASE as string;
+const postgresPort: number = parseInt(process.env.PGPORT as string, 10);
+// Expected epoch number
+const epoch: number = parseInt(process.env.EPOCH as string, 10);
+
+// Collecting missing environment variables
+let missingVars: string[] = [];
+
+if (!kupoSnapshotDataPath) missingVars.push('LOCAL_KUPO_DATA_PER_SNAPSHOT');
+if (!cardanoDBSyncSnapshotDataPath) missingVars.push('LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT');
+if (!kupoExportedSnapshotPath) missingVars.push('EXPORTED_KUPO_SNAPSHOT_PATH');
+if (!cardanoDBSyncExportedSnapshotPath) missingVars.push('EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH');
+if (!kupoPort) missingVars.push('KUPO_PORT');
+if (!postgresHost) missingVars.push('PGHOST');
+if (!postgresUser) missingVars.push('PGUSER');
+if (!postgresPassword) missingVars.push('PGPASSWORD');
+if (!postgresDb) missingVars.push('PGDATABASE');
+if (!postgresPort) missingVars.push('PGPORT');
+if (isNaN(epoch)) missingVars.push('EPOCH');
+
+if (missingVars.length > 0) {
+  console.error("The following environment variables are not set properly or have invalid values:");
+  missingVars.forEach(variable => console.error(`- ${variable}`));
   process.exit(1);
 }
 
-export { kupoSnapshotDataPath, exportedSnapshotPath, kupoPort };
+export { 
+  // Data paths
+  kupoSnapshotDataPath, 
+  cardanoDBSyncSnapshotDataPath,
+
+  // Exported snapshot paths
+  kupoExportedSnapshotPath, 
+  cardanoDBSyncExportedSnapshotPath, 
+
+  // Ports
+  kupoPort,
+
+  // Database connection details
+  postgresHost,
+  postgresUser,
+  postgresPassword,
+  postgresDb,
+  postgresPort,
+
+  // Expected epoch number
+  epoch
+};

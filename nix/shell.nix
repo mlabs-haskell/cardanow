@@ -32,6 +32,7 @@
         curl
         docker
         docker-compose
+        emmet-ls
         inputs'.agenix.packages.agenix
         inputs'.cardano-node.packages.cardano-cli
         inputs'.mithril.packages.mithril-client-cli
@@ -39,8 +40,13 @@
         nil
         nixos-rebuild
         nodejs_20
+        nodePackages.bash-language-server
+        nodePackages.vscode-langservers-extracted
+        nodePackages.prettier
+        # NOTE: this version should match the postgresql version that is used in the docker-compose
         postgresql_14
         sqlite
+        typescript
       ];
     };
   };

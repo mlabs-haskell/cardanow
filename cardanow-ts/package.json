@@ -14,10 +14,11 @@
   },
   "dependencies": {
     "esbuild": "^0.20.0",
+    "pg": "^8.12.0",
     "rollup": "^4.9.6",
     "tar": "^6.2.0",
-    "vitest": "^1.1.0",
-    "vite": ">=5.0.13"
+    "vite": ">=5.0.13",
+    "vitest": "^1.1.0"
   },
   "optionalDependencies": {
     "fsevents": "^2.3.3"

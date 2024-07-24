@@ -1,6 +1,6 @@
 services:
   cardano-node:
-    image: ghcr.io/intersectmbo/cardano-node:8.9.2
+    image: ghcr.io/intersectmbo/cardano-node:9.0.0
     healthcheck:
       test: ["CMD-SHELL", "curl -f 127.0.0.1:12788 || exit 1"]
       interval: 60s
@@ -30,7 +30,7 @@ services:
       - "${CONTAINER_SOCKET_PATH}"
 
   kupo:
-    image: cardanosolutions/kupo:v2.8.0
+    image: cardanosolutions/kupo:v2.9.0
     depends_on:
       cardano-node:
         condition: service_started
@@ -55,20 +55,15 @@ services:
       - "--match"
       - "*"
 
-  # TODO move variables out
   postgres:
     image: postgres:14.10-alpine
     environment:
       - POSTGRES_LOGGING=true
-      - POSTGRES_DB_FILE=/run/secrets/postgres_db
-      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
-      - POSTGRES_USER_FILE=/run/secrets/postgres_user
-    secrets:
-      - postgres_password
-      - postgres_user
-      - postgres_db
+      - POSTGRES_DB=${PGDATABASE}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+      - POSTGRES_USER=${PGUSER}
     ports:
-      - ${POSTGRES_PORT:-5432}:5432
+      - ${PGPORT}:5432
     volumes:
       - postgres:/var/lib/postgresql/data
     restart: on-failure
@@ -87,26 +82,23 @@ services:
         max-file: "10"
 
   cardano-db-sync:
-    # TODO check version
-    image: ghcr.io/intersectmbo/cardano-db-sync:13.2.0.2
+    image: ghcr.io/intersectmbo/cardano-db-sync:13.3.0.0
     environment:
-      # - DISABLE_LEDGER=${DISABLE_LEDGER}
       - NETWORK=${NETWORK}
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
       - RESTORE_SNAPSHOT=${RESTORE_SNAPSHOT:-}
       - RESTORE_RECREATE_DB=N
       - EXTRA_DB_SYNC_ARGS=${EXTRA_DB_SYNC_ARGS:-}
+      - POSTGRES_DB=${PGDATABASE}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+      - POSTGRES_USER=${PGUSER}
     depends_on:
       # Depend on both services to be healthy before starting.
       cardano-node:
         condition: service_healthy
       postgres:
         condition: service_healthy
-    secrets:
-      - postgres_password
-      - postgres_user
-      - postgres_db
     volumes:
       - db-sync-data:/var/lib/cexplorer
       - cardano-node-ipc:/node-ipc
@@ -121,14 +113,6 @@ services:
       - "${CONTAINER_CONFIG_CONFIG_PATH}"
       - "--socket-path"
       - "${CONTAINER_SOCKET_PATH}"
-
-secrets:
-  postgres_db:
-    file: ${POSTGRES_SECRETS}/postgres_db
-  postgres_password:
-    file: ${POSTGRES_SECRETS}/postgres_password
-  postgres_user:
-    file: ${POSTGRES_SECRETS}/postgres_user
 
 
 volumes:
