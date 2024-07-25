@@ -8,6 +8,7 @@ import { createDirectory, connectToDatabase, getEpochNumber, executePgDump } fro
 const { Client } = pg;
 
 vi.mock('fs');
+
 vi.mock('child_process', () => ({
   execSync: vi.fn(),
 }));
