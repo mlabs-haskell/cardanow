@@ -37,7 +37,7 @@ in
   mkDerivation = {
     src = lib.cleanSource ../../cardanow-ts;
     checkPhase = ''
-      # npm run test
+      npm run test
     '';
     doCheck = true;
   };
