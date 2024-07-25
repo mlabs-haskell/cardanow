@@ -1,4 +1,4 @@
-import config from './config.js';
+import config from './config';
 
 import { connectToDatabase, createDirectory, executePgDump, getEpochNumber } from './cardano-db-sync-watcher-utils.js';
 

@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import pg from 'pg';
 
 import { execSync } from 'child_process';
-import config from './config.js';
+import config from './config';
 
 const { Client } = pg;
 
