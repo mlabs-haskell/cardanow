@@ -20,6 +20,9 @@ export interface Config {
 
   // Expected epoch number
   epoch: number;
+
+  // The cardano network
+  network: string;
 }
 
 // Define environment variables and their defaults
@@ -40,6 +43,9 @@ const postgresPort: number = parseInt(process.env.PGPORT as string, 10);
 // Expected epoch number
 const epoch: number = parseInt(process.env.EPOCH as string, 10);
 
+// Cardano network
+const network: string = process.env.NETWORK as string;
+
 // Collecting missing environment variables
 let missingVars: string[] = [];
 
@@ -54,6 +60,7 @@ if (!postgresPassword) missingVars.push('PGPASSWORD');
 if (!postgresDb) missingVars.push('PGDATABASE');
 if (!postgresPort) missingVars.push('PGPORT');
 if (isNaN(epoch)) missingVars.push('EPOCH');
+if (!network) missingVars.push('NETWORK');
 
 if (missingVars.length > 0) {
   console.error("The following environment variables are not set properly or have invalid values:");
@@ -82,7 +89,10 @@ const config: Config = {
   postgresPort,
 
   // Expected epoch number
-  epoch
+  epoch,
+
+  // ardano network
+  network
 };
 
 // Export the configuration object and the Config type

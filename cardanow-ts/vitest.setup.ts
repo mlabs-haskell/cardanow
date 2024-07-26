@@ -9,3 +9,4 @@ process.env.PGPASSWORD = 'password';
 process.env.PGDATABASE = 'database';
 process.env.PGPORT = '5432';
 process.env.EPOCH = '290';
+process.env.NETWORK = 'preprod';

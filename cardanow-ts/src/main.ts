@@ -5,6 +5,13 @@ import config from './config';
 
 const minutesToMilliseconds = (minutes: number) => minutes * 60 * 1000
 
+function getRetryDelay(mainnetMinutes: number, defaultMinutes: number): number {
+  if (config.network == 'mainnet')
+    return minutesToMilliseconds(mainnetMinutes);
+  else
+    return minutesToMilliseconds(defaultMinutes);
+}
+
 const kupoConfig: SnapshotConfig = {
   name: 'kupo',
   checkSnapshotState: checkKupo,
@@ -24,12 +31,11 @@ const cardanoDBSyncConfig: SnapshotConfig = {
 const main = async () => {
   const kupoSnapshot = new SnapshotExporter(
     kupoConfig,
-    minutesToMilliseconds(30),
+    getRetryDelay(30,1),
     200)
   const cardanoDBSyncSnapshot = new SnapshotExporter(
     cardanoDBSyncConfig,
-    // TODO change before deploy
-    minutesToMilliseconds(30),
+    getRetryDelay(30,1),
     200)
 
   const [kupoResult, cardanoDBSyncResult] = await Promise.all([
@@ -42,3 +48,5 @@ const main = async () => {
 }
 
 main()
+
+
