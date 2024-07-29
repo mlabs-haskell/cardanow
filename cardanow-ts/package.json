@@ -5,15 +5,17 @@
   "scripts": {
     "test-watch": "vitest --test-timeout=10000",
     "test": "vitest run --test-timeout=10000",
-    "start": "ts-node main.ts"
+    "start": "ts-node main.ts",
+    "build": "node build.mjs"
   },
   "devDependencies": {
+    "@types/pg": "^8.11.6",
     "@types/tar": "^6.1.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "esbuild": "^0.20.0",
+    "esbuild": "^0.20.2",
     "pg": "^8.12.0",
     "rollup": "^4.9.6",
     "tar": "^6.2.0",

@@ -14,6 +14,7 @@ NETWORK=$1
 export NETWORK
 
 echo "Clone cardano-configurations"
+rm -fr cardano-configurations
 git clone https://github.com/input-output-hk/cardano-configurations.git
 cd cardano-configurations || exit
 # NOTE: this is simply the most recent commit in master

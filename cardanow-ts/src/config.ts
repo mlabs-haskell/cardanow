@@ -1,3 +1,31 @@
+// Define the TypeScript interface for your configuration
+export interface Config {
+  // Data paths
+  kupoSnapshotDataPath: string;
+  cardanoDBSyncSnapshotDataPath: string;
+
+  // Exported snapshot paths
+  kupoExportedSnapshotPath: string;
+  cardanoDBSyncExportedSnapshotPath: string;
+
+  // Ports
+  kupoPort: string;
+
+  // Database connection details
+  postgresHost: string;
+  postgresUser: string;
+  postgresPassword: string;
+  postgresDb: string;
+  postgresPort: number;
+
+  // Expected epoch number
+  epoch: number;
+
+  // The cardano network
+  network: string;
+}
+
+// Define environment variables and their defaults
 const kupoSnapshotDataPath: string = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT as string;
 const cardanoDBSyncSnapshotDataPath: string = process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT as string;
 
@@ -15,6 +43,9 @@ const postgresPort: number = parseInt(process.env.PGPORT as string, 10);
 // Expected epoch number
 const epoch: number = parseInt(process.env.EPOCH as string, 10);
 
+// Cardano network
+const network: string = process.env.NETWORK as string;
+
 // Collecting missing environment variables
 let missingVars: string[] = [];
 
@@ -29,6 +60,7 @@ if (!postgresPassword) missingVars.push('PGPASSWORD');
 if (!postgresDb) missingVars.push('PGDATABASE');
 if (!postgresPort) missingVars.push('PGPORT');
 if (isNaN(epoch)) missingVars.push('EPOCH');
+if (!network) missingVars.push('NETWORK');
 
 if (missingVars.length > 0) {
   console.error("The following environment variables are not set properly or have invalid values:");
@@ -36,14 +68,15 @@ if (missingVars.length > 0) {
   process.exit(1);
 }
 
-export { 
+// Define and export the configuration object
+const config: Config = {
   // Data paths
-  kupoSnapshotDataPath, 
+  kupoSnapshotDataPath,
   cardanoDBSyncSnapshotDataPath,
 
   // Exported snapshot paths
-  kupoExportedSnapshotPath, 
-  cardanoDBSyncExportedSnapshotPath, 
+  kupoExportedSnapshotPath,
+  cardanoDBSyncExportedSnapshotPath,
 
   // Ports
   kupoPort,
@@ -56,5 +89,11 @@ export {
   postgresPort,
 
   // Expected epoch number
-  epoch
+  epoch,
+
+  // ardano network
+  network
 };
+
+// Export the configuration object and the Config type
+export default config;

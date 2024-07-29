@@ -1,33 +1,29 @@
 import { SnapshotExporter, SnapshotConfig } from './snapshot'
 import checkKupo from './kupo-watcher'
 import checkCardanoDBSync from './cardano-db-sync-watcher'
-import { 
-  // Data paths
-  kupoSnapshotDataPath, 
-  cardanoDBSyncSnapshotDataPath,
-
-  // Exported snapshot paths
-  kupoExportedSnapshotPath , 
-  cardanoDBSyncExportedSnapshotPath, 
-
-  // Ports
-  kupoPort, 
-} from './config';
+import config from './config';
 
 const minutesToMilliseconds = (minutes: number) => minutes * 60 * 1000
+
+function getRetryDelay(mainnetMinutes: number, defaultMinutes: number): number {
+  if (config.network == 'mainnet')
+    return minutesToMilliseconds(mainnetMinutes);
+  else
+    return minutesToMilliseconds(defaultMinutes);
+}
 
 const kupoConfig: SnapshotConfig = {
   name: 'kupo',
   checkSnapshotState: checkKupo,
-  snapshotLocation: kupoSnapshotDataPath,
-  snapshotTarName: kupoExportedSnapshotPath 
+  snapshotLocation: config.kupoSnapshotDataPath,
+  snapshotTarName: config.kupoExportedSnapshotPath 
 }
 
 const cardanoDBSyncConfig: SnapshotConfig = {
   name: 'cardano-db-sync',
   checkSnapshotState: checkCardanoDBSync,
-  snapshotLocation: cardanoDBSyncSnapshotDataPath,
-  snapshotTarName: cardanoDBSyncExportedSnapshotPath
+  snapshotLocation: config.cardanoDBSyncSnapshotDataPath,
+  snapshotTarName: config.cardanoDBSyncExportedSnapshotPath
 }
 // FIXME (albertodvp 2024-02-07): this function is not robust,
 // failures and retries should be addressed better
@@ -35,12 +31,11 @@ const cardanoDBSyncConfig: SnapshotConfig = {
 const main = async () => {
   const kupoSnapshot = new SnapshotExporter(
     kupoConfig,
-    minutesToMilliseconds(30),
+    getRetryDelay(30,1),
     200)
   const cardanoDBSyncSnapshot = new SnapshotExporter(
     cardanoDBSyncConfig,
-    // TODO change before deploy
-    minutesToMilliseconds(30),
+    getRetryDelay(30,1),
     200)
 
   const [kupoResult, cardanoDBSyncResult] = await Promise.all([
@@ -53,3 +48,5 @@ const main = async () => {
 }
 
 main()
+
+

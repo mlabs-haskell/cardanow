@@ -15,7 +15,7 @@ cardano-configurations
 # Javascript and nodejs
 *.js
 node_modules/
-
+build/
 # Direnv 
 .envrc
 .direnv
