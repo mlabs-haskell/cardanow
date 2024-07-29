@@ -32,7 +32,7 @@ describe('connectToDatabase', () => {
       connect: vi.fn().mockResolvedValue(undefined),
       end: vi.fn().mockResolvedValue(undefined),
     };
-
+    // TODO is there a better way to handle this type?
     (pg.Client as unknown as Mock).mockImplementation(() => mockClient);
 
     const client = await connectToDatabase();
