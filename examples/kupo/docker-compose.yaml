@@ -1,15 +1,21 @@
 services:
   cardano-node:
-    build:
-      context: .
-      dockerfile_inline: |
-        FROM ghcr.io/intersectmbo/cardano-node:9.0.0
-        COPY examples/cardano-node-completely-sync.sh /bin/healthcheck.sh
-        RUN chmod +x /bin/healthcheck.sh
+    image: ghcr.io/intersectmbo/cardano-node:9.0.0
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f 127.0.0.1:12788 || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
       - cardano-node-ipc:${CONTAINER_IPC_PATH}
       - ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}:${CONTAINER_DATA_CARDANO_NODE_PATH}
-      - ${LOCAL_NONIX_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
+      - ${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
     command:
       - "run"
       - "--config"
@@ -23,12 +29,6 @@ services:
     environment:
       CARDANO_NODE_FLAG: ${CARDANO_NODE_FLAG}
       CONTAINER_SOCKET_PATH: ${CONTAINER_SOCKET_PATH} 
-    healthcheck:
-      test: /bin/healthcheck.sh
-      interval: 10s
-      timeout: 20s
-      retries: 30
-      start_period: 30s
   kupo:
     image: cardanosolutions/kupo:v2.9.0
     depends_on:
@@ -37,7 +37,7 @@ services:
     volumes:
       - cardano-node-ipc:${CONTAINER_IPC_PATH}
       - ${LOCAL_KUPO_DATA_PER_SNAPSHOT}:${CONTAINER_DATA_KUPO_PATH}
-      - ${LOCAL_NONIX_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
+      - ${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
     ports:
       - "1442:1442"
     command:

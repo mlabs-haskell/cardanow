@@ -19,7 +19,7 @@ git clone https://github.com/input-output-hk/cardano-configurations.git
 cd cardano-configurations || exit
 # NOTE: this is simply the most recent commit in master
 # if you update this hash, you should check the restore script works.
-git checkout 692010ed0f454bfbb566c06443227c79e2f4dbab
+git checkout 6d7fac44d6a877ae9a3cf5eeda163ae539b17774 
 cd .. || exit
 
 echo "Setting up variables"
@@ -32,4 +32,4 @@ echo "Downloading the latest kupo snapshot for ${NETWORK}"
 ./bin/download-kupo-latest.sh
 
 echo "Start cardano-node and kupo from downloaded snapshots"
-docker compose --project-directory . -f examples/docker-compose.yaml up -d --force-recreate --build
+docker compose --project-directory . -f examples/kupo/docker-compose.yaml up -d --force-recreate --build
