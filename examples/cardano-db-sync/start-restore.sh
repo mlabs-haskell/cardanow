@@ -31,5 +31,5 @@ source bin/download-with-mithril.sh
 echo "Downloading the latest kupo snapshot for ${NETWORK}"
 ./bin/download-cardano-db-sync-latest.sh
 
-# echo "Start cardano-node and kupo from downloaded snapshots"
-# docker compose --project-directory . -f examples/cardano-db-sync/docker-compose.yaml up -d --force-recreate --build -p "${NETWORK}"
+echo "Start cardano-node and kupo from downloaded snapshots"
+docker compose -p "${NETWORK}" --project-directory . -f examples/cardano-db-sync/docker-compose.yaml up -d --force-recreate --build 

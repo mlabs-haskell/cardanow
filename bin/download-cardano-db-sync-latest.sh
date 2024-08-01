@@ -48,8 +48,8 @@ docker run -d \
   -p 5432:5432 \
   postgres:14.10-alpine
 
-# echo "Wait postresql is up"
-# sleep 30s
+echo "Wait postresql is up"
+sleep 30s
 
 echo "Running pg_restore"
 docker exec restore_postgres_container \
