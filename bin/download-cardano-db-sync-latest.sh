@@ -65,3 +65,4 @@ docker exec restore_postgres_container \
     --exit-on-error \
     "/backup_data"'
 
+docker rm -f restore_postgres_container
