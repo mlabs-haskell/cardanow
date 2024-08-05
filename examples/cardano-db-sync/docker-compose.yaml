@@ -1,0 +1,94 @@
+services:
+  cardano-node:
+    image: ghcr.io/intersectmbo/cardano-node:9.0.0
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f 127.0.0.1:12788 || exit 1"]
+      interval: 60s
+      timeout: 10s
+      retries: 5
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - cardano-node-ipc:${CONTAINER_IPC_PATH}
+      - ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}:${CONTAINER_DATA_CARDANO_NODE_PATH}
+      - ${LOCAL_CONFIG_PATH}:${CONTAINER_CONFIG_BASE_PATH}
+    command:
+      - "run"
+      - "--config"
+      - "${CONTAINER_CONFIG_CONFIG_PATH}"
+      - "--topology"
+      - "${CONTAINER_CONFIG_TOPOLOGY_PATH}"
+      - "--database-path"
+      - "${CONTAINER_DATA_CARDANO_NODE_PATH}/db"
+      - "--socket-path"
+      - "${CONTAINER_SOCKET_PATH}"
+    environment:
+      CARDANO_NODE_FLAG: ${CARDANO_NODE_FLAG}
+      CONTAINER_SOCKET_PATH: ${CONTAINER_SOCKET_PATH} 
+
+  postgres:
+    image: postgres:14.10-alpine
+    environment:
+      - POSTGRES_LOGGING=true
+      - POSTGRES_DB=${PGDATABASE}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+      - POSTGRES_USER=${PGUSER}
+    ports:
+      - ${PGPORT}:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: on-failure
+    healthcheck:
+      # Use pg_isready to check postgres is running. Substitute different
+      # user `postgres` if you've setup differently to config/pgpass-mainnet
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: ${POSTGRES_ARGS:--c maintenance_work_mem=1GB -c max_parallel_maintenance_workers=4}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  cardano-db-sync:
+    image: ghcr.io/intersectmbo/cardano-db-sync:13.3.0.0
+    environment:
+      - NETWORK=${NETWORK}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - EXTRA_DB_SYNC_ARGS=${EXTRA_DB_SYNC_ARGS:-}
+      - POSTGRES_DB=${PGDATABASE}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+      - POSTGRES_USER=${PGUSER}
+    depends_on:
+      # Depend on both services to be healthy before starting.
+      cardano-node:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    volumes:
+      - db-sync-data:/var/lib/cexplorer
+      - cardano-node-ipc:/node-ipc
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    command:
+      - "--config"
+      - "${CONTAINER_CONFIG_CONFIG_PATH}"
+      - "--socket-path"
+      - "${CONTAINER_SOCKET_PATH}"
+
+
+volumes:
+  cardano-node-ipc: 
+  db-sync-data:
+  postgres:

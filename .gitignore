@@ -11,6 +11,7 @@ available-snapshots.json
 /docker-compose.yaml
 mithril-configurations
 cardano-configurations
+exported-snapshots
 
 # Javascript and nodejs
 *.js

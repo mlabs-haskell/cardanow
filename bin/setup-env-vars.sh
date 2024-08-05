@@ -62,10 +62,6 @@ CONTAINER_DATA_CARDANO_DB_SYNC_PATH="${CONTAINER_DATA_PATH}/cardano-db-sync"
 # shellcheck disable=SC2034
 LOCAL_CONFIG_PATH="./cardano-configurations/network"
 
-# TODO verify if this is still used
-# shellcheck disable=SC2034
-LOCAL_NONIX_CONFIG_PATH="./config/cardano-configurations/network"
-
 # shellcheck disable=SC2034
 EXPORTED_SNAPSHOT_BASE_PATH="./exported-snapshots"
 
