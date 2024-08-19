@@ -24,6 +24,8 @@ EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH="${EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_
 LOCAL_KUPO_DATA_PER_SNAPSHOT="${SNAPSHOTS_KUPO_DIR}/${MITHRIL_SNAPSHOT_NAME}"
 # shellcheck disable=SC2034
 LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT="${SNAPSHOTS_CARDANO_DB_SYNC_DIR}/${MITHRIL_SNAPSHOT_NAME}"
+# shellcheck disable=SC2034
+LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT="${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}/db"
 
 # shellcheck disable=SC2034
 EPOCH=$(jq -r '.beacon | "\(.epoch)"' <<< "${MITHRIL_QUERY}")
@@ -43,7 +45,9 @@ echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
 echo "Local kupo data snapshot dir: ${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
 echo "Local cardano-db-sync data snapshot dir: ${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}"
+echo "Local cardano-db-sync data db snapshot dir: ${LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT}"
 echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 echo "Exported cardano-db-sync snapshot path: ${EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH}"
 echo "Epoch: ${EPOCH}"
 
+mkdir -p "${LOCAL_KUPO_DATA_PER_SNAPSHOT}" "${LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT}"

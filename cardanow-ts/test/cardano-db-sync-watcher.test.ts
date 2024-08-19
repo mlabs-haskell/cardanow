@@ -32,7 +32,7 @@ describe('main function', () => {
 
     expect(cardanoDbSyncWatcherUtils.connectToDatabase).toHaveBeenCalled();
     expect(cardanoDbSyncWatcherUtils.getEpochNumber).toHaveBeenCalledWith(mockClient);
-    expect(cardanoDbSyncWatcherUtils.executePgDump).toHaveBeenCalledWith(config.postgresDb, config.cardanoDBSyncSnapshotDataPath);
+    expect(cardanoDbSyncWatcherUtils.executePgDump).toHaveBeenCalledWith(config.postgresDb, config.cardanoDBSyncSnapshotDataDBPath);
     expect(mockClient.end).toHaveBeenCalled();
     expect(result).toBe(true);
   });
