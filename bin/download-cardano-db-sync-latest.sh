@@ -43,11 +43,12 @@ docker run -d \
   -e POSTGRES_PASSWORD="${PGPASSWORD}" \
   -e PGUSER="${PGUSER}" \
   -e PGDATABASE="${PGDATABASE}" \
+  -v "${NETWORK}_postgres":/var/lib/postgresql/data \
   -v "${LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT}":/backup_data \
   -p 5432:5432 \
   postgres:14.10-alpine
 
-echo "Wait postresql is up"
+echo "Wait for postresql"
 sleep 30s
 
 echo "Running pg_restore"
