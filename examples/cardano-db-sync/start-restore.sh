@@ -28,8 +28,8 @@ source bin/setup-env-vars.sh
 echo "Downloading the latest cardano-node snapshot for ${NETWORK}"
 source bin/download-with-mithril.sh
 
-echo "Downloading the latest kupo snapshot for ${NETWORK}"
+echo "Downloading the latest cardano-db-sync snapshot for ${NETWORK}"
 ./bin/download-cardano-db-sync-latest.sh
 
-echo "Start cardano-node and kupo from downloaded snapshots"
+echo "Start cardano-node and cardano-db-sync from downloaded snapshots"
 docker compose -p "${NETWORK}" --project-directory . -f examples/cardano-db-sync/docker-compose.yaml up -d --force-recreate --build 
