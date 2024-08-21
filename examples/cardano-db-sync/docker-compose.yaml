@@ -73,7 +73,7 @@ services:
       postgres:
         condition: service_healthy
     volumes:
-      - db-sync-data:/var/lib/cexplorer
+      - ${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}:/var/lib/cexplorer
       - cardano-node-ipc:/node-ipc
     restart: on-failure
     logging:

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # TODO this is very similar to the kupo script, we might want to make this dry
-
+# TODO refactor
 set -x
 
 destination_path="${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}"
@@ -44,11 +44,11 @@ docker run -d \
   -e PGUSER="${PGUSER}" \
   -e PGDATABASE="${PGDATABASE}" \
   -v "${NETWORK}_postgres":/var/lib/postgresql/data \
-  -v "${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}":/backup_data \
+  -v "${LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT}":/backup_data \
   -p 5432:5432 \
   postgres:14.10-alpine
 
-echo "Wait postresql is up"
+echo "Wait for postresql"
 sleep 30s
 
 echo "Running pg_restore"

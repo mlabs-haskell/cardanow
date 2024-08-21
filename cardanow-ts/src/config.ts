@@ -3,6 +3,7 @@ export interface Config {
   // Data paths
   kupoSnapshotDataPath: string;
   cardanoDBSyncSnapshotDataPath: string;
+  cardanoDBSyncSnapshotDataDBPath: string;
 
   // Exported snapshot paths
   kupoExportedSnapshotPath: string;
@@ -28,6 +29,7 @@ export interface Config {
 // Define environment variables and their defaults
 const kupoSnapshotDataPath: string = process.env.LOCAL_KUPO_DATA_PER_SNAPSHOT as string;
 const cardanoDBSyncSnapshotDataPath: string = process.env.LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT as string;
+const cardanoDBSyncSnapshotDataDBPath: string = process.env.LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT as string;
 
 const kupoExportedSnapshotPath: string = process.env.EXPORTED_KUPO_SNAPSHOT_PATH as string;
 const cardanoDBSyncExportedSnapshotPath: string = process.env.EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH as string;
@@ -51,6 +53,7 @@ let missingVars: string[] = [];
 
 if (!kupoSnapshotDataPath) missingVars.push('LOCAL_KUPO_DATA_PER_SNAPSHOT');
 if (!cardanoDBSyncSnapshotDataPath) missingVars.push('LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT');
+if (!cardanoDBSyncSnapshotDataDBPath) missingVars.push('LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT');
 if (!kupoExportedSnapshotPath) missingVars.push('EXPORTED_KUPO_SNAPSHOT_PATH');
 if (!cardanoDBSyncExportedSnapshotPath) missingVars.push('EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH');
 if (!kupoPort) missingVars.push('KUPO_PORT');
@@ -73,6 +76,7 @@ const config: Config = {
   // Data paths
   kupoSnapshotDataPath,
   cardanoDBSyncSnapshotDataPath,
+  cardanoDBSyncSnapshotDataDBPath,
 
   // Exported snapshot paths
   kupoExportedSnapshotPath,

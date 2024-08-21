@@ -11,7 +11,7 @@ export const main = async (): Promise<boolean> => {
 
     if (epochNo === config.epoch) {
       console.log(`Epoch number matches the expected value. epochNo: ${epochNo}, expected: ${config.epoch}`);
-      executePgDump(config.postgresDb, config.cardanoDBSyncSnapshotDataPath);
+      executePgDump(config.postgresDb, config.cardanoDBSyncSnapshotDataDBPath);
       console.log('pg_dump completed successfully');
       return true;
     } else {
