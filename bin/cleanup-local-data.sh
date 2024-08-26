@@ -53,10 +53,10 @@ done
 
 echo "Cleanup completed."
 
-push_metric_to_prometheus "r2-bucket-sync-starts"
+push_metric_to_prometheus "r2_bucket_sync_starts"
 
 echo "Refreshing available snapshots state..."
 refresh-available-snapshots-state
 echo "Refresh completed."
 
-push_metric_to_prometheus "r2-bucket-sync-finished"
+push_metric_to_prometheus "r2_bucket_sync_finished"

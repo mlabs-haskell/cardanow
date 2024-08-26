@@ -24,7 +24,7 @@ docker compose -p "${NETWORK}" up -d
 
 echo "Starting cardanow-ts"
 
-push_metric_to_prometheus "cardanow-ts starts"
+push_metric_to_prometheus "cardanowts_starts"
 
 cardanow-ts
 
@@ -32,7 +32,7 @@ echo "Stopping cardanow isoldated containers"
 
 docker compose -p "${NETWORK}" down
 
-push_metric_to_prometheus "cardanow-ts finished"
+push_metric_to_prometheus "cardanowts_finished"
 
 
 echo "Cleaning up data"

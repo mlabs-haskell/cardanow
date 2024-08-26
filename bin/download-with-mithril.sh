@@ -45,7 +45,7 @@ else
   echo "Directory ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR} already exists. Skipping download."
 fi
 
-push_metric_to_prometheus "mithril-snapshot-fetched"
+push_metric_to_prometheus "mithril_snapshot_fetched"
 
 
 
