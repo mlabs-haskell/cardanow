@@ -3,6 +3,11 @@
 set -x
 set -a
 
+# shellcheck source=/dev/null
+source bin/utils.sh
+
+push_metric_to_prometheus "start"
+
 # Create data directories if they don't exist
 mkdir -p "${SNAPSHOTS_CARDANO_NODE_DIR}" "${SNAPSHOTS_KUPO_DIR}" "${SNAPSHOTS_CARDANO_DB_SYNC_DIR}" "${EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_KUPO}" "${EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_CARDANO_DB_SYNC}"
 
@@ -39,6 +44,9 @@ if [ ! -d "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" ]; then
 else
   echo "Directory ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR} already exists. Skipping download."
 fi
+
+push_metric_to_prometheus "mithril-snapshot-fetched"
+
 
 
 echo "Last digest: ${DIGEST}"

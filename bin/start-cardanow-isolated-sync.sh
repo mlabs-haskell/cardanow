@@ -3,6 +3,10 @@
 set -x
 set -a
 
+# shellcheck source=/dev/null
+source bin/utils.sh
+
+
 # Kill hanging containers
 HANGING_CONTAINER=$(docker ps -aq -f name="${NETWORK}")
 # Check if HANGING_CONTAINER is non-empty
@@ -20,11 +24,16 @@ docker compose -p "${NETWORK}" up -d
 
 echo "Starting cardanow-ts"
 
+push_metric_to_prometheus "cardanow-ts starts"
+
 cardanow-ts
 
 echo "Stopping cardanow isoldated containers"
 
 docker compose -p "${NETWORK}" down
+
+push_metric_to_prometheus "cardanow-ts finished"
+
 
 echo "Cleaning up data"
 
