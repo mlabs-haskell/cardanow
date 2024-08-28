@@ -35,6 +35,12 @@
           }
         ];
       };
+      dashboards.settings.providers = [
+        {
+          name = "Node";
+          options.path = ./dashboards/node.json;
+        }
+      ];
     };
   };
 }
