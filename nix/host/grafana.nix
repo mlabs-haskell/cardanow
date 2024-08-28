@@ -6,7 +6,7 @@
         domain = "status.cardanow.staging.mlabs.city";
         http_addr = "127.0.0.1";
         http_port = 2342;
-        root_url = "https://${config.services.grafana.settings.server.domain}:443/";
+        root_url = "https://${config.services.grafana.settings.server.domain}:443";
       };
       users = {
         allow_org_create = false;
