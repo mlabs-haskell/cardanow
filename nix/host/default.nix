@@ -17,6 +17,11 @@ let
           ./scheduled-tasks.nix
           ./docker.nix
           ./nginx.nix
+          ./prometheus.nix
+          ./grafana.nix
+          ./promtail.nix
+          ./loki.nix
+          ./promtail.nix
         ];
         users.users.root.openssh.authorizedKeys.keys = sshAuthorizedKeys;
         _module.args = {
