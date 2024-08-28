@@ -6,7 +6,6 @@
   perSystem = { config, inputs', pkgs, ... }: {
     pre-commit = {
       settings = {
-
         hooks = {
           nixpkgs-fmt.enable = true;
           deadnix.enable = true;
@@ -27,6 +26,7 @@
         '';
       };
       packages = with pkgs; [
+        age
         awscli2
         bash
         curl
