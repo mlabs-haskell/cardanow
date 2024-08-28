@@ -51,7 +51,11 @@
         start-cardanow-monitoring-tmux = pkgs.writeShellApplication {
           name = "start-cardanow-monitoring-tmux";
           runtimeInputs = with pkgs; [ tmux btop ];
-          text = builtins.readFile ../../bin/start-cardanow-monitoring-tmux.sh;
+          text = ''
+            # shellcheck source=/dev/null
+            source "${../../bin/utils.sh}"
+            ${builtins.readFile ../../bin/start-cardanow-monitoring-tmux.sh}
+          '';
         };
         cardanow-mainnet = pkgs.callPackage ./cardanow.nix {
           inherit (inputs'.mithril.packages) mithril-client-cli;

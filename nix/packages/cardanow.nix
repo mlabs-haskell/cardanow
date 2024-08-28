@@ -23,6 +23,10 @@ writeShellApplication
 
     # shellcheck source=/dev/null
     source "${../../bin/setup-env-vars.sh}"
+
+    # shellcheck source=/dev/null
+    source "${../../bin/utils.sh}"
+
     # shellcheck source=/dev/null
     source "${../../bin/download-with-mithril.sh}"
     # shellcheck source=/dev/null
