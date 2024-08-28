@@ -19,7 +19,6 @@ let
           ./nginx.nix
           ./prometheus.nix
           ./grafana.nix
-          ./promtail.nix
           ./loki.nix
           ./promtail.nix
         ];
