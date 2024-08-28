@@ -30,6 +30,12 @@
       group = "cardanow";
       mode = "0440";
     };
+    grafana-admin-password = {
+      file = ../../secrets/grafana-admin-password.age;
+      owner = "grafana";
+      group = "grafana";
+      mode = "0440";
+    };
   };
 
   zramSwap = {
