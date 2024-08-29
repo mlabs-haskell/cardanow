@@ -9,9 +9,6 @@
 #                                                                                         #
 ###########################################################################################
 
-# shellcheck source=/dev/null
-source bin/utils.sh
-
 # Check if the number of arguments is correct
 if [ $# -lt 2 ]; then
     echo "Usage: $0 <files_to_keep> <list_of_dirs>"
