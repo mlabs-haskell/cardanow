@@ -91,7 +91,6 @@ PGHOST="0.0.0.0"
 
   # URL of the Prometheus Pushgateway (replace with actual URL and port)
 # shellcheck disable=SC2034
-# TODO use the real url
 PUSHGATEWAY_URL="localhost:9094"
 
 # shellcheck source=/dev/null

@@ -3,9 +3,6 @@
 set -x
 set -a
 
-# shellcheck source=/dev/null
-source bin/utils.sh
-
 push_metric_to_prometheus "start"
 
 # Create data directories if they don't exist

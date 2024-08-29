@@ -16,7 +16,7 @@ push_metric_to_prometheus() {
   # Define the metric data to be sent to the Pushgateway
   # In this case, we're pushing a simple counter metric with a value of 1
     # Check if the NETWORK environment variable is set and construct metric data accordingly
-  if [ -z "$NETWORK" ]; then
+  if [ -z "${NETWORK:-}" ]; then
     # No network label if the NETWORK variable is not set
     METRIC_DATA="$METRIC_NAME 1"
   else
@@ -26,6 +26,9 @@ push_metric_to_prometheus() {
 
   # Use the curl command to push the metric to the Pushgateway
   # The --data-binary flag sends the metric data as a POST request
+# TODO this is duplicated
+PUSHGATEWAY_URL="localhost:9094"
+
   cat <<EOF | curl --data-binary @- "$PUSHGATEWAY_URL/metrics/job/cardanow"
 # TYPE $METRIC_NAME counter
 $METRIC_DATA
