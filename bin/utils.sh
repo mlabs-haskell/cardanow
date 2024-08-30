@@ -23,7 +23,7 @@ push_metric_to_prometheus() {
     METRIC_DATA="$METRIC_NAME $TIMESTAMP"
   else
     # Add the network and timestamp labels if NETWORK is set
-    METRIC_DATA="$METRIC_NAME{network=\"$NETWORK\"} $TIMESTAMP"
+    METRIC_DATA="${METRIC_NAME}_${NETWORK} $TIMESTAMP"
   fi
 
   # Use the curl command to push the metric to the Pushgateway
