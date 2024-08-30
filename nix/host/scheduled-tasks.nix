@@ -67,7 +67,7 @@ let
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "0m";
-          OnUnitActiveSec = "24h";
+          OnUnitActiveSec = "12h";
           Unit = "cardanow-cleanup-local-data.service";
         };
       };
