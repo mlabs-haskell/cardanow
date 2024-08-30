@@ -3,7 +3,7 @@
 set -x
 set -a
 
-push_metric_to_prometheus "start"
+push_metric_to_prometheus "starts"
 
 # Create data directories if they don't exist
 mkdir -p "${SNAPSHOTS_CARDANO_NODE_DIR}" "${SNAPSHOTS_KUPO_DIR}" "${SNAPSHOTS_CARDANO_DB_SYNC_DIR}" "${EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_KUPO}" "${EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_CARDANO_DB_SYNC}"
@@ -44,8 +44,6 @@ fi
 
 push_metric_to_prometheus "mithril_snapshot_fetched"
 
-
-
 echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
 echo "Local kupo data snapshot dir: ${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
@@ -56,3 +54,5 @@ echo "Exported cardano-db-sync snapshot path: ${EXPORTED_CARDANO_DB_SYNC_SNAPSHO
 echo "Epoch: ${EPOCH}"
 
 mkdir -p "${LOCAL_KUPO_DATA_PER_SNAPSHOT}" "${LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT}"
+
+push_metric_to_prometheus "finished"
