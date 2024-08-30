@@ -4,6 +4,9 @@
 # - https://github.com/mlabs-haskell/cardanow/pull/36#discussion_r1565521197
 { lib, flake, config, ... }:
 let
+  # TODO these are temporary and should be tuned:
+  # https://github.com/mlabs-haskell/cardanow/issues/91
+  restartHours = { preview = 48; preprod = 50; mainnet = 72; };
   networks = [ "preview" "preprod" "mainnet" ];
   # TODO make this parametric with mode data source. NOTE: we have to keep this despite the 
   # optimization on the clean up to avoid to fill the disk in case the exporting scripts fails 
@@ -27,34 +30,36 @@ let
     "exported-snapshots/mainnet/cardano-db-sync"
   ];
   cardanowPerNetwork = lib.genAttrs networks (network: flake.packages."cardanow-${network}");
-  mkCardanowService = network: {
-    systemd = {
-      timers."cardanow-${network}" = {
-        description = "Run cardanow for ${network} every 72 hours";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnBootSec = "0m";
-          OnUnitActiveSec = "72h";
-          Unit = "cardanow-${network}.service";
+  mkCardanowService = network:
+    let hours = builtins.toString restartHours.${network};
+    in {
+      systemd = {
+        timers."cardanow-${network}" = {
+          description = "Run cardanow for ${network} every ${hours} hours";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnBootSec = "0m";
+            OnUnitActiveSec = "${hours}h";
+            Unit = "cardanow-${network}.service";
+          };
         };
-      };
-      services."cardanow-${network}" = {
-        description = "cardanow-${network}";
-        after = [ "network.target" ];
-        path = [ config.virtualisation.docker.package ];
+        services."cardanow-${network}" = {
+          description = "cardanow-${network}";
+          after = [ "network.target" ];
+          path = [ config.virtualisation.docker.package ];
 
-        serviceConfig = {
-          # TODO better handle env files (now we have only secrets here) using nix
-          EnvironmentFile = config.age.secrets.cardanow-environment.path;
-          Type = "simple";
-          User = "cardanow";
-          Group = "cardanow";
-          ExecStart = lib.getExe cardanowPerNetwork.${network};
-          WorkingDirectory = config.users.users.cardanow.home;
+          serviceConfig = {
+            # TODO better handle env files (now we have only secrets here) using nix
+            EnvironmentFile = config.age.secrets.cardanow-environment.path;
+            Type = "simple";
+            User = "cardanow";
+            Group = "cardanow";
+            ExecStart = lib.getExe cardanowPerNetwork.${network};
+            WorkingDirectory = config.users.users.cardanow.home;
+          };
         };
       };
     };
-  };
   otherServices = {
     systemd = {
       timers."cardanow-cleanup-local-data" = {
