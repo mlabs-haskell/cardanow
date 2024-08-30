@@ -29,7 +29,7 @@ push_metric_to_prometheus() {
 # TODO this is duplicated
 PUSHGATEWAY_URL="localhost:9094"
 
-  cat <<EOF | curl --data-binary @- "$PUSHGATEWAY_URL/metrics/job/cardanow"
+  cat <<EOF | curl --data-binary @- "$PUSHGATEWAY_URL/metrics/job/cardanow" || true
 # TYPE $METRIC_NAME counter
 $METRIC_DATA
 EOF
