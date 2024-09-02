@@ -16,7 +16,7 @@ writeShellApplication
     postgresql_14
   ];
   text = ''
-    # TODO there is probably a better way to write this
+
     ln -sfT ${../../config/mithril-configurations} mithril-configurations
     ln -sfT ${../../config/docker-compose.yaml} docker-compose.yaml
     ln -sfT ${cardano-configurations} cardano-configurations
@@ -29,6 +29,7 @@ writeShellApplication
 
     # shellcheck source=/dev/null
     source "${../../bin/download-with-mithril.sh}"
+
     # shellcheck source=/dev/null
     source "${../../bin/start-cardanow-isolated-sync.sh}"
   '';

@@ -45,8 +45,6 @@ services:
       - "${CONTAINER_SOCKET_PATH}"
       - "--node-config"
       - "${CONTAINER_CONFIG_CONFIG_PATH}"
-      # TODO: check docs
-      - "--defer-db-indexes"
       - "--host"
       - "0.0.0.0"
       - "--workdir"
