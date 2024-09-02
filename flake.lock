@@ -197,17 +197,17 @@
     "cardano-configurations": {
       "flake": false,
       "locked": {
-        "lastModified": 1720789031,
-        "narHash": "sha256-brZB5iLQnvqCvxV8XAdrGUfqwlzsRv6aIboVlLG3QD0=",
+        "lastModified": 1721870874,
+        "narHash": "sha256-qiReN+xxtbb4kEfdIWbBcqcJpPGD8he0p/TVD7U3CqM=",
         "owner": "input-output-hk",
         "repo": "cardano-configurations",
-        "rev": "6d7fac44d6a877ae9a3cf5eeda163ae539b17774",
+        "rev": "7969a73e5c7ee1f3b2a40274b34191fdd8de170b",
         "type": "github"
       },
       "original": {
         "owner": "input-output-hk",
         "repo": "cardano-configurations",
-        "rev": "6d7fac44d6a877ae9a3cf5eeda163ae539b17774",
+        "rev": "7969a73e5c7ee1f3b2a40274b34191fdd8de170b",
         "type": "github"
       }
     },
@@ -1324,16 +1324,16 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1720620343,
-        "narHash": "sha256-DXIX9kww679WFpiuQ2skk/bRuY4Jtlx1FaXK36YJPQE=",
+        "lastModified": 1721986510,
+        "narHash": "sha256-Qk8aEY1nyo6f+cCY6M/4YRSXtn7u31oM1lnPm3Ys80U=",
         "owner": "input-output-hk",
         "repo": "mithril",
-        "rev": "6756b0f7d73d37229321ec6be74954f5c6d0486c",
+        "rev": "52a7beb77c537b54fcb1ca171bf1b1c0c059bad8",
         "type": "github"
       },
       "original": {
         "owner": "input-output-hk",
-        "ref": "2428.0",
+        "ref": "2430.0",
         "repo": "mithril",
         "type": "github"
       }
@@ -1346,16 +1346,16 @@
         "treefmt-nix": "treefmt-nix_2"
       },
       "locked": {
-        "lastModified": 1720620343,
-        "narHash": "sha256-DXIX9kww679WFpiuQ2skk/bRuY4Jtlx1FaXK36YJPQE=",
+        "lastModified": 1721986510,
+        "narHash": "sha256-Qk8aEY1nyo6f+cCY6M/4YRSXtn7u31oM1lnPm3Ys80U=",
         "owner": "input-output-hk",
         "repo": "mithril",
-        "rev": "6756b0f7d73d37229321ec6be74954f5c6d0486c",
+        "rev": "52a7beb77c537b54fcb1ca171bf1b1c0c059bad8",
         "type": "github"
       },
       "original": {
         "owner": "input-output-hk",
-        "ref": "2428.0",
+        "ref": "2430.0",
         "repo": "mithril",
         "type": "github"
       }
