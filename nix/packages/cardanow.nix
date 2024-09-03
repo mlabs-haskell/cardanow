@@ -22,9 +22,6 @@ writeShellApplication
     ln -sfT ${cardano-configurations} cardano-configurations
 
     # shellcheck source=/dev/null
-    source "${../../bin/setup-env-vars.sh}"
-
-    # shellcheck source=/dev/null
     source "${../../bin/utils.sh}"
 
     # shellcheck source=/dev/null

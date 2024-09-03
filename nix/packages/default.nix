@@ -2,6 +2,11 @@
   perSystem = { pkgs, inputs', system, config, lib, ... }:
     {
       packages = {
+        s3-sync = pkgs.writeShellApplication {
+          name = "s3-sync";
+          runtimeInputs = with pkgs; [ awscli2 ];
+          text = with import ../variables; "aws s3 sync ${EXPORTED_SNAPSHOT_BASE_PATH} ${BUCKET_LOCATION} --delete";
+        };
         refresh-available-snapshots-state = pkgs.writeShellApplication {
           name = "refresh-available-snapshots-state";
           runtimeInputs = with pkgs; [
@@ -11,32 +16,20 @@
             config.packages.s3-sync
           ];
           text =
-            let
-              # TODO: handle this variable better (e.g. move in a better place, some vars are duplicated in scheduled tasks) 
-              awsEndpoint = "https://pub-b887f41ffaa944ebaae543199d43421c.r2.dev";
-              awsEndpointEscaped = lib.escape [ ":" "/" "." ] awsEndpoint;
-              outFile = "exported-snapshots/available-snapshots.json";
-              bucketName = "cardanow";
-            in
+            with import ../variables;
             ''
               s3-sync
               aws s3api list-objects-v2 \
                   --output json \
-                  --bucket ${bucketName} \
+                  --bucket ${BUCKET_NAME} \
                   --query "Contents[].{Key:Key, LastModified:LastModified}" \
-              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "Network": "\1", "DataSource": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
+              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${AWS_PUBLIC_ENDPOINT_URL}\/\1\/\2\/\3-\4-\5.tgz", "Network": "\1", "DataSource": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
               | python -m json.tool \
-              > ${outFile}
+              > ${EXPORTED_SNAPSHOT_SUMMARY_FILE_PATH}
               echo "Syncing s3 bucket..."
               s3-sync
             '';
 
-        };
-        s3-sync = pkgs.writeShellApplication {
-          name = "s3-sync";
-          runtimeInputs = with pkgs; [ awscli2 ];
-          # TODO some global variables are hard coded here
-          text = "aws s3 sync exported-snapshots s3://cardanow --delete";
         };
         cleanup-local-data = pkgs.writeShellApplication {
           name = "cleanup-local-data";
@@ -50,6 +43,7 @@
           text = ''
             # shellcheck source=/dev/null
             source "${../../bin/utils.sh}"
+
             ${builtins.readFile ../../bin/cleanup-local-data.sh}
           '';
         };

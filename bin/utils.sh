@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# TODO this will be refactored when we will switch to Grafana Tempo
 # This function pushes a counter metric to a Prometheus Pushgateway.
 # The metric name will be prepended with 'cardanow' followed by the 
 # metric name provided as an argument.
@@ -28,8 +29,6 @@ push_metric_to_prometheus() {
 
   # Use the curl command to push the metric to the Pushgateway
   # The --data-binary flag sends the metric data as a POST request
-# TODO this is duplicated
-  PUSHGATEWAY_URL="localhost:9094"
 
   cat <<EOF | curl --data-binary @- "$PUSHGATEWAY_URL/metrics/job/cardanow" || true
 # TYPE $METRIC_NAME counter
