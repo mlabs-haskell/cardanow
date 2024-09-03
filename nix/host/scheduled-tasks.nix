@@ -63,7 +63,7 @@ let
   otherServices = {
     systemd = {
       timers."cardanow-cleanup-local-data" = {
-        description = "Run local cleanup script every 24 hours";
+        description = "Run local cleanup script every 12 hours";
         wantedBy = [ "timers.target" ];
         timerConfig = {
           OnBootSec = "0m";
