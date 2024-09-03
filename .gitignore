@@ -17,8 +17,8 @@ exported-snapshots
 *.js
 node_modules/
 build/
+
 # Direnv 
-.envrc
 .direnv
 
 # Emacs 
