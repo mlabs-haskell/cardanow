@@ -8,14 +8,14 @@ rec {
     else "--mainnet";
 
   KUPO_PORT =
-    if network == "preview" then 1442
-    else if network == "preprod" then 1443
-    else 1444;
+    if network == "preview" then "1442"
+    else if network == "preprod" then "1443"
+    else "1444";
 
   PGPORT =
-    if network == "preview" then 12344
-    else if network == "preprod" then 12345
-    else 12346;
+    if network == "preview" then "12344"
+    else if network == "preprod" then "12345"
+    else "12346";
 
   SNAPSHOTS_BASE_DIR = "./snapshots/${network}";
   SNAPSHOTS_CARDANO_NODE_DIR = "${SNAPSHOTS_BASE_DIR}/cardano-node";
