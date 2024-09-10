@@ -1,22 +1,31 @@
 { network }:
-
+let
+  staticPerNetwork = {
+    mainnet = {
+      CARDANO_NODE_FLAG = "--mainnet";
+      KUPO_PORT = "1444";
+      PGPORT = "12346";
+      AGGREGATOR_ENDPOINT = "https://aggregator.release-mainnet.api.mithril.network/aggregator";
+      GENESIS_VERIFICATION_KEY = "5b3139312c36362c3134302c3138352c3133382c31312c3233372c3230372c3235302c3134342c32372c322c3138382c33302c31322c38312c3135352c3230342c31302c3137392c37352c32332c3133382c3139362c3231372c352c31342c32302c35372c37392c33392c3137365d";
+    };
+    preprod = {
+      CARDANO_NODE_FLAG = "--testnet-magic 2";
+      KUPO_PORT = "1443";
+      PGPORT = "12345";
+      AGGREGATOR_ENDPOINT = "https://aggregator.release-preprod.api.mithril.network/aggregator";
+      GENESIS_VERIFICATION_KEY = "5b3132372c37332c3132342c3136312c362c3133372c3133312c3231332c3230372c3131372c3139382c38352c3137362c3139392c3136322c3234312c36382c3132332c3131392c3134352c31332c3233322c3234332c34392c3232392c322c3234392c3230352c3230352c33392c3233352c34345d";
+    };
+    preview = {
+      CARDANO_NODE_FLAG = "--testnet-magic 1";
+      KUPO_PORT = "1442";
+      PGPORT = "12344";
+      AGGREGATOR_ENDPOINT = "https://aggregator.pre-release-preview.api.mithril.network/aggregator";
+      GENESIS_VERIFICATION_KEY = "5b3132372c37332c3132342c3136312c362c3133372c3133312c3231332c3230372c3131372c3139382c38352c3137362c3139392c3136322c3234312c36382c3132332c3131392c3134352c31332c3233322c3234332c34392c3232392c322c3234392c3230352c3230352c33392c3233352c34345d";
+    };
+  };
+in
 rec {
   NETWORK = network;
-  CARDANO_NODE_FLAG =
-    if network == "preview" then "--testnet-magic 2"
-    else if network == "preprod" then "--testnet-magic 1"
-    else "--mainnet";
-
-  KUPO_PORT =
-    if network == "preview" then "1442"
-    else if network == "preprod" then "1443"
-    else "1444";
-
-  PGPORT =
-    if network == "preview" then "12344"
-    else if network == "preprod" then "12345"
-    else "12346";
-
   SNAPSHOTS_BASE_DIR = "./snapshots/${network}";
   SNAPSHOTS_CARDANO_NODE_DIR = "${SNAPSHOTS_BASE_DIR}/cardano-node";
   SNAPSHOTS_KUPO_DIR = "${SNAPSHOTS_BASE_DIR}/kupo";
@@ -27,4 +36,4 @@ rec {
   CONTAINER_CONFIG_TOPOLOGY_PATH = "${CONTAINER_CONFIG_PATH}/topology.json";
   EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_KUPO = "./exported-snapshots/${network}/kupo";
   EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_CARDANO_DB_SYNC = "./exported-snapshots/${network}/cardano-db-sync";
-}
+} // staticPerNetwork.${network}
