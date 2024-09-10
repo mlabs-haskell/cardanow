@@ -87,7 +87,7 @@ let
           Type = "simple";
           User = "root";
           Group = "root";
-          ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 3 ${cleanupLocalPaths}";
+          ExecStart = "${lib.getExe flake.packages.cleanup-local-data} 2 ${cleanupLocalPaths}";
           WorkingDirectory = config.users.users.cardanow.home;
           Restart = "on-failure";
         };
