@@ -78,6 +78,8 @@ services:
       options:
         max-size: "200k"
         max-file: "10"
+    volumes:
+      - postgres:/var/lib/postgresql/data
 
   cardano-db-sync:
     image: ghcr.io/intersectmbo/cardano-db-sync:13.5.0.0
@@ -114,8 +116,8 @@ services:
 
 volumes:
   cardano-node-ipc: 
+  postgres:
 
-    
 networks:
   internal-network:
     internal: true
