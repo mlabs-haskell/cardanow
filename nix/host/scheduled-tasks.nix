@@ -2,7 +2,7 @@
 let
   # TODO these are temporary and should be tuned:
   # https://github.com/mlabs-haskell/cardanow/issues/91
-  restartHours = { preview = 24; preprod = 24; mainnet = 72; };
+  restartHours = { preview = 24; preprod = 24; mainnet = 96; };
   networks = [ "preview" "preprod" "mainnet" ];
   # NOTE: we have to keep this despite the 
   # optimization on the clean up to avoid to fill the disk in case the exporting scripts fails 
@@ -18,18 +18,18 @@ let
   #   the local storage. We could keep only 1 intermediate artifact but for the sake of semplicity
   #   we maintain the same number (currently 3) so we keep the clean up script as simple as possible
   cleanupLocalPaths = lib.concatStringsSep " " [
-    "snapshots/preview/cardano-node"
-    "snapshots/preprod/cardano-node"
-    "snapshots/mainnet/cardano-node"
-    "snapshots/preview/kupo"
-    "snapshots/preprod/kupo"
-    "snapshots/mainnet/kupo"
+    # "snapshots/preview/cardano-node"
+    # "snapshots/preprod/cardano-node"
+    # "snapshots/mainnet/cardano-node"
+    # "snapshots/preview/kupo"
+    # "snapshots/preprod/kupo"
+    # "snapshots/mainnet/kupo"
     "exported-snapshots/preview/kupo"
     "exported-snapshots/preprod/kupo"
     "exported-snapshots/mainnet/kupo"
-    "snapshots/preview/cardano-db-sync"
-    "snapshots/preprod/cardano-db-sync"
-    "snapshots/mainnet/cardano-db-sync"
+    # "snapshots/preview/cardano-db-sync"
+    # "snapshots/preprod/cardano-db-sync"
+    # "snapshots/mainnet/cardano-db-sync"
     "exported-snapshots/preview/cardano-db-sync"
     "exported-snapshots/preprod/cardano-db-sync"
     "exported-snapshots/mainnet/cardano-db-sync"

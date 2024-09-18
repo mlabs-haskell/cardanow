@@ -21,6 +21,7 @@ let
           ./grafana.nix
           ./loki.nix
           ./promtail.nix
+          ./tempo.nix
         ];
         users.users.root.openssh.authorizedKeys.keys = sshAuthorizedKeys;
         _module.args = {

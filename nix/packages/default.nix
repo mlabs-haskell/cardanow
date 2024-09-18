@@ -17,13 +17,16 @@
           ];
           text =
             with import ../variables;
+            let
+              awsEndpointEscaped = lib.escape [ ":" "/" "." ] AWS_PUBLIC_ENDPOINT_URL;
+            in
             ''
               s3-sync
               aws s3api list-objects-v2 \
                   --output json \
                   --bucket ${BUCKET_NAME} \
                   --query "Contents[].{Key:Key, LastModified:LastModified}" \
-              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${AWS_PUBLIC_ENDPOINT_URL}\/\1\/\2\/\3-\4-\5.tgz", "Network": "\1", "DataSource": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
+              | sed 's/"Key": "\(.*\)\/\(.*\)\/\(.*\)-\([0-9]*\)-\([0-9]*\)\.tgz"/"Key": "${awsEndpointEscaped}\/\1\/\2\/\3-\4-\5.tgz", "Network": "\1", "DataSource": "\2", "Epoch": "\4", "ImmutableFileNumber": "\5"/g' \
               | python -m json.tool \
               > ${EXPORTED_SNAPSHOT_SUMMARY_FILE_PATH}
               echo "Syncing s3 bucket..."
@@ -39,6 +42,8 @@
             config.packages.refresh-available-snapshots-state
             jq
             curl
+            openssl
+            otel-cli
           ];
           text = ''
             # shellcheck source=/dev/null
