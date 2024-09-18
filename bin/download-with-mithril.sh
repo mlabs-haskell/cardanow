@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-set -x
 set -a
 
 push_metric_to_prometheus "starts"
+
+set -x
 
 # Create data directories if they don't exist
 mkdir -p "${SNAPSHOTS_CARDANO_NODE_DIR}" "${SNAPSHOTS_KUPO_DIR}" "${SNAPSHOTS_CARDANO_DB_SYNC_DIR}" "${EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_KUPO}" "${EXPORTED_SNAPSHOT_BASE_PATH_WITH_DATA_SOURCE_CARDANO_DB_SYNC}"
@@ -37,12 +38,11 @@ echo "Genesis verification key: ${GENESIS_VERIFICATION_KEY}"
 
 if [ ! -d "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" ]; then
   mkdir -p "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
-  mithril-client cardano-db download "${DIGEST}" --download-dir "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" || true
+  trace "download with mithril" mithril-client cardano-db download "${DIGEST}" --download-dir "${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" || true
 else
   echo "Directory ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR} already exists. Skipping download."
 fi
 
-push_metric_to_prometheus "mithril_snapshot_fetched"
 
 echo "Last digest: ${DIGEST}"
 echo "Store snapshot dir: ${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}"
@@ -53,6 +53,29 @@ echo "Exported kupo snapshot path: ${EXPORTED_KUPO_SNAPSHOT_PATH}"
 echo "Exported cardano-db-sync snapshot path: ${EXPORTED_CARDANO_DB_SYNC_SNAPSHOT_PATH}"
 echo "Epoch: ${EPOCH}"
 
-mkdir -p "${LOCAL_KUPO_DATA_PER_SNAPSHOT}" "${LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT}"
 
-push_metric_to_prometheus "finished"
+# Ensure LAST_KUPO_SNAPSHOT is always created or checked
+if [ ! -e "${LAST_KUPO_SNAPSHOT}" ]; then
+    echo "LAST_KUPO_SNAPSHOT not found, creating directory..."
+    mkdir -p "${LAST_KUPO_SNAPSHOT}"
+else
+    echo "LAST_KUPO_SNAPSHOT exists."
+fi
+
+# Create symlink to LOCAL_KUPO_DATA_PER_SNAPSHOT
+echo "Creating symlink for LAST_KUPO_SNAPSHOT..."
+ln -sf "$(realpath "${LAST_KUPO_SNAPSHOT}")" "${LOCAL_KUPO_DATA_PER_SNAPSHOT}"
+
+# Ensure LAST_CARDANO_DB_SYNC_SNAPSHOT is always created or checked
+if [ ! -e "${LAST_CARDANO_DB_SYNC_SNAPSHOT}" ]; then
+    echo "LAST_CARDANO_DB_SYNC_SNAPSHOT not found, creating directory..."
+    mkdir -p "${LAST_CARDANO_DB_SYNC_SNAPSHOT}"
+else
+    echo "LAST_CARDANO_DB_SYNC_SNAPSHOT exists."
+fi
+
+# Create symlink to LOCAL_CARDANO_DB_SYNC_DATA_DB_PER_SNAPSHOT
+echo "Creating symlink for LAST_CARDANO_DB_SYNC_SNAPSHOT..."
+ln -s "$(realpath "${LAST_CARDANO_DB_SYNC_SNAPSHOT}")" "${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}"
+
+echo "All operations completed."
