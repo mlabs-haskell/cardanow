@@ -73,7 +73,7 @@ trace() {
     fi
 
     # Send the span to OpenTelemetry collector using otel-cli
-    attrs=""
+    attrs="network=none"
     if [[ -n "${NETWORK-}" ]]; then
         attrs="network=$NETWORK"
     fi
