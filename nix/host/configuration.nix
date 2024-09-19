@@ -21,7 +21,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 
-  environment.systemPackages = with pkgs; [ btop tmux inputs.cardano-node.packages.${pkgs.stdenv.system}.cardano-cli ];
+  environment.systemPackages = with pkgs; [ btop tmux inputs.cardano-node.packages.${pkgs.stdenv.system}.cardano-cli tree ];
 
   age.secrets = {
     cardanow-environment = {
