@@ -18,7 +18,5 @@ rec {
   PGUSER = "postgres";
   PGHOST = "0.0.0.0";
   OTEL_EXPORTER_OTLP_ENDPOINT = "localhost:4317";
-  # TODO will be deprecated when pushgateway will be 
   PUSHGATEWAY_URL = "localhost:9094";
 }
-
