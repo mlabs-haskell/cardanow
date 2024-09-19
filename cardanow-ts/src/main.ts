@@ -29,11 +29,11 @@ const cardanoDBSyncConfig: SnapshotConfig = {
 const main = async () => {
   const kupoSnapshot = new SnapshotExporter(
     kupoConfig,
-    getRetryDelay(45,10),
+    getRetryDelay(45, 10),
     400)
   const cardanoDBSyncSnapshot = new SnapshotExporter(
     cardanoDBSyncConfig,
-    getRetryDelay(45,10),
+    getRetryDelay(60, 15),
     400)
 
   const [kupoResult, cardanoDBSyncResult] = await Promise.all([

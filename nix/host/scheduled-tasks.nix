@@ -2,7 +2,7 @@
 let
   # TODO these are temporary and should be tuned:
   # https://github.com/mlabs-haskell/cardanow/issues/91
-  restartHours = { preview = 24; preprod = 24; mainnet = 96; };
+  restartHours = { preview = 24; preprod = 24; mainnet = 4 * 96; };
   networks = [ "preview" "preprod" "mainnet" ];
   # NOTE: we have to keep this despite the 
   # optimization on the clean up to avoid to fill the disk in case the exporting scripts fails 
