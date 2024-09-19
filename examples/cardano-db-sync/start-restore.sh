@@ -23,7 +23,7 @@ git checkout 6d7fac44d6a877ae9a3cf5eeda163ae539b17774
 cd .. || exit
 
 echo "Setting up variables"
-source bin/setup-env-vars.sh
+source examples/setup-env-vars.sh
 
 echo "Downloading the latest cardano-node snapshot for ${NETWORK}"
 source bin/download-with-mithril.sh

@@ -16,20 +16,15 @@ fi
 
 echo "Starting cardanow isoldated containers"
 
-docker compose -p "${NETWORK}" up -d
+trace "start isolated network" docker compose -p "${NETWORK}" up -d
 
 echo "Starting cardanow-ts"
 
-push_metric_to_prometheus "cardanowts_starts"
-
-cardanow-ts
+trace "start cardanow ts" cardanow-ts
 
 echo "Stopping cardanow isoldated containers"
 
-docker compose -p "${NETWORK}" down
-
-push_metric_to_prometheus "cardanowts_finished"
-
+trace "stop isolated network" docker compose -p "${NETWORK}" down
 
 echo "Cleaning up data"
 
@@ -44,6 +39,9 @@ fi
 
 # Run the docker command if variables are set
 docker run -v ./snapshots:/snapshots \
-  -e LOCAL_KUPO_DATA_PER_SNAPSHOT="${LOCAL_KUPO_DATA_PER_SNAPSHOT}" \
-  -e LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT="${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}" \
-  alpine sh -c 'rm -fr "/${LOCAL_KUPO_DATA_PER_SNAPSHOT}" "/${LOCAL_CARDANO_SYNC_DATA_DB_PER_SNAPSHOT}"'
+  -e LOCAL_CARDANO_NODE_SNAPSHOT_DIR="${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" \
+  -e LAST_CARDANO_DB_SYNC_SNAPSHOT="${LAST_CARDANO_DB_SYNC_SNAPSHOT}" \
+  alpine sh -c 'rm -fr "/${LOCAL_CARDANO_NODE_SNAPSHOT_DIR}" "/${LAST_CARDANO_DB_SYNC_SNAPSHOT}/db"'
+
+echo "Remove symbolic links"
+rm "${LOCAL_KUPO_DATA_PER_SNAPSHOT}" "${LOCAL_CARDANO_DB_SYNC_DATA_PER_SNAPSHOT}"

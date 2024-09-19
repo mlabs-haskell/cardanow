@@ -25,18 +25,16 @@ const cardanoDBSyncConfig: SnapshotConfig = {
   snapshotLocation: config.cardanoDBSyncSnapshotDataPath,
   snapshotTarName: config.cardanoDBSyncExportedSnapshotPath
 }
-// FIXME (albertodvp 2024-02-07): this function is not robust,
-// failures and retries should be addressed better
-// these should also be configurable
+
 const main = async () => {
   const kupoSnapshot = new SnapshotExporter(
     kupoConfig,
-    getRetryDelay(30,10),
-    200)
+    getRetryDelay(45, 10),
+    400)
   const cardanoDBSyncSnapshot = new SnapshotExporter(
     cardanoDBSyncConfig,
-    getRetryDelay(30,10),
-    200)
+    getRetryDelay(60, 15),
+    400)
 
   const [kupoResult, cardanoDBSyncResult] = await Promise.all([
     kupoSnapshot.run(),

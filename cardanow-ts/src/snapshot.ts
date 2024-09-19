@@ -104,7 +104,8 @@ export class SnapshotExporter {
           //       of time and this would make if more difficult to test
           // @ts-ignore
           noMtime: true,
-          C: this.config.snapshotLocation
+          C: this.config.snapshotLocation,
+          follow: true
         },
         ['.']
       ),

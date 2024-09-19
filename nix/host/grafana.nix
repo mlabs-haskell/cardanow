@@ -33,6 +33,19 @@
             uid = "local_loki";
             url = "http://localhost:${builtins.toString config.services.loki.configuration.server.http_listen_port}";
           }
+          {
+            name = "Tempo";
+            type = "tempo";
+            uid = "local_tempo";
+            url = "http://localhost:${builtins.toString config.services.tempo.settings.server.http_listen_port}";
+            jsonData = {
+              tracesToLogs.datasourceUid = "local_loki";
+              tracesToMetrics.datasourceUid = "local_prometheus";
+              serviceMap.datasourceUid = "local_prometheus";
+              nodeGraph.enabled = true;
+              lokiSearch.datasourceUid = "local_loki";
+            };
+          }
         ];
       };
       dashboards.settings.providers = [
