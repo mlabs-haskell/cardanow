@@ -1,4 +1,4 @@
- Restoring Snapshots
+# Restoring Snapshots
 
 ## Prerequisites
 
