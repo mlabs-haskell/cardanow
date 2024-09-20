@@ -15,7 +15,7 @@ To download a snapshot, visit [this link](https://cardanow.staging.mlabs.city/av
 
 For a simple approach to restoring the latest Kupo snapshot for a given network, refer to the [examples](../examples).
 
-## Restoring Cardano DB Sync
+## Restoring Cardano DB Sync Snapshot
 
 The snapshot includes both the **PostgreSQL dump** and the **lstate** files required to resume synchronization.
 
