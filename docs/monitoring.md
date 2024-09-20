@@ -3,6 +3,8 @@
 ## Grafana
 Grafana is used as the visualization layer for our monitoring stack. We configure various data sources to visualize machine usage and service performance. The following components are integrated into Grafana:
 
+[Public dashboard](https://status.cardanow.staging.mlabs.city/d/edwa5iq4kx2psf/public-cardanow-status?orgId=1&refresh=1m)
+
 We are using the following data sources:
 - **Loki** (for log aggregation)
 - **Tempo** (for distributed tracing)
