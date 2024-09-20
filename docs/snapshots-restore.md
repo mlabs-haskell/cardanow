@@ -1,14 +1,22 @@
-# Restore snapshots
+ Restoring Snapshots
 
-## Restore a Kupo snapshot
+## Prerequisites
 
-### Prerequisites
+To restore a snapshot, both **Kupo** and **Cardano DB Sync** require a running **Cardano Node**. The simplest way to set this up is by downloading a snapshot of the Cardano ledger using **Mithril** and starting a Cardano node from that. The Mithril client will provide the exact command to start the node.
 
-Kupo has some [requirements](https://cardanosolutions.github.io/kupo/#section/Getting-started) to start. The most straightforward approach is to download a snapshot of the Cardano ledger using Mithril and start a Cardano node from that. The Mithril client will print out the exact command to run to start the node.
+Once the Cardano Node is up and running, you can proceed with restoring the snapshot.
 
-Once the Cardano node is up and running, you can proceed with the restore of the Kupo snapshot.
+To download a snapshot, visit [this link](https://cardanow.staging.mlabs.city/available-snapshots.json).
 
-### Restore the snapshot
+## Restoring a Kupo Snapshot
 
-To restore a Kupo snapshot, you can simply download one from [here](https://cardanow.staging.mlabs.city/available-snapshots.json). Extract it to a directory and use it as Kupo's `workdir` (as described [here](https://cardanosolutions.github.io/kupo/#section/Getting-started/-in-memory-workdir-dir)).
-You can take a look at [examples](../examples) to see a very simple approach to restore the latest kupo snapshot for a given network.
+1. Extract the downloaded snapshot to a directory.
+2. Use this directory as Kupo’s `workdir` (instructions are available [here](https://cardanosolutions.github.io/kupo/#section/Getting-started/-in-memory-workdir-dir)).
+
+For a simple approach to restoring the latest Kupo snapshot for a given network, refer to the [examples](../examples).
+
+## Restoring Cardano DB Sync
+
+The snapshot includes both the **PostgreSQL dump** and the **lstate** files required to resume synchronization.
+
+For a straightforward example of how to restore the latest Kupo snapshot for a given network, refer to the [examples](../examples).

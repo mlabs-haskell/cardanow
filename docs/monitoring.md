@@ -52,13 +52,13 @@ To test your application's metrics locally, you can use the official **Pushgatew
 
 1. **Run Pushgateway locally**:
    ```bash
-   docker run -d -p 9091:9091 prom/pushgateway
+   docker run -d -p 9094:9091 prom/pushgateway
    ```
 
 2. **Run your application locally**. Ensure your application is configured to push metrics to `http://localhost:9091` (the Pushgateway endpoint).
 
 3. **Verify that metrics are being pushed**:
-   - Navigate to `http://localhost:9091/metrics` in your browser to see the metrics being pushed by your application.
+   - Navigate to `http://localhost:9094/metrics` in your browser to see the metrics being pushed by your application.
    
 4. **Check custom metrics**:
    - You can manually push a metric for testing purposes using the following `curl` command:
