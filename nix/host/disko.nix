@@ -3,54 +3,29 @@
 
   disko.devices = {
     disk = {
-      x = {
+      nvme = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/disk/by-id/nvme-SAMSUNG_MZVL22T0HBLB-00B00_S677NX0T101318";
         content = {
-          type = "table";
-          format = "gpt";
-          partitions = [
-            {
-              name = "ESP";
-              start = "0";
-              end = "960MiB";
-              fs-type = "fat32";
-              bootable = true;
+          type = "gpt";
+          partitions = {
+            ESP = {
+              size = "1G";
+              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
               };
-            }
-            {
-              name = "zfs";
-              start = "1GiB";
+            };
+            zfs = {
               end = "100%";
               content = {
                 type = "zfs";
                 pool = "zroot";
               };
-            }
-          ];
-        };
-      };
-      y = {
-        type = "disk";
-        device = "/dev/nvme1n1";
-        content = {
-          type = "table";
-          format = "gpt";
-          partitions = [
-            {
-              name = "zfs";
-              start = "1GiB";
-              end = "100%";
-              content = {
-                type = "zfs";
-                pool = "zroot";
-              };
-            }
-          ];
+            };
+          };
         };
       };
     };
