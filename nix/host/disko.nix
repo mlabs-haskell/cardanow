@@ -5,7 +5,7 @@
     disk = {
       nvme = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-SAMSUNG_MZVL22T0HBLB-00B00_S677NX0T101318";
+        device = "/dev/disk/by-id/nvme-eui.002538b121c4ef51";
         content = {
           type = "gpt";
           partitions = {
@@ -19,7 +19,8 @@
               };
             };
             zfs = {
-              end = "100%";
+              name = "zfs";
+              size = "100%";
               content = {
                 type = "zfs";
                 pool = "zroot";
