@@ -53,6 +53,9 @@ All the generated snapshots can finally be uploaded back to our snapshot storage
 We also have to account for the fact of periodically having to update versions of the node and indexers. Sometimes this will also mean that snapshots that were produced with an earlier version of the indexer, will not work with a later version of it.
 We will attempt to always use the latest (major) cardano-node version to build the snapshots and - for each indexer - the latest (major) version supporting the node we are running.
 
+## Documentation
+The documentation can be found in the [docs folder](./docs). 
+
 ### Hosting the snapshots
 
 The snapshots are currently hosted on a Cloudflare R2 bucket.
